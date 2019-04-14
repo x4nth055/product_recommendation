@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+
+    {% if error %}
+        <h4>Please try again</h4>
+    {% endif %}
+    <form method='POST' action="/user/login">
+        <input type="email" id="email", name="email">
+        <input type="password" id="password", name="password">
+        <input type="submit">
+    </form>
+
+{% endblock content %}
