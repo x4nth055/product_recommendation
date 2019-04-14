@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Simple Recorder.js demo with record, stop and pause</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
+        <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+    </head>
+    <body>
+
+        <button type="button" class="btn btn-success" id="startRecord" style="margin: 10px;">Start</button>
+        <button type="button" class="btn btn-warning" id="stopRecord" style="margin: 10px;">Stop</button>
+        <script src="{{url_for('static', filename='js/jquery-3.3.1.min.js')}}"></script>
+        <script>
+            function createAudioElement(blobUrl) {
+                const downloadEl = document.createElement('a');
+                downloadEl.style = 'display: block';
+                downloadEl.innerHTML = 'download';
+                downloadEl.download = 'audio.wav';
+                downloadEl.href = blobUrl;
+                const audioEl = document.createElement('audio');
+                audioEl.controls = true;
+                const sourceEl = document.createElement('source');
+                sourceEl.src = blobUrl;
+                sourceEl.type = 'audio/wav';
+                audioEl.appendChild(sourceEl);
+                document.body.appendChild(audioEl);
+                document.body.appendChild(downloadEl);
+            }
+            $("#stopRecord").attr("disabled", true);
+            $("#startRecord").click(function() {
+                // disable button startRecord
+                $("#startRecord").attr("disabled", true);
+                // enable button stopRecord
+                $("#stopRecord").attr("disabled", false);
+                // request permission to access audio stream
+                navigator.mediaDevices.getUserMedia  = navigator.mediaDevices.getUserMedia || navigator.mediaDevices.webkitGetUserMedia || navigator.mediaDevices.mozGetUserMedia || navigator.mediaDevices.msGetUserMedia;
+                navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+                     
+                    // store streaming data chunks in array
+                    const chunks = [];
+                    // create media recorder instance to initialize recording
+                    const recorder = new MediaRecorder(stream);
+                    // function to be called when data is received
+                    recorder.ondataavailable = e => {
+                        // add stream data to chunks
+                        chunks.push(e.data);
+                        // if recorder is 'inactive' then recording has finished
+                        if (recorder.state == 'inactive') {
+                            // convert stream data chunks to a 'webm' audio format as a blob
+                            const blob = new Blob(chunks, { type: 'audio/wav' });
+                            // convert blob to URL so it can be assigned to a audio src attribute
+                            createAudioElement(URL.createObjectURL(blob));
+                            // send to server
+                            var fd = new FormData();
+                            fd.append("fname", "audio.wav");
+                            fd.append("data", blob);
+                            $.ajax({
+                                type: "POST",
+                                url: "{{url_for('upload')}}",
+                                //data: JSON.stringify(fd, null, "\t"),
+                                data: fd,
+                                cache: false,
+                                // ²contentType: "application/json;charset=UTF-8"
+                                //dataType: "json",
+                                processData: false,
+                                contentType: false
+                            }).done(function(data){
+                                console.log(data);
+                            });
+                        }
+                    };
+                    // start recording with 0.1 second time between receiving 'ondataavailable' events
+                    recorder.start(100);
+
+                    $("#stopRecord").click(function() {
+                        $("#startRecord").attr("disabled", false);
+                        recorder.stop();
+                        $(this).attr("disabled", true);
+                    });
+                    
+                }).catch(console.error);
+            });
+
+        </script>
+        
+    </body>
+</html>

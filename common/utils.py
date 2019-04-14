@@ -1,8 +1,25 @@
 import os
+import subprocess
 from passlib.hash import pbkdf2_sha256
 import base64
 
 from flask import request, url_for
+
+def convert_audio(audio_path, target_path, remove=False):
+    """This function sets the audio `audio_path` to:
+        - 16000Hz Sampling rate
+        - one number of audio channels ( mono )
+            Params:
+                audio_path (str): the path of audio wav file you want to convert
+                target_path (str): target path to save your new converted wav file
+                remove (bool): whether to remove the old file after converting
+        Note that this function requires ffmpeg installed in your system."""
+
+    # os.system(f"ffmpeg -i {audio_path} -ac 1 -ar 16000 {target_path}")
+    NULL = subprocess.DEVNULL
+    subprocess.Popen(f"ffmpeg -i {audio_path} -ac 1 -ar 16000 {target_path}", shell=True, stdout=NULL, stderr=NULL).communicate()
+    if remove:
+        os.remove(audio_path)
 
 
 def get_query(tablename, fields):
