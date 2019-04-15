@@ -19,6 +19,7 @@ def init_db():
     Database.init()
 
 
+
 @app.route("/")
 def home():
     # return f"<h2>hi {session['email']}</h2>"
@@ -29,7 +30,7 @@ def home():
 @app.route("/upload", methods=["GET", "POST"])
 def upload():
     if request.method == "POST":
-        # get audio file
+        # get audio file from AJAX request
         name = request.form["fname"]
         split = name.split(".")
         audio = request.files['data']
@@ -41,12 +42,14 @@ def upload():
         return "hi"
         # return str(request.form["fname"])
     else:
-        print("hi2")
-        return redirect(url_for("test_index"))
+        return redirect(url_for("test_upload_audio"))
+
+
 
 @app.route("/test_upload_audio")
 def test_upload_audio():
     return render_template("test_audio.html")
+
 
 
 @app.route("/test_speech")
