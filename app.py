@@ -44,8 +44,8 @@ def upload():
         print("hi2")
         return redirect(url_for("test_index"))
 
-@app.route("/test_audio")
-def test_index():
+@app.route("/test_upload_audio")
+def test_upload_audio():
     return render_template("test_audio.html")
 
 

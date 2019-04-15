@@ -7,7 +7,7 @@
 		background: #63738a;
     }
 	.login-form {
-		width: 390px;
+		width: 450px;
     	margin: 50px auto;
 	}
     .login-form form {
@@ -38,7 +38,8 @@
             <h2 class="text-center">Log in</h2>
             {% if error %}
                 <p class="text-danger">Some of the credentials isn't correct, try again please.</h4>
-            {% endif %}   
+            {% endif %}
+            <p class="text-warning">admin@admin.admin:admin is for admin dashboard</p>
             <div class="form-group">
                 <input type="email" id="email" name="email" class="form-control" placeholder="Email" required="required">
             </div>
