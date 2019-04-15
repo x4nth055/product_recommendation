@@ -21,7 +21,8 @@ def init_db():
 
 @app.route("/")
 def home():
-    return f"<h2>hi {session['email']}</h2>"
+    # return f"<h2>hi {session['email']}</h2>"
+    return render_template("index.html")
 
 
 
@@ -45,7 +46,7 @@ def upload():
 
 @app.route("/test_audio")
 def test_index():
-    return render_template("index.html")
+    return render_template("test_audio.html")
 
 
 @app.route("/test_speech")

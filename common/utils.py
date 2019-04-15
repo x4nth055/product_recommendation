@@ -3,7 +3,7 @@ import subprocess
 from passlib.hash import pbkdf2_sha256
 import base64
 
-from flask import request, url_for
+from flask import request, url_for, redirect
 
 def convert_audio(audio_path, target_path, remove=False):
     """This function sets the audio `audio_path` to:
@@ -50,4 +50,4 @@ def email_valid(email):
 
 
 def redirect_previous_url(default='home'):
-    return request.args.get('next') or request.referrer or url_for(default)
+    return redirect(request.args.get('next') or request.referrer or url_for(default))

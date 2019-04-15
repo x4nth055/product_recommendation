@@ -1,8 +1,9 @@
 from flask import Blueprint, render_template, request, session
 from flask import redirect, url_for
 
-from models.users.user import User, get_user_by_email, new_user
+from models.users.user import User, get_user_by_email, new_user, is_user_admin
 import common.utils as utils
+from common.decorators import login_required
 
 user_blueprint = Blueprint("user", __name__)
 
@@ -13,13 +14,16 @@ def login():
         return render_template("user/login.html", error=False)
     elif request.method == "POST":
         # requested login
-        email = request.form["email"]
-        password = request.form["password"]
+        email = request.form.get("email")
+        password = request.form.get("password")
         user = User(email, password)
         user_data = user.valid()
         if user_data:
             # maybe add more than email later
             session['email'] = email
+            user_type = user_data['type']
+            if user_type == "admin":
+                return redirect(url_for(".admin"))
             return redirect("/")
         else:
             # no user with this combo email:pw
@@ -34,17 +38,33 @@ def register():
         email = request.form.get('email')
         if utils.email_valid(email) and not get_user_by_email(email):
             # login with same method (POST) and same values
-            name = request.form.get("name")
+            name = request.form.get("first_name") + " " + request.form.get("last_name")
             password = request.form.get("password")
-            user = User(email=email, name=name, password=password)
+            # tempo
+            if email == "admin@admin.admin":
+                user_type = "admin"
+            else:
+                user_type = "normal"
+            user = User(email=email, name=name, password=password, user_type=user_type)
             user.save()
             return redirect(url_for(".login"), code=307)
         else:
             # either email not valid or already exists in db
             return render_template("user/register.html", error=True)
 
-
 @user_blueprint.route("/logout")
 def logout():
     del session['email']
     return utils.redirect_previous_url()
+
+### Below is for admin ###
+
+@user_blueprint.route("/admin")
+@login_required
+def admin():
+    return render_template("admin/index.html")
+
+@user_blueprint.route("/admin/tables")
+@login_required
+def admin_tables():
+    return render_template("admin/tables.html")

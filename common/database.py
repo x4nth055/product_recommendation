@@ -12,7 +12,8 @@ class Database:
         "ID": "VARCHAR",
         "NAME": "VARCHAR",
         "EMAIL": "VARCHAR",
-        "PASSWORD": "VARCHAR"
+        "PASSWORD": "VARCHAR",
+        "TYPE": "VARCHAR"
     }
 
     # all table queries need to be here
@@ -34,10 +35,11 @@ class Database:
         name = kwargs.get("name")
         email = kwargs.get("email")
         password = kwargs.get("password")
+        user_type = kwargs.get("type")
         # using the secure Python DB-API 2.0’s parameter substitution 
         # for preventing SQL Injection
-        parameters = (id, name, email, password)
-        cls.DATABASE.execute("INSERT INTO USER VALUES (?, ?, ?, ?)", parameters)
+        parameters = (id, name, email, password, user_type)
+        cls.DATABASE.execute("INSERT INTO USER VALUES (?, ?, ?, ?, ?)", parameters)
         cls.DATABASE.commit()
 
     @classmethod

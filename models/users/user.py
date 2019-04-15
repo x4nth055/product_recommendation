@@ -2,7 +2,7 @@ from common.database import Database as database
 import common.utils as utils
 
 class User:
-    def __init__(self, email, password, name=None, id=None):
+    def __init__(self, email, password, name=None, id=None, user_type="normal"):
         self.email = email
         self.password = password
         if name is None:
@@ -10,6 +10,7 @@ class User:
         else:
             self.name = name
         self.id = id
+        self.type = user_type
 
     def exists(self):
         """Whether this user's email exists in the database"""
@@ -30,6 +31,14 @@ class User:
             else:
                 return False
 
+    def is_admin(self):
+        """This methods verifies whether this user is an admin."""
+        user_data = self.exists()
+        if user_data:
+            return user_data['type'] == "admin"
+        else:
+            return False
+
     def load(self):
         """Loads the user data if its valid"""
         valid = self.valid()
@@ -38,6 +47,7 @@ class User:
             self.email = valid['email']
             self.password = valid['password']
             self.name = valid['password']
+            self.type = valid['type']
             self.new = False
         else:
             # if user does not exist, generate unique id
@@ -61,15 +71,18 @@ class User:
             "id": self.id,
             "email": self.email,
             "password": utils.hash_pw(self.password),
-            "name": self.name
+            "name": self.name,
+            "type": self.type
         }
 
     def __str__(self):
-        return f"<User email={self.email} name={self.name}>"
+        return f"<User email={self.email} name={self.name} type={self.type}>"
 
     def __repr__(self):
         return self.__str__()
 
+
+# Quick utilities
 
 def new_user(**kwargs):
     return User(**kwargs).save()
@@ -81,3 +94,8 @@ def get_user_by_id(id):
 
 def get_user_by_email(email):
     return database.get_user_by_email(email)    
+
+
+def is_user_admin(email):
+    user = User(email=email, password=None)
+    return user.is_admin()
