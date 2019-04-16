@@ -1,58 +1,78 @@
 <!doctype html>
 <html>
-    <head>
-        <meta charset='utf-8'>
-        <title>Price Tracker</title>
-        <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
-        <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap-theme.min.css')}}">
-        <link rel="stylesheet" href="{{url_for('static', filename='css/shop-homepage.css')}}">
-        {% block headcontent %}
 
-        {% endblock headcontent %}
-    </head>
-    <body>
-        <!-- Navigation -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-            <div class="container">
+<head>
+    <meta charset='utf-8'>
+    <title>Price Tracker</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/shop-homepage.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
+    <!-- <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap-theme.min.css')}}"> -->
+    
+    {% block headcontent %}
+
+    {% endblock headcontent %}
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+        <div class="container">
             <a class="navbar-brand" href="#">Some Shop</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    Utilities
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                    <a href="{{url_for('test_speech')}}" class="dropdown-item">Test Speech</a>
+                    <a href="{{url_for('test_upload_audio')}}" class="dropdown-item">Test Upload Audio</a>
+                    <a href="{{url_for('test_hmm')}}" class="dropdown-item">Test PocketSphinx Speech</a>
+                </div>
+            </div>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="{{url_for('home')}}">Home
-                    <span class="sr-only">(current)</span>
-                    </a>
-                </li>
-                {% if not session['email'] %}
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{url_for('home')}}">Home
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    {% if not session['email'] %}
                     <li class="nav-item">
                         <a class="nav-link" href="{{url_for('user.login')}}">Login</a>
                     </li>
-                {% else %}
+                    {% else %}
                     <li class="nav-item">
                         <a class="nav-link" href="{{url_for('user.logout')}}">Logout</a>
                     </li>
-                {% endif %}
-                    
-                <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Services</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
-                </li>
+                    {% endif %}
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
                 </ul>
             </div>
-            </div>
-        </nav>
+        </div>
+    </nav>
     {% block content %}
 
     {% endblock content %}
+    <script>
+        if (typeof jQuery == 'undefined') {  
+            document.write('<script src="{{url_for("static", filename="js/jquery-3.3.1.min.js")}}">' + '<' + '/script>');
+        }
+    </script>
     <script src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
-    <script src="{{url_for('static', filename='js/jquery-3.3.1.min.js')}}"></script>
     <script src="{{url_for('static', filename='js/bootstrap.bundle.min.js')}}"></script>
-    </body>
+</body>
+
 </html>

@@ -1,9 +1,15 @@
 from flask import Flask, session, render_template, request, redirect, url_for
 from threading import Thread
 
-from common.utils import get_unique_id, convert_audio
+from common.utils import get_unique_id, convert_audio, redirect_previous_url
 from common.database import Database
 from models.users.views import user_blueprint
+
+# Speech Recognition Models
+# HMM
+from asr.pocketsphinx.production import get_transcription
+
+import os
 import time
 
 app = Flask(__name__)
@@ -44,6 +50,24 @@ def upload():
     else:
         return redirect(url_for("test_upload_audio"))
 
+
+@app.route("/hmm", methods=["GET", "POST"])
+def test_hmm():
+    if request.method == "POST":
+        # get audio file from AJAX request
+        name = request.form["fname"]
+        split = name.split(".")
+        audio = request.files['data']
+        time_now = time.strftime("%Y%m%d_%H%M%S")
+        tmp_file = f"audio_uploads/{time_now}_temp.{split[1]}"
+        target_file = f"audio_uploads/{time_now}.{split[1]}"
+        audio.save(tmp_file)
+        # Thread(target=convert_audio, args=(tmp_file, target_file), kwargs={"remove": True}).start()
+        convert_audio(tmp_file, target_file, remove=True)
+        target_file = os.path.join(os.getcwd(), target_file)
+        return get_transcription(target_file)
+    else:
+        return render_template("speech_sphinx.html")
 
 
 @app.route("/test_upload_audio")

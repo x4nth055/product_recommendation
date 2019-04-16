@@ -1,36 +1,33 @@
-<html>
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
+{% extends "base.html" %}
+{% block headcontent %}
     <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
-</head>
 
-<body>
+{% endblock headcontent %}
+{% block content %}
     <button type="button" class="btn btn-success" id="startRecord" style="margin: 10px;">Start</button>
     <button type="button" class="btn btn-warning" id="stopRecord" style="margin: 10px;">Stop</button>
-
+    <br>
     <script src="{{url_for('static', filename='js/jquery-3.3.1.min.js')}}"></script>
     <script>
         window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
         const recognition = new SpeechRecognition();
         recognition.interimResults = true;
-        
 
         var counter = 0;
 
         $("body").append($("<h5 style id='rec" + counter + "'></h5>"));
 
-        recognition.addEventListener("result", function(e) {
-            
+        recognition.addEventListener("result", function (e) {
+
             const transcript = e.results[0][0].transcript;
             const confidence = e.results[0][0].confidence;
             console.log(transcript + ": " + confidence);
-            if(confidence > 0.5) {
-                $("#rec"+counter).text(transcript);
+            if (confidence > 0.5) {
+                $("#rec" + counter).text(transcript);
             }
             // if it is final word of speech, add new paragraph for next speech
-            if(e.results[0].isFinal) {
+            if (e.results[0].isFinal) {
                 counter++;
                 $("body").append($("<h5 style id='rec" + counter + "'></h5>"));
             }
@@ -38,18 +35,12 @@
 
         recognition.addEventListener("end", recognition.start);
 
-        $("#startRecord").on("click", function() {
+        $("#startRecord").on("click", function () {
             recognition.start();
         });
 
-        $("#stopRecord").on("click", function() {
+        $("#stopRecord").on("click", function () {
             recognition.stop();
         });
-           
-
-
     </script>
-    
-</body>
-
-</html>
+{% endblock content%}

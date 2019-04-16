@@ -28,6 +28,7 @@
             $("#stopRecord").attr("disabled", false);
             // request permission to access audio stream
             navigator.mediaDevices.getUserMedia = navigator.mediaDevices.getUserMedia || navigator.mediaDevices.webkitGetUserMedia || navigator.mediaDevices.mozGetUserMedia || navigator.mediaDevices.msGetUserMedia;
+            var counter = 0;
             navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
                 // store streaming data chunks in array
                 const chunks = [];
@@ -39,6 +40,8 @@
                     chunks.push(e.data);
                     // if recorder is 'inactive' then recording has finished
                     if (recorder.state == 'inactive') {
+                        // create another media recorder
+                        const recorder = new MediaRecorder(stream);
                         // convert stream data chunks to a 'webm' audio format as a blob
                         const blob = new Blob(chunks, { type: 'audio/wav' });
                         // convert blob to URL so it can be assigned to a audio src attribute
@@ -49,7 +52,7 @@
                         fd.append("data", blob);
                         $.ajax({
                             type: "POST",
-                            url: "{{url_for('upload')}}",
+                            url: "{{url_for('test_hmm')}}",
                             //data: JSON.stringify(fd, null, "\t"),
                             data: fd,
                             cache: false,
@@ -58,14 +61,16 @@
                             processData: false,
                             contentType: false
                         }).done(function (data) {
+                            counter++;
+                            $("body").append($("<h5 style id='rec" + counter + "'>" + data + "</h5>"));
                             console.log(data);
-                            window.location.reload();
                         });
                     }
                 };
                 // start recording with 0.1 second time between receiving 'ondataavailable' events
+                
                 recorder.start(100);
-
+                
                 $("#stopRecord").click(function () {
                     $("#startRecord").attr("disabled", false);
                     recorder.stop();
