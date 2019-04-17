@@ -2,8 +2,28 @@ import os
 import subprocess
 from passlib.hash import pbkdf2_sha256
 import base64
+import time
 
 from flask import request, url_for, redirect
+
+
+def get_sent_file(attr_name):
+    """This function does:
+        - Gets audio file from AJAX request sent from JS
+        - Saves it to `audio_uploads` folder
+        - Convert it to 16000Hz mono"""
+    # get audio file from AJAX request
+    name = request.form[attr_name]
+    split = name.split(".")
+    audio = request.files['data']
+    time_now = time.strftime("%Y%m%d_%H%M%S")
+    tmp_file = f"audio_uploads/{time_now}_temp.{split[1]}"
+    target_file = f"audio_uploads/{time_now}.{split[1]}"
+    audio.save(tmp_file)
+    convert_audio(tmp_file, target_file, remove=True)
+    target_file = os.path.join(os.getcwd(), target_file)
+    return target_file
+
 
 def convert_audio(audio_path, target_path, remove=False):
     """This function sets the audio `audio_path` to:
