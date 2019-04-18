@@ -35,7 +35,7 @@ class Recommender:
     def load_user_product_matrices(self, method):
         """Loads user ratings and products, then use matrix factorization to return the factored latent
         feature arrays (user features and product features)
-        Note that user ratings and products are retrieved from `RATING` and `PRODUCT` respectively Table
+        Note that user ratings and products are retrieved from `RATING` and `PRODUCT` Tables respectively
         in SQLITE3 Database in db folder."""
         # load user ratings
         self.df = pd.read_sql_query("SELECT * FROM RATING", Database.DATABASE)
