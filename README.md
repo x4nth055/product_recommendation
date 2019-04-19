@@ -3,6 +3,9 @@
 - **passlib 1.7.1** for hashing passwords
 - **pocketsphinx** for ASR HMM model
 - **FFmpeg** for converting wav files to 16000Hz sample rate (install [here](http://ffmpeg.org/download.html))
+- **SciPy**
+- **NumPy**
+- **Pandas**
 ```
 pip3 install -r requirements.txt
 ```

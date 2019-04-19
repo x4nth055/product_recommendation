@@ -1,12 +1,15 @@
-from flask import Flask, session, render_template, request, redirect, url_for
+import os
+from flask import Flask, session, render_template, request, redirect, url_for, send_from_directory
 from threading import Thread
 
 from common.utils import get_unique_id, convert_audio, redirect_previous_url, get_sent_audio_file
 from common.database import Database
 from models.users.views import user_blueprint
+from models.products.views import product_blueprint
+from models.products.product import get_all_products
 
 # Recommender System
-from recommender.core import Recommender
+from recommender.core import r
 
 # Speech Recognition Models
 # HMM
@@ -22,6 +25,7 @@ app.secret_key = get_unique_id(32)
 
 # load config from config.py
 app.config.from_object("config")
+app.config['UPLOAD_FOLDER'] = os.path.join('static', 'img', 'products')
 
 # this function will run initially (i.e when the app is executed)
 @app.before_first_request
@@ -32,7 +36,8 @@ def init_db():
 @app.route("/")
 def home():
     # return f"<h2>hi {session['email']}</h2>"
-    return render_template("index.html")
+    products = get_all_products()
+    return render_template("index.html", products=products, os=os)
 
 
 @app.route("/upload", methods=["GET", "POST"])
@@ -75,3 +80,4 @@ def test_speech():
 
 # register blueprints here
 app.register_blueprint(user_blueprint, url_prefix="/user")
+app.register_blueprint(product_blueprint, url_prefix="/product")

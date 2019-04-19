@@ -5,6 +5,7 @@ from recommender.utils import low_rank_matrix_factorization
 from common.database import Database
 
 
+
 class Recommender:
     """Class of recommending products using both methods, content-based and collaborative filtering"""
 
@@ -40,7 +41,7 @@ class Recommender:
         # load user ratings
         self.df = pd.read_sql_query("SELECT * FROM RATING", Database.DATABASE)
         # load products
-        self.products_df = pd.read_sql_query("SELECT product_id FROM PRODUCT", Database.DATABASE)
+        self.products_df = pd.read_sql_query("SELECT ID FROM PRODUCT", Database.DATABASE)
         # convert the running list of user ratings into a matrix
         # if 2 ratings of the same user to the same product spotted
         # use the mean
@@ -141,3 +142,6 @@ class Recommender:
             return edited_products
         else:
             return edited_products.iloc[:n]
+
+
+r = Recommender()

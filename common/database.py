@@ -154,6 +154,20 @@ class Database:
     ### Product entity ###
 
     @classmethod
+    def get_all_products(cls):
+        cursor = cls.DATABASE.execute("SELECT * FROM PRODUCT")
+        returned_data = cursor.fetchall()
+        if not returned_data:
+            return None
+        data = []
+        for item in returned_data:
+            d = {}
+            for i, field in enumerate(cls.PRODUCT_FIELDS):
+                d[field.lower()] = item[i]
+            data.append(d)
+        return data
+
+    @classmethod
     def save_product(cls, **kwargs):
         id = kwargs.get("id")
         name = kwargs.get("name")
@@ -194,7 +208,7 @@ class Database:
         for item in returned_data:
             d = {}
             for i, field in enumerate(cls.PRODUCT_FIELDS):
-                d[field] = item[i]
+                d[field.lower()] = item[i]
             data.append(d)
         return data
 
@@ -238,7 +252,7 @@ class Database:
         for item in returned_data:
             d = {}
             for i, field in enumerate(cls.RATING_FIELDS):
-                d[field] = item[i]
+                d[field.lower()] = item[i]
             data.append(d)
         return data
 

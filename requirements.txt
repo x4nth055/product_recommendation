@@ -1,3 +1,6 @@
 Flask==1.0.2
 passlib==1.7.1
 pocketsphinx
+numpy
+scipy
+pandas
