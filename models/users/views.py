@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, session
 from flask import redirect, url_for
 
 from models.users.user import User, get_user_by_email, new_user, is_user_admin
+from models.products.product import Product
 import common.utils as utils
 from common.decorators import login_required
 
@@ -64,7 +65,30 @@ def logout():
 def admin():
     return render_template("admin/index.html")
 
+
 @user_blueprint.route("/admin/tables")
 @login_required
 def admin_tables():
     return render_template("admin/tables.html")
+
+
+@user_blueprint.route("/admin/new_product", methods=['GET', 'POST'])
+@login_required
+def add_product():
+    if request.method == 'POST':
+        name = request.form.get("name")
+        description = request.form.get("description")
+        price = request.form.get("price")
+        tags = request.form.get("tags")
+        image = utils.get_sent_image_file("img_file")
+        product = Product(name=name,
+                            description=description,
+                            price=price,
+                            tags=tags,
+                            score=0,
+                            image=image)
+        product.save()
+        message = f"Product: {name} Saved successfully"
+    else:
+        message = ""
+    return render_template("admin/new_product.html", message=message)

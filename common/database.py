@@ -2,6 +2,7 @@ import sqlite3
 from common.utils import get_query
 from collections import defaultdict
 
+
 class Database:
     URL = "db/first_db.sqlite3"
     DATABASE = None
@@ -152,7 +153,6 @@ class Database:
 
     ### Product entity ###
 
-
     @classmethod
     def save_product(cls, **kwargs):
         id = kwargs.get("id")
@@ -163,7 +163,7 @@ class Database:
         tags = kwargs.get("tags")
         score = kwargs.get("score")
         parameters = (id, name, price, description, image, tags, score)
-        cls.DATABASE.execute("INSERT INTO PRODUCT VALUES (?, ?, ?, ?, ?, ?)", parameters)
+        cls.DATABASE.execute("INSERT INTO PRODUCT VALUES (?, ?, ?, ?, ?, ?, ?)", parameters)
         cls.DATABASE.commit()
 
     @classmethod
@@ -254,6 +254,14 @@ class Database:
     @classmethod
     def get_ratings_by_product_id(cls, product_id):
         return cls._get_ratings_by("PRODUCT_ID", product_id)
+
+    @classmethod
+    def get_number_of_ratings_by_user_id(cls, user_id):
+        data = cls.get_ratings_by_user_id(user_id)
+        if data is None:
+            return 0
+        else:
+            return len(data)
 
     
 

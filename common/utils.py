@@ -7,7 +7,7 @@ import time
 from flask import request, url_for, redirect
 
 
-def get_sent_file(attr_name):
+def get_sent_audio_file(attr_name):
     """This function does:
         - Gets audio file from AJAX request sent from JS
         - Saves it to `audio_uploads` folder
@@ -22,6 +22,16 @@ def get_sent_file(attr_name):
     audio.save(tmp_file)
     convert_audio(tmp_file, target_file, remove=True)
     target_file = os.path.join(os.getcwd(), target_file)
+    return target_file
+
+
+def get_sent_image_file(attr_name, id=None):
+    print(request.files)
+    image = request.files[attr_name]
+    if id is None:
+        id = get_unique_id(16)
+    target_file = f"static/img/products/{id}.jpeg"
+    image.save(target_file)
     return target_file
 
 

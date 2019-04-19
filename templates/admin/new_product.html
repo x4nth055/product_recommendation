@@ -1,0 +1,49 @@
+{% extends "admin/base.html" %}
+{% block content %}
+<div class="col-lg-8">
+
+    <form action="{{url_for('user.add_product')}}" method="post" enctype=multipart/form-data>
+        <h2>Add Product</h2>
+        <p class="hint-text">Add as much as products as you can, free money!.</p>
+        {% if message %}
+            <p class="text-success">{{ message }}</h4>
+        {% endif %}
+            <div class="form-group">
+                <input type="text" id="name" class="form-control" name="name" placeholder="Product Name"
+                    required="required">
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="form-group">
+                    <div class="input-group-prepend">
+                        <input type="number" step="any" id="price" class="form-control" name="price" placeholder="Price"
+                            required="required">
+                        <span class="input-group-text">$</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <select id="tags" name="tags" class="form-control">
+                    <option>Select a product category</option>
+                    <option value="fresh_food_bakery">Fresh Food & Bakery</option>
+                    <option value="chilled_food">Chilled Food</option>
+                    <option value="food_cupboard">Food Cupboard</option>
+                    <option value="frozen_food">Frozen Food</option>
+                    <option value="drinks">Drinks</option>
+                    <option value="baby">Baby, Toddler & Kids</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <textarea placeholder="Product description" class="form-control" id="description" name="description"
+                    rows="4"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="img_file" class="btn btn-info">Choose Image</label>
+                <input type="file" id="img_file" name="img_file" required="required" hidden
+                    onchange="$('#upload-file-info').html(this.files[0].name)">
+                <span class='label label-info' id="upload-file-info"></span>
+            </div>
+            <button type="submit" class="btn btn-success btn-lg btn-block">Add Product</button>
+    </form>
+    <div class="text-center">Already have an account? <a href="{{url_for('user.login')}}">Sign in</a></div>
+</div>
+{% endblock content %}
