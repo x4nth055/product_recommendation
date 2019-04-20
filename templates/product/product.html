@@ -1,4 +1,8 @@
 {% extends "base.html" %}
+{% block headcontent %}
+    <link ref="stylesheet" href="{{url_for('static', filename='css/jstarbox.css')}}">
+    <link ref="stylesheet" href="{{url_for('static', filename='css/ie7.css')}}">
+{% endblock headcontent %}
 {% block content %}
 <div class="container">
 
@@ -8,8 +12,14 @@
             <h3 class="card-title">{{product.name}}</h3>
             <h4>${{product.price}}</h4>
             <p class="card-text">{{product.description}}</p>
-            <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span>
-            4.0 stars
+            <span id="rating-text" class="text-info">
+                Not rated
+            </span>
+            <div id="rating-stars"></div>
+            
+            <br><br>
+            <span class="text-muted">Category: </span>
+            <b class="text-primary">{{product.tags.replace("_", " ").capitalize()}}</b>
         </div>
     </div>
     <!-- /.card -->
@@ -97,6 +107,49 @@
             </div>
         </div>
     </div>
+    <script src="{{url_for('static', filename='js/jquery-3.3.1.min.js')}}"></script>
+    <script src="{{url_for('static', filename='js/jstarbox.js')}}"></script>
+    <script>
+        {% if review %}
+        $("#rating-text").text({{review}}.toFixed(2) + " Stars");
+        {% endif %}
+        $("#rating-stars").starbox({
+            changeable: 'once',
+            ghosting: true,
+            autoUpdateAverage: true,
+            average: {{review}} / 5
+        });
+        window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+        const recognition = new SpeechRecognition();
+        recognition.interimResults = false;
+
+        recognition.addEventListener("result", function (e) {
+
+            const transcript = e.results[0][0].transcript;
+            const confidence = e.results[0][0].confidence;
+            var fd = new FormData();
+            fd.append("transcription", transcript);
+            fd.append("confidence", confidence);
+            fd.append("product_id", "{{product.id}}")
+            console.log(transcript + ": " + confidence);
+            $.ajax({
+                type: "POST",
+                url: "{{url_for('product.upload_review')}}",
+                data: fd,
+                cache: false,
+                processData: false,
+                contentType: false
+            }).done(function (review_score) {
+                console.log(review_score);
+                $("#rating-stars").starbox("setValue", review_score / 5)
+                $("#rating-text").text(parseFloat(review_score).toFixed(2) + " Stars");
+            });
+        });
+
+        recognition.start();
+
+        </script>
 </div>
 <!-- /.col-lg-9 -->
 {% endblock content %}
