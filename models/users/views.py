@@ -22,10 +22,12 @@ def login():
         if user_data:
             # maybe add more than email later
             session['email'] = email
+            session['user_id'] = user_data['id']
             user_type = user_data['type']
             if user_type == "admin":
                 return redirect(url_for(".admin"))
-            return redirect("/")
+            # return redirect("/")
+            return utils.redirect_previous_url()
         else:
             # no user with this combo email:pw
             return render_template("user/login.html", error=True)
