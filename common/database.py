@@ -155,7 +155,7 @@ class Database:
 
     @classmethod
     def get_all_products(cls):
-        cursor = cls.DATABASE.execute("SELECT * FROM PRODUCT")
+        cursor = cls.DATABASE.execute("SELECT * FROM PRODUCT ORDER BY SCORE DESC")
         returned_data = cursor.fetchall()
         if not returned_data:
             return None
@@ -226,12 +226,20 @@ class Database:
         # return returned_data
 
     @classmethod
-    def product_increment_score(cls, product_id, rating):
+    def product_increment_score(cls, user_id, product_id, rating):
         """Increments `SCORE` attribute by `rating`"""
         assert isinstance(rating, float) or isinstance(rating, int)
-        cursor = cls.DATABASE.execute("UPDATE PRODUCT WHERE ID=? SET SCORE = SCORE+?", (product_id, rating))
-        cursor.connection.commit()
-        return True
+        if not cls.get_ratings_by_both(user_id=user_id, product_id=product_id):
+            cursor = cls.DATABASE.execute("UPDATE PRODUCT SET SCORE = SCORE+? WHERE ID=? ", (rating, product_id))
+            cursor.connection.commit()
+            return True
+        else:
+            return False
+
+    @classmethod
+    def get_product_tags(cls):
+        data = cls.get_all_products()
+        return sorted({ d['tags'] for d in data })
 
 
     ### Rating entity ###
@@ -268,6 +276,20 @@ class Database:
     @classmethod
     def get_ratings_by_product_id(cls, product_id):
         return cls._get_ratings_by("PRODUCT_ID", product_id)
+
+    @classmethod
+    def get_ratings_by_both(cls, user_id, product_id):
+        cursor = cls.DATABASE.execute(f"SELECT * FROM RATING WHERE USER_ID=? AND PRODUCT_ID=?", (user_id, product_id))
+        returned_data = cursor.fetchall()
+        if not returned_data:
+            return None
+        data = []
+        for item in returned_data:
+            d = {}
+            for i, field in enumerate(cls.RATING_FIELDS):
+                d[field.lower()] = item[i]
+            data.append(d)
+        return data
 
     @classmethod
     def get_number_of_ratings_by_user_id(cls, user_id):
