@@ -1,4 +1,5 @@
 import os
+import random
 from flask import Flask, session, render_template, request, redirect, url_for, send_from_directory
 from threading import Thread
 
@@ -6,7 +7,7 @@ from common.utils import get_unique_id, convert_audio, redirect_previous_url, ge
 from common.database import Database
 from models.users.views import user_blueprint
 from models.products.views import product_blueprint
-from models.products.product import get_all_products
+from models.products.product import get_all_products, get_product_tags, get_products_by_tag
 
 # Recommender System
 from recommender.core import r
@@ -15,8 +16,6 @@ from recommender.core import r
 # HMM
 # from asr.pocketsphinx.production import get_transcription as get_transcription_hmm
 # from asr.keras.test import get_predictions as get_transcription_keras
-
-import os
 import time
 
 app = Flask(__name__)
@@ -37,7 +36,32 @@ def init_db():
 def home():
     # return f"<h2>hi {session['email']}</h2>"
     products = get_all_products()
-    return render_template("index.html", products=products, os=os)
+    sorted_products = products.copy()
+    random.shuffle(products)
+    tags = get_product_tags()
+    return render_template("index.html",
+                            products=products,
+                            tags=tags,
+                            chosen_products=sorted_products[:5],
+                            os=os,
+                            len=len,
+                            range=range,
+                            enumerate=enumerate)
+    
+
+@app.route("/<category>")
+def categories(category):
+    products = get_products_by_tag(category)
+    tags = get_product_tags()
+    return render_template("index.html",
+                            products=products,
+                            tags=tags,
+                            category=category,
+                            chosen_products=products[:5],
+                            os=os,
+                            len=len,
+                            range=range,
+                            enumerate=enumerate)
 
 
 @app.route("/upload", methods=["GET", "POST"])
@@ -76,6 +100,7 @@ def test_upload_audio():
 @app.route("/test_speech")
 def test_speech():
     return render_template("speech.html")
+
 
 
 # register blueprints here
