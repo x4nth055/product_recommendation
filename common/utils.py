@@ -30,7 +30,7 @@ def get_sent_image_file(attr_name, id=None):
     image = request.files[attr_name]
     if id is None:
         id = get_unique_id(16)
-    target_file = f"{id}.jpeg"
+    target_file = f"static/img/products/{id}.jpeg"
     image.save(target_file)
     return target_file
 
