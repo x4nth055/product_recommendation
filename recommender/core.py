@@ -41,7 +41,7 @@ class Recommender:
         # load user ratings
         self.df = pd.read_sql_query("SELECT * FROM RATING", Database.DATABASE)
         # load products
-        self.products_df = pd.read_sql_query("SELECT ID FROM PRODUCT", Database.DATABASE)
+        self.products_df = pd.read_sql_query("SELECT * FROM PRODUCT", Database.DATABASE)
         # convert the running list of user ratings into a matrix
         # if 2 ratings of the same user to the same product spotted
         # use the mean
@@ -125,25 +125,26 @@ class Recommender:
         labeled_P = pd.DataFrame(self.P_content_based, columns=self.predicted_ratings_cb.index.levels[1])
         # get the features for the product
         product_features = np.array(labeled_P[product_id])
+        # get a copy of products dataframe
+        edited_products = self.products_df.copy()
+        # get not-rated products
+        not_rated = set(edited_products['ID']) - set(labeled_P.T.index)
+        # add non-rated products
+        for product_id in not_rated:
+            labeled_P[product_id] = 0.5
         # subtract the current product's features from every other product's features
-        difference = np.transpose(self.P_content_based) - product_features
+        difference = labeled_P.T - product_features
         # take the absolute value of that difference
         difference = np.abs(difference)
         # each product have n features, sum those n features
         # to get a total difference score for each product
         difference = np.sum(difference, axis=1)
-        # get a copy of products dataframe
-        edited_products = self.products_df.copy()
-        # add new column to the product list with difference score of each product
-        print(edited_products.shape)
-        print(difference.shape)
-        edited_products['DIFFERENCE_SCORE'] = difference
         # sort products by difference score, from least different to most different
-        edited_products = edited_products.sort_values("DIFFERENCE_SCORE")
+        difference = difference.sort_values(0)
         if n is None:
-            return edited_products
+            return difference[1:]
         else:
-            return edited_products.iloc[:n]
+            return difference.iloc[1:n+1]
 
 
 r = Recommender()

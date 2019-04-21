@@ -48,7 +48,7 @@ class Product:
     def get_similar_products(self, n):
         similar_products = r.find_similar_products(self.id, n=n)
         print("similar products:", similar_products)
-        return [ get_product_by_id(id) for id in similar_products['ID'] ]
+        return [ get_product_by_id(id) for id in similar_products.index.values ]
 
     def __str__(self):
         return f"<Product name={self.name} price={self.price} score={self.score}>"
