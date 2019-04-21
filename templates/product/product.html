@@ -117,12 +117,13 @@
             changeable: 'once',
             ghosting: true,
             autoUpdateAverage: true,
-            average: {{review}} / 5
+            average: {{review/5}}
         });
         window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
         const recognition = new SpeechRecognition();
         recognition.interimResults = false;
+        recognition.lang = "en-US";
 
         recognition.addEventListener("result", function (e) {
 
@@ -142,7 +143,7 @@
                 contentType: false
             }).done(function (review_score) {
                 console.log(review_score);
-                $("#rating-stars").starbox("setValue", review_score / 5)
+                $("#rating-stars").starbox("setValue", review_score / 5);
                 $("#rating-text").text(parseFloat(review_score).toFixed(2) + " Stars");
             });
         });

@@ -26,8 +26,8 @@ def login():
             user_type = user_data['type']
             if user_type == "admin":
                 return redirect(url_for(".admin"))
-            # return redirect("/")
-            return utils.redirect_previous_url()
+            return redirect("/")
+            # return utils.redirect_previous_url()
         else:
             # no user with this combo email:pw
             return render_template("user/login.html", error=True)
@@ -48,7 +48,7 @@ def register():
                 user_type = "admin"
             else:
                 user_type = "normal"
-            user = User(email=email, name=name, password=password, user_type=user_type)
+            user = User(email=email, name=name, password=password, type=user_type)
             user.save()
             return redirect(url_for(".login"), code=307)
         else:
