@@ -117,7 +117,7 @@
             changeable: 'once',
             ghosting: true,
             autoUpdateAverage: true,
-            average: {{review/5}}
+            average: {{review}} / 5
         });
         window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
@@ -144,6 +144,7 @@
             }).done(function (review_score) {
                 console.log(review_score);
                 $("#rating-stars").starbox("setValue", review_score / 5);
+                
                 $("#rating-text").text(parseFloat(review_score).toFixed(2) + " Stars");
             });
         });
