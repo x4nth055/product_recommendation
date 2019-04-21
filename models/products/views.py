@@ -19,10 +19,16 @@ def product(product_id):
     user_id = session['user_id']
     rating = get_rating_by_both(user_id, product_id)
     review = rating.review if rating else 0
-    # similar_products = p.get_similar_products(3)
+    similar_products = p.get_similar_products(3)
+    print(similar_products)
     img = os.path.basename(p.image)
-    # return render_template("product/product.html", product=p, img=img, similar_products=similar_products, review=rating.review)
-    return render_template("product/product.html", product=p, img=img, similar_products=[], review=review)
+    return render_template("product/product.html",
+                        product=p,
+                        img=img,
+                        similar_products=similar_products,
+                        review=review,
+                        os=os)
+#     return render_template("product/product.html", product=p, img=img, similar_products=[], review=review)
     
 
 @product_blueprint.route("/upload_review", methods=['GET', 'POST'])

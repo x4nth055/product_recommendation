@@ -46,8 +46,9 @@ class Product:
             self.score = data['score']
 
     def get_similar_products(self, n):
-        similar_products = list(r.find_similar_products(self.id, n=n))
-        return [ get_product_by_id(id) for id in similar_products ]
+        similar_products = r.find_similar_products(self.id, n=n)
+        print("similar products:", similar_products)
+        return [ get_product_by_id(id) for id in similar_products['ID'] ]
 
     def __str__(self):
         return f"<Product name={self.name} price={self.price} score={self.score}>"
@@ -68,7 +69,6 @@ def get_all_products():
 
 def get_product_tags():
     return Database.get_product_tags()
-
 
 def get_products_by_tag(tag):
     products = Database.get_products_by_tag(tag)

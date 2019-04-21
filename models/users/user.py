@@ -1,8 +1,10 @@
 from common.database import Database as database
+from recommender.core import r
+from models.products.product import get_product_by_id
 import common.utils as utils
 
 class User:
-    def __init__(self, email, password, name=None, id=None, user_type="normal"):
+    def __init__(self, email, password, name=None, id=None, type="normal"):
         self.email = email
         self.password = password
         if name is None:
@@ -10,11 +12,14 @@ class User:
         else:
             self.name = name
         self.id = id
-        self.type = user_type
+        self.type = type
 
     def exists(self):
         """Whether this user's email exists in the database"""
         return database.get_user_by_email(self.email)
+
+    def exists_id(self):
+        return database.get_user_by_id(self.id)
 
     def valid(self):
         """This method verifies whether that email:pw is valid in db
@@ -52,6 +57,7 @@ class User:
         else:
             # if user does not exist, generate unique id
             self.id = utils.get_unique_id()
+
             self.new = True
 
     def save(self):
@@ -75,6 +81,12 @@ class User:
             "type": self.type
         }
 
+    def get_recommended_products(self):
+        recommended_products = r.get_recommended_products(self.id)
+        print(recommended_products)
+        recommended_products = list(recommended_products['ID'])
+        return [ get_product_by_id(id) for id in recommended_products ]
+
     def __str__(self):
         return f"<User email={self.email} name={self.name} type={self.type}>"
 
@@ -89,7 +101,7 @@ def new_user(**kwargs):
 
 
 def get_user_by_id(id):
-    return database.get_user_by_id(id)
+    return User(**database.get_user_by_id(id))
 
 
 def get_user_by_email(email):

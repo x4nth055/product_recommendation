@@ -45,7 +45,7 @@ class Recommender:
         # convert the running list of user ratings into a matrix
         # if 2 ratings of the same user to the same product spotted
         # use the mean
-        self.ratings_df = pd.pivot_table(self.df, index="user_id", columns="product_id", aggfunc=np.mean)
+        self.ratings_df = pd.pivot_table(self.df, index="USER_ID", columns="PRODUCT_ID", aggfunc=np.mean)
         # apply matrix factorization to find the hidden features
         if method == "col-filter":
             self.U_col_filter, self.P_col_filter = low_rank_matrix_factorization(self.ratings_df.as_matrix(),
@@ -104,7 +104,7 @@ class Recommender:
         # get predicted ratings for the user ( including viewed products )
         user_ratings = self.predicted_ratings_cf[user_id]
         # get viewed products
-        already_viewed = self.df[self.df['user_id'] == user_id]['product_id']
+        already_viewed = self.df[self.df['USER_ID'] == user_id]['PRODUCT_ID']
         # get recommended products by user_ratings - already_viewed
         edited_products = self.products_df.copy()
         edited_products['rating'] = np.array(user_ratings)
@@ -135,6 +135,8 @@ class Recommender:
         # get a copy of products dataframe
         edited_products = self.products_df.copy()
         # add new column to the product list with difference score of each product
+        print(edited_products.shape)
+        print(difference.shape)
         edited_products['DIFFERENCE_SCORE'] = difference
         # sort products by difference score, from least different to most different
         edited_products = edited_products.sort_values("DIFFERENCE_SCORE")

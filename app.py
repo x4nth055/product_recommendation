@@ -6,6 +6,7 @@ from threading import Thread
 from common.utils import get_unique_id, convert_audio, redirect_previous_url, get_sent_audio_file
 from common.database import Database
 from models.users.views import user_blueprint
+from models.users.user import get_user_by_id
 from models.products.views import product_blueprint
 from models.products.product import get_all_products, get_product_tags, get_products_by_tag
 
@@ -48,6 +49,19 @@ def home():
                             range=range,
                             enumerate=enumerate)
     
+@app.route("/recommended")
+def recommended():
+    user = get_user_by_id(session['user_id'])
+    products = user.get_recommended_products()
+    tags = get_product_tags()
+    return render_template("index.html",
+                            products=products,
+                            tags=tags,
+                            chosen_products=products[:5],
+                            os=os,
+                            len=len,
+                            range=range,
+                            enumerate=enumerate)
 
 @app.route("/categories/<category>")
 def categories(category):
