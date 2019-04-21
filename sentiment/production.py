@@ -1,17 +1,17 @@
 # to use CPU
 import os
-# os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"   # see issue #152
-# os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"   # see issue #152
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
-# import tensorflow as tf
-# graph = tf.get_default_graph() 
+import tensorflow as tf
+graph = tf.get_default_graph() 
 
-# config = tf.ConfigProto(intra_op_parallelism_threads=5,
-#                         inter_op_parallelism_threads=5, 
-#                         allow_soft_placement=True,
-#                         device_count = {'CPU' : 1,
-#                                         'GPU' : 0}
-#                        )
+config = tf.ConfigProto(intra_op_parallelism_threads=6,
+                        inter_op_parallelism_threads=6, 
+                        allow_soft_placement=True,
+                        device_count = {'CPU' : 1,
+                                        'GPU' : 0}
+                       )
 
 from keras.models import Sequential
 from keras.layers import Embedding, LSTM, Dense, Dropout, SpatialDropout1D
