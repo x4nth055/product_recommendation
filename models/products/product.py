@@ -71,7 +71,11 @@ def get_product_tags():
 
 
 def get_products_by_tag(tag):
-    return [ Product(**product) for product in Database.get_products_by_tag(tag) ]
+    products = Database.get_products_by_tag(tag)
+    if products:
+        return [ Product(**product) for product in products ]
+    else:
+        return []
 
 def add_score_to_product(user_id, product_id, score):
     Database.product_increment_score(user_id, product_id, score-3)

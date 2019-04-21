@@ -49,7 +49,7 @@ def home():
                             enumerate=enumerate)
     
 
-@app.route("/<category>")
+@app.route("/categories/<category>")
 def categories(category):
     products = get_products_by_tag(category)
     tags = get_product_tags()
