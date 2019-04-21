@@ -38,6 +38,6 @@ def upload_review():
         review_stars = float(get_review_stars(transcription))
         user_id = session['user_id']
         product_id = request.form['product_id']
-        Rating(user_id=user_id, product_id=product_id, review=review_stars).save()
         add_score_to_product(user_id, product_id, review_stars)
+        Rating(user_id=user_id, product_id=product_id, review=review_stars).save()
         return str(review_stars)
