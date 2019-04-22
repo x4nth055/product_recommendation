@@ -123,15 +123,15 @@ class Recommender:
             self.load_predicted_ratings("content-based")
         # associate each product id with its features
         labeled_P = pd.DataFrame(self.P_content_based, columns=self.predicted_ratings_cb.index.levels[1])
-        # get the features for the product
-        product_features = np.array(labeled_P[product_id])
         # get a copy of products dataframe
         edited_products = self.products_df.copy()
         # get not-rated products
         not_rated = set(edited_products['ID']) - set(labeled_P.T.index)
         # add non-rated products
-        for product_id in not_rated:
-            labeled_P[product_id] = 0.5
+        for id in not_rated:
+            labeled_P[id] = 0.5
+        # get the features for the product
+        product_features = np.array(labeled_P[product_id])
         # subtract the current product's features from every other product's features
         difference = labeled_P.T - product_features
         # take the absolute value of that difference
