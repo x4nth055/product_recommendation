@@ -8,6 +8,7 @@ from common.database import Database
 from models.users.views import user_blueprint
 from models.users.user import get_user_by_id
 from models.products.views import product_blueprint
+from models.ratings.views import rating_blueprint
 from models.products.product import get_all_products, get_product_tags, get_products_by_tag
 
 # Recommender System
@@ -120,3 +121,4 @@ def test_speech():
 # register blueprints here
 app.register_blueprint(user_blueprint, url_prefix="/user")
 app.register_blueprint(product_blueprint, url_prefix="/product")
+app.register_blueprint(rating_blueprint, url_prefix="/rating")

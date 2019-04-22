@@ -73,6 +73,27 @@ class Database:
         cls.DATABASE.commit()
 
     @classmethod
+    def delete_user(cls, id):
+        cls.DATABASE.execute("DELETE FROM USER WHERE ID=?", (id,))
+        cls.DATABASE.commit()
+        return True
+
+    @classmethod
+    def edit_user(cls, id, **kwargs):
+        query = "UPDATE USER SET "
+        parameters = []
+        for field, value in kwargs.items():
+            if field not in cls.USER_FIELDS:
+                raise TypeError("Table Column not found:" + field)
+            query += f"{field} = ?"
+            parameters.append(value)
+        query += " WHERE ID=?"
+        parameters.append(id)
+        cls.DATABASE.execute(query, parameters)
+        cls.DATABASE.commit()
+        return True
+
+    @classmethod
     def _get_user_by(cls, key, value):
         cursor = cls.DATABASE.execute(f"SELECT * FROM USER WHERE {key}=?", (value,))
         returned_data = cursor.fetchone()
@@ -148,6 +169,27 @@ class Database:
         cls.DATABASE.commit()
 
     @classmethod
+    def delete_product(cls, id):
+        cls.DATABASE.execute("DELETE FROM PRODUCT WHERE ID=?", (id,))
+        cls.DATABASE.commit()
+        return True
+
+    @classmethod
+    def edit_product(cls, id, **kwargs):
+        query = "UPDATE PRODUCT SET "
+        paramaters = []
+        for field, value in kwargs.items():
+            if field not in cls.PRODUCT_FIELDS:
+                raise TypeError("Table column not found:" + field)
+            query += f"{field} = ?"
+            paramaters.append(value)
+        query += " WHERE ID=?"
+        paramaters.append(id)
+        cls.DATABASE.execute(query, paramaters)
+        cls.DATABASE.commit()
+        return True
+
+    @classmethod
     def _get_product_by(cls, key, value):
         cursor = cls.DATABASE.execute(f"SELECT * FROM PRODUCT WHERE {key}=?", (value,))
         returned_data = cursor.fetchone()
@@ -214,6 +256,26 @@ class Database:
     @classmethod
     def add_rating(cls, user_id, product_id, review):
         cls.DATABASE.execute("INSERT INTO RATING VALUES ( ?, ?, ? )", (user_id, product_id, review))
+        cls.DATABASE.commit()
+        return True
+
+    @classmethod
+    def _delete_rating_by(cls, key, id):
+        cls.DATABASE.execute(f"DELETE FROM RATING WHERE {key}=?", (id,))
+        cls.DATABASE.commit()
+        return True
+
+    @classmethod
+    def delete_rating_by_user_id(cls, user_id):
+        return cls._delete_rating_by("USER_ID", user_id)
+
+    @classmethod
+    def delete_rating_by_product_id(cls, product_id):
+        return cls._delete_rating_by("PRODUCT_ID", product_id)
+
+    @classmethod
+    def delete_rating_by_both(cls, user_id, product_id):
+        cls.DATABASE.execute(f"DELETE FROM RATING WHERE USER_ID=? AND PRODUCT_ID=?", (user_id, product_id))
         cls.DATABASE.commit()
         return True
 

@@ -117,3 +117,9 @@ def get_user_fields():
 
 def get_all_users(formalize=True):
     return database.get_all_users(formalize=formalize)
+
+def delete_user(user_id):
+    return database.delete_user(user_id)
+
+def edit_user(user_id, **fields):
+    return database.edit_user(user_id, **fields)

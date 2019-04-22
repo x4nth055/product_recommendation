@@ -4,8 +4,9 @@ from flask import Blueprint, render_template, request, session, current_app as a
 from flask import redirect, url_for
 
 from common.decorators import login_required, login_required_to_login
-from models.products.product import Product, get_product_by_id, add_score_to_product
+from models.products.product import Product, get_product_by_id, add_score_to_product, delete_product
 from models.ratings.rating import Rating, get_rating_by_both
+from common.utils import redirect_previous_url
 from recommender.core import r
 from sentiment.production import get_review_stars
 
@@ -42,3 +43,9 @@ def upload_review():
         Rating(user_id=user_id, product_id=product_id, review=review_stars).save()
         r.update_matrices()
         return str(review_stars)
+
+
+@product_blueprint.route("/delete/<id>")
+def delete(id):
+    delete_product(id)
+    return redirect_previous_url()

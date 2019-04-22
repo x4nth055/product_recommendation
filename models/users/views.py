@@ -1,11 +1,13 @@
 from flask import Blueprint, render_template, request, session
 from flask import redirect, url_for
 
-from models.users.user import User, get_user_by_email, new_user, is_user_admin, get_user_fields, get_all_users
+from models.users.user import User, get_user_by_email, new_user, is_user_admin, get_user_fields, get_all_users, delete_user, edit_user
 from models.products.product import Product, get_all_products, get_product_fields
 from models.ratings.rating import get_all_ratings, get_rating_fields
 import common.utils as utils
 from common.decorators import login_required
+
+import os
 
 user_blueprint = Blueprint("user", __name__)
 
@@ -24,6 +26,7 @@ def login():
             # maybe add more than email later
             session['email'] = email
             session['user_id'] = user_data['id']
+            session['name'] = user_data['name']
             user_type = user_data['type']
             if user_type == "admin":
                 return redirect(url_for(".admin"))
@@ -59,6 +62,14 @@ def register():
 @user_blueprint.route("/logout")
 def logout():
     del session['email']
+    del session['user_id']
+    del session['name']
+    return utils.redirect_previous_url()
+
+@user_blueprint.route("/delete/<id>")
+@login_required
+def delete(id):
+    delete_user(id)
     return utils.redirect_previous_url()
 
 ### Below is for admin ###
@@ -81,7 +92,9 @@ def users():
                             description=description,
                             headers=headers,
                             items=items,
-                            len=len)
+                            len=len,
+                            str=str,
+                            os=os)
 
 @user_blueprint.route("/admin/products")
 @login_required
@@ -95,13 +108,15 @@ def products():
                             description=description,
                             headers=headers,
                             items=items,
-                            len=len)
+                            len=len,
+                            str=str,
+                            os=os)
 
 
 @user_blueprint.route("/admin/ratings")
 @login_required
 def ratings():
-    name = "Ratings"
+    name = "Rating"
     description = "The table of all ratings done by users to products"
     headers = get_rating_fields()
     items = get_all_ratings(formalize=False)
@@ -110,7 +125,9 @@ def ratings():
                             description=description,
                             headers=headers,
                             items=items,
-                            len=len)
+                            len=len,
+                            str=str,
+                            os=os)
 
 
 @user_blueprint.route("/admin/new_product", methods=['GET', 'POST'])
@@ -133,3 +150,5 @@ def add_product():
     else:
         message = ""
     return render_template("admin/new_product.html", message=message)
+
+

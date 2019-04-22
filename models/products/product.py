@@ -84,3 +84,6 @@ def add_score_to_product(user_id, product_id, score):
 
 def get_product_fields():
     return [ field.capitalize() for field in Database.PRODUCT_FIELDS ]
+
+def delete_product(id):
+    return Database.delete_product(id)

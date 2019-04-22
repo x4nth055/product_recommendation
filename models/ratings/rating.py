@@ -46,3 +46,7 @@ def get_all_ratings(formalize=True):
 
 def get_rating_fields():
     return [ field.capitalize() for field in Database.RATING_FIELDS ]
+
+def delete_rating(id):
+    user_id, product_id = id.split("*")
+    return Database.delete_rating_by_both(user_id=user_id, product_id=product_id)

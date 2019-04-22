@@ -1,11 +1,19 @@
 {% extends "admin/base.html" %}
+{% block headcontent %}
+<style>
+  .img-fluid {
+    width: 200px;
+    height: 200px;
+  }
+</style>
+{% endblock headcontent %}
 {% block content %}
   <!-- Page Heading -->
   <h1 class="h3 mb-2 text-gray-800">{{name}}</h1>
   <p class="mb-4">{{description}}</a>.</p>
 
   <!-- DataTales Example -->
-  <div class="card shadow mb-4">
+  <div class="card shadow mb-6">
     <div class="card-header py-3">
       <h6 class="m-0 font-weight-bold text-primary">Total: {{len(items)}}</h6>
     </div>
@@ -30,8 +38,18 @@
             {% for item in items %}
             <tr>
               {% for att in item %}
-                <td>{{att}}</td>
+
+                {% if str(att).endswith('.png') or str(att).endswith('.jpeg') %}
+                  <td><img class="img-fluid" src="{{url_for('static', filename='img/products/{}'.format(os.path.basename(att)))}}"><img></td>
+                {% else %}
+                  <td>{{att}}</td>
+                {% endif %}
               {% endfor %}
+              {% if name == 'Rating' %}
+                <td><a href="{{url_for('{}.delete'.format(name.lower()), id=item[0] + '*' + item[1])}}" class="btn btn-danger">Delete</a></td>
+              {% else %}
+                <td><a href="{{url_for('{}.delete'.format(name.lower()), id=item[0])}}" class="btn btn-danger">Delete</a></td>
+              {% endif %}
             </tr>
             {% endfor %}
           </tbody>
