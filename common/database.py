@@ -346,12 +346,14 @@ class Database:
 
     ### UTILITIES ###
 
-    # @classmethod
-    # def update_user_tags_by_id(cls, product_id, user_id, sentiment_score):
-    #     """This function does 3 tasks:
-    #         - get all product tags for `product_id`
-    #         - add those tags to the user by `user_id`
-    #         - increment SCORE of product by `sentiment_score`"""
-    #     product_tags = cls.get_tags_by_product_id(product_id)
-    #     cls.add_tags_to_user_by_id(user_id, product_tags, sentiment_score)
-    #     cls.product_increment_score(product_id, sentiment_score)
+    @classmethod
+    def get_user_ratings_joined_by_products(cls, user_id):
+        cursor = cls.DATABASE.execute("""SELECT RATING.PRODUCT_ID,
+                                        USER.NAME, PRODUCT.NAME, PRODUCT.IMAGE, RATING.REVIEW
+                                        FROM USER, PRODUCT, RATING
+                                        WHERE RATING.USER_ID = USER.ID
+                                        AND RATING.PRODUCT_ID = PRODUCT.ID
+                                        AND USER.ID = ?""", (user_id,))
+        returned_data = cursor.fetchall()
+        return [ field[0] for field in cursor.description ], returned_data
+        

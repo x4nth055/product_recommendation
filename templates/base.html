@@ -40,28 +40,30 @@
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
+                    {% if session['email'] %}
+                    <li class="nav-item">
+                        <a class="nav-link btn text-warning" href="{{url_for('recommended')}}">Recommended Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn" href="{{url_for('user.profile')}}">Profile</a>
+                    </li>
+                    {% endif %}
                     {% if not session['email'] %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{url_for('user.login')}}">Login</a>
+                        <a class="nav-link btn font-weight-bold" href="{{url_for('user.login')}}">Login</a>
                     </li>
                     {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{url_for('user.logout')}}">Logout</a>
+                        <a class="nav-link btn" href="{{url_for('user.logout')}}">Logout</a>
                     </li>
-                    {% endif %}
-                    {% if session['email'] %}
-                    <li class="nav-item">
-                        <a class="nav-link text-warning" href="{{url_for('recommended')}}">Recommended Products</a>
-                    </li>
+                    
                     {% endif %}
                     <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
+                        <a class="nav-link btn" href="#">About</a>
                     </li>
+                   
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Services</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Contact</a>
+                        <a class="nav-link btn" href="#">Contact</a>
                     </li>
                 </ul>
             </div>

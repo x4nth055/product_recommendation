@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, session
 from flask import redirect, url_for
 
 from models.users.user import User, get_user_by_email, new_user, is_user_admin, get_user_fields, get_all_users, delete_user, edit_user
+from models.users.user import get_user_ratings_joined_with_products
 from models.products.product import Product, get_all_products, get_product_fields
 from models.ratings.rating import get_all_ratings, get_rating_fields
 import common.utils as utils
@@ -58,6 +59,22 @@ def register():
         else:
             # either email not valid or already exists in db
             return render_template("user/register.html", error=True)
+
+
+@user_blueprint.route("/profile")
+def profile():
+    user_id = session['user_id']
+    email = session['email']
+    user = get_user_by_email(email)
+    fields, elements = get_user_ratings_joined_with_products(user_id)
+    return render_template("user/profile.html",
+                            user=user,
+                            fields=fields,
+                            elements=elements,
+                            os=os,
+                            len=len,
+                            str=str)
+
 
 @user_blueprint.route("/logout")
 def logout():

@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block headcontent %}
+<style>
+    .img-fluid {
+        max-width: 150px;
+        max-height: 150px;
+    }
+</style>
+{% endblock headcontent %}
+{% block content %}
+<div class="container">
+    <h1 class="h3 mb-2 text-gray-800 text-capitalize">{{user.name}}</h1>
+    <p class="mb-4">Total Product Ratings</p>
+    <div class="card shadow mb-6">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Total: {{len(elements)}}</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            {% for attribute in fields[1:] %}
+                            <th>{{attribute}}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            {% for attribute in fields[1:] %}
+                            <th>{{attribute}}</th>
+                            {% endfor %}
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        {% for item in elements %}
+                        <tr>
+                            {% for att in item[1:] %}
+                            {% if str(att).endswith('.png') or str(att).endswith('.jpeg') %}
+                            <td><img class="img-fluid"
+                                    src="{{url_for('static', filename='img/products/{}'.format(os.path.basename(att)))}}"><img>
+                            </td>
+                            {% else %}
+                            <td>{{att}}</td>
+                            {% endif %}
+                            {% endfor %}
+                            <td><a href="{{url_for('rating.delete', id=user.id + '*' + item[0])}}"
+                                    class="btn btn-danger">Delete</a></td>
+
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

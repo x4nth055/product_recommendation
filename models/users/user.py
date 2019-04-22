@@ -123,3 +123,11 @@ def delete_user(user_id):
 
 def edit_user(user_id, **fields):
     return database.edit_user(user_id, **fields)
+
+def get_user_ratings_joined_with_products(user_id):
+    # remove user_id field, because its used in user's profile
+
+    fields, data = database.get_user_ratings_joined_by_products(user_id)
+    # make static fields ( i know thats not a good idea )
+    fields = ["PRODUCT_ID", "User Name", "Product name", "Product Image", "Review", "Delete"]
+    return fields, data
