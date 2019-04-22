@@ -32,6 +32,14 @@ class Recommender:
         self.predicted_ratings_cf = None
         # recommended dataframe for collaborative filtering method
         self.recommended_df = None
+        # initialization of matrices
+        self.update_matrices()
+
+    def update_matrices(self):
+        self.load_user_product_matrices("content-based")
+        self.load_user_product_matrices("col-filter")
+        self.load_predicted_ratings("content-based")
+        self.load_predicted_ratings("col-filter")
 
     def load_user_product_matrices(self, method):
         """Loads user ratings and products, then use matrix factorization to return the factored latent
@@ -62,18 +70,6 @@ class Recommender:
         """Predicts all ratings by multiplying feature matrices"""
         if method == "col-filter":
             U = self.U_col_filter
-        elif method == "content-based":
-            U = self.U_content_based
-        else:
-            raise TypeError("Recommendation System type not known. (use 'col-filter' or 'content-based')")
-        if not U:
-            # in other words, self.load_user_product_matrices isn't called yet.
-            # load the matrices then
-            self.load_user_product_matrices(method)
-
-        # reload vars
-        if method == "col-filter":
-            U = self.U_col_filter
             P = self.P_col_filter
         elif method == "content-based":
             U = self.U_content_based
@@ -99,18 +95,18 @@ class Recommender:
             :param n (int): the top n recommended product ids to return,
                 if n=None then return all products sorted in ascending order
                 by difference score. Default is None"""
-        if self.predicted_ratings_cf is None:
-            self.load_predicted_ratings("col-filter")
         # get predicted ratings for the user ( including viewed products )
-        user_ratings = self.predicted_ratings_cf[user_id]
+        user_ratings = self.predicted_ratings_cf[user_id].copy()
         # get viewed products
-        already_viewed = self.df[self.df['USER_ID'] == user_id]['PRODUCT_ID']
+        already_viewed = self.df[self.df['USER_ID'] == user_id]
         # get recommended products by user_ratings - already_viewed
-        edited_products = self.products_df.copy()
-        edited_products['rating'] = np.array(user_ratings)
-        recommended_df = edited_products[edited_products.index.isin(already_viewed) == False]
-        recommended_df = recommended_df.sort_values(["rating"], ascending=False)
-        return recommended_df
+        ratings = [ rating[1] for rating in user_ratings.index.values ]
+        target_ids = set(ratings) - set(already_viewed.PRODUCT_ID.unique())
+
+        user_ratings.index = ratings
+        user_ratings = user_ratings[user_ratings.index.isin(target_ids)]
+
+        return user_ratings.sort_values(0, ascending=False)
 
     def find_similar_products(self, product_id, n=None):
         """Gets the similar products for a product id based on `self.P` feature matrix
@@ -119,8 +115,6 @@ class Recommender:
             :param n (int): the top n similar product ids to return,
                 if n=None then return all products sorted in ascending order
                 by difference score. Default is None"""
-        if self.P_content_based is None:
-            self.load_predicted_ratings("content-based")
         # associate each product id with its features
         labeled_P = pd.DataFrame(self.P_content_based, columns=self.predicted_ratings_cb.index.levels[1])
         # get a copy of products dataframe
@@ -146,5 +140,5 @@ class Recommender:
         else:
             return difference.iloc[1:n+1]
 
-
+Database.init()
 r = Recommender()

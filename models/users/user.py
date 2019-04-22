@@ -82,7 +82,7 @@ class User:
         }
 
     def get_recommended_products(self):
-        recommended_products = list(r.get_recommended_products(self.id)['ID'])
+        recommended_products = r.get_recommended_products(self.id).index
         return [ get_product_by_id(id) for id in recommended_products ]
 
     def __str__(self):

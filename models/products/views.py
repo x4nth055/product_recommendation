@@ -40,4 +40,5 @@ def upload_review():
         product_id = request.form['product_id']
         add_score_to_product(user_id, product_id, review_stars)
         Rating(user_id=user_id, product_id=product_id, review=review_stars).save()
+        r.update_matrices()
         return str(review_stars)
