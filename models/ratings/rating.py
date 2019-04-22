@@ -37,3 +37,12 @@ def get_rating_by_both(user_id, product_id, fn=lambda x: sum(x) / len(x)):
             for rating in ratings:
                 reviews.append(rating['review'])
             return Rating(user_id=user_id, product_id=product_id, review=fn(reviews))
+
+def get_all_ratings(formalize=True):
+    ratings = Database.get_all_ratings(formalize=formalize)
+    if not formalize:
+        return ratings
+    return [ Rating(**r) for r in ratings ]
+
+def get_rating_fields():
+    return [ field.capitalize() for field in Database.RATING_FIELDS ]

@@ -102,63 +102,30 @@ class Database:
         """Gets user id by email"""
         return cls.get_user_by_email(email)['id']
 
-    # @classmethod
-    # def get_user_liked_tags_by_id(cls, id):
-    #     """Get user liked tags by its ID
-    #         Format is
-    #             {   'adventure': 3,
-    #                 'action': 2,
-    #                 'comedy': 1     }"""
-    #     cursor = cls.DATABASE.execute("SELECT LIKED_TAGS FROM USER WHERE ID=?", (id,))
-    #     returned_data = cursor.fetchone()
-    #     if not returned_data:
-    #         return None
-    #     data = returned_data[0].split(",")
-    #     # ['adventure=3', 'action:2', 'comedy:5']
-    #     returned_data = {}
-    #     for item in data:
-    #         category, score = item.split("=")
-    #         returned_data[category] = float(score)
-    #     return returned_data
-
-    # @classmethod
-    # def get_user_liked_tags_by_email(cls, email):
-    #     id = cls.get_user_id_by_email(email)
-    #     return cls.get_user_liked_tags_by_id(id)
-
-    # @classmethod
-    # def add_tags_to_user_by_id(cls, id, tags, sent_score):
-    #     """Add tags to user, tags is a dict documented in `get_user_liked_tags_by_id`
-    #         Note that if a user already have a tag in `tags`, its score is just recalculated
-    #         Params:
-    #             id (str): The id of user
-    #             tags (dict): Tags to be added to the user
-    #             sent_score (float): sentiment score to be multiplied by each tag's score"""
-    #     new_tags = defaultdict(float, cls.get_user_liked_tags_by_id(id))
-    #     for category, score in tags.items():
-    #         new_tags[category] += score * sent_score
-    #     cls.set_user_tags(id, new_tags)
-        
-    # @classmethod
-    # def set_user_tags(cls, id, tags):
-    #     """Updates the `tags` of target user by `id`"""
-    #     tags_text = ""
-    #     for category, score in tags.items():
-    #         tags_text += f"{category}:{score:.2f},"
-    #     tags_text = tags_text.rstrip(",")
-    #     cursor = cls.DATABASE.execute("UPDATE USER SET LIKED_TAGS=? WHERE ID=?", (tags_text, id))
-    #     cursor.connection.commit()
-    #     return True
-
+    @classmethod
+    def get_all_users(cls, formalize=True):
+        cursor = cls.DATABASE.execute("SELECT * FROM USER")
+        returned_data = cursor.fetchall()
+        if not formalize:
+            return returned_data
+        data = []
+        for item in returned_data:
+            d = {}
+            for i, field in enumerate(cls.USER_FIELDS):
+                d[field.lower()] = item[i]
+            data.append(d)
+        return data
 
     ### Product entity ###
 
     @classmethod
-    def get_all_products(cls):
+    def get_all_products(cls, formalize=True):
         cursor = cls.DATABASE.execute("SELECT * FROM PRODUCT ORDER BY SCORE DESC")
         returned_data = cursor.fetchall()
         if not returned_data:
             return None
+        if not formalize:
+            return returned_data
         data = []
         for item in returned_data:
             d = {}
@@ -283,6 +250,20 @@ class Database:
         returned_data = cursor.fetchall()
         if not returned_data:
             return None
+        data = []
+        for item in returned_data:
+            d = {}
+            for i, field in enumerate(cls.RATING_FIELDS):
+                d[field.lower()] = item[i]
+            data.append(d)
+        return data
+
+    @classmethod
+    def get_all_ratings(cls, formalize=True):
+        cursor = cls.DATABASE.execute("SELECT * FROM RATING")
+        returned_data = cursor.fetchall()
+        if not formalize:
+            return returned_data
         data = []
         for item in returned_data:
             d = {}

@@ -63,8 +63,10 @@ def get_product_by_id(id):
     return p
 
 
-def get_all_products():
-    products = Database.get_all_products()
+def get_all_products(formalize=True):
+    products = Database.get_all_products(formalize=formalize)
+    if not formalize:
+        return products
     return [ Product(**product) for product in products ]
 
 def get_product_tags():
@@ -79,3 +81,6 @@ def get_products_by_tag(tag):
 
 def add_score_to_product(user_id, product_id, score):
     Database.product_increment_score(user_id, product_id, score-3)
+
+def get_product_fields():
+    return [ field.capitalize() for field in Database.PRODUCT_FIELDS ]

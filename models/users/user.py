@@ -76,7 +76,8 @@ class User:
         return {
             "id": self.id,
             "email": self.email,
-            "password": utils.hash_pw(self.password),
+            # "password": utils.hash_pw(self.password),
+            "password": self.password,
             "name": self.name,
             "type": self.type
         }
@@ -90,6 +91,7 @@ class User:
 
     def __repr__(self):
         return self.__str__()
+
 
 
 # Quick utilities
@@ -109,3 +111,9 @@ def get_user_by_email(email):
 def is_user_admin(email):
     user = User(email=email, password=None)
     return user.is_admin()
+
+def get_user_fields():
+        return [ field.capitalize() for field in database.USER_FIELDS ]
+
+def get_all_users(formalize=True):
+    return database.get_all_users(formalize=formalize)

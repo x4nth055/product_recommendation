@@ -1,8 +1,9 @@
 from flask import Blueprint, render_template, request, session
 from flask import redirect, url_for
 
-from models.users.user import User, get_user_by_email, new_user, is_user_admin
-from models.products.product import Product
+from models.users.user import User, get_user_by_email, new_user, is_user_admin, get_user_fields, get_all_users
+from models.products.product import Product, get_all_products, get_product_fields
+from models.ratings.rating import get_all_ratings, get_rating_fields
 import common.utils as utils
 from common.decorators import login_required
 
@@ -68,10 +69,48 @@ def admin():
     return render_template("admin/index.html")
 
 
-@user_blueprint.route("/admin/tables")
+@user_blueprint.route("/admin/users")
 @login_required
-def admin_tables():
-    return render_template("admin/tables.html")
+def users():
+    name = "User"
+    description = "The table of data of users"
+    headers = get_user_fields()
+    items  = get_all_users(formalize=False)
+    return render_template("admin/tables.html",
+                            name=name,
+                            description=description,
+                            headers=headers,
+                            items=items,
+                            len=len)
+
+@user_blueprint.route("/admin/products")
+@login_required
+def products():
+    name = "Product"
+    description = "The table of data of all available products"
+    headers = get_product_fields()
+    items = get_all_products(formalize=False)
+    return render_template("admin/tables.html",
+                            name=name,
+                            description=description,
+                            headers=headers,
+                            items=items,
+                            len=len)
+
+
+@user_blueprint.route("/admin/ratings")
+@login_required
+def ratings():
+    name = "Ratings"
+    description = "The table of all ratings done by users to products"
+    headers = get_rating_fields()
+    items = get_all_ratings(formalize=False)
+    return render_template("admin/tables.html",
+                            name=name,
+                            description=description,
+                            headers=headers,
+                            items=items,
+                            len=len)
 
 
 @user_blueprint.route("/admin/new_product", methods=['GET', 'POST'])
