@@ -220,7 +220,6 @@ class Database:
         Format is a list of dicts"""
         cursor = cls.DATABASE.execute("SELECT * FROM PRODUCT WHERE TAGS LIKE ? ORDER BY SCORE DESC", (f"%{tag}%",))
         returned_data = cursor.fetchall()
-        # [(1, 'test1', 'test1'), (2, 'test2', 'test2')]
         if not returned_data:
             return None
         data = []
@@ -239,10 +238,6 @@ class Database:
         if not returned_data:
             return None
         return returned_data.split(",")
-        # returned_data = {}
-        # for category, score in data.split("="):
-        #     returned_data[category] = score
-        # return returned_data
 
     @classmethod
     def product_increment_score(cls, user_id, product_id, rating):
@@ -257,14 +252,6 @@ class Database:
 
     @classmethod
     def get_rated_products(cls):
-        # PRODUCT_FIELDS = {
-        # "ID": "VARCHAR",
-        # "NAME": "VARCHAR",
-        # "PRICE": "INTEGER",
-        # "DESCRIPTION": "TEXT",
-        # "IMAGE": "TEXT", # absolute path of the image associated with this product
-        # "TAGS": "TEXT", # categories separated by ',' (e.g adventure,action,drama) 
-        # "SCORE": "REAL"
         cursor = cls.DATABASE.execute("""SELECT DISTINCT PRODUCT.ID, PRODUCT.NAME, PRODUCT.PRICE, PRODUCT.DESCRIPTION,
                                         PRODUCT.IMAGE, PRODUCT.TAGS, PRODUCT.SCORE
                                         FROM PRODUCT, RATING
