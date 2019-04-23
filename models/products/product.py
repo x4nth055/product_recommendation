@@ -87,3 +87,12 @@ def get_product_fields():
 
 def delete_product(id):
     return Database.delete_product(id)
+
+def get_number_of_products():
+    return Database.get_number_of_products()
+
+def get_rated_products():
+    return [ Product(**p) for p in Database.get_rated_products() ]
+
+def get_number_of_rated_products():
+    return len(get_rated_products())
