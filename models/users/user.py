@@ -131,3 +131,6 @@ def get_user_ratings_joined_with_products(user_id):
     # make static fields ( i know thats not a good idea )
     fields = ["PRODUCT_ID", "User Name", "Product name", "Product Image", "Review", "Delete"]
     return fields, data
+
+def get_number_of_users():
+    return database.get_number_of_users()

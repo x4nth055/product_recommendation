@@ -2,9 +2,10 @@ from flask import Blueprint, render_template, request, session
 from flask import redirect, url_for
 
 from models.users.user import User, get_user_by_email, new_user, is_user_admin, get_user_fields, get_all_users, delete_user, edit_user
-from models.users.user import get_user_ratings_joined_with_products
-from models.products.product import Product, get_all_products, get_product_fields
-from models.ratings.rating import get_all_ratings, get_rating_fields
+from models.users.user import get_user_ratings_joined_with_products, get_number_of_users
+from models.products.product import Product, get_all_products, get_product_fields, get_number_of_products
+from models.products.product import get_number_of_rated_products
+from models.ratings.rating import get_all_ratings, get_rating_fields, get_number_of_ratings
 import common.utils as utils
 from common.decorators import login_required
 
@@ -94,7 +95,16 @@ def delete(id):
 @user_blueprint.route("/admin")
 @login_required
 def admin():
-    return render_template("admin/index.html")
+    n_products = get_number_of_products()
+    n_users    = get_number_of_users()
+    n_ratings  = get_number_of_ratings()
+    n_rated_products = get_number_of_rated_products()
+    return render_template("admin/index.html",
+                            n_ratings=n_ratings,
+                            n_products=n_products,
+                            n_users=n_users,
+                            n_rated_products=n_rated_products,
+                            round=round)
 
 
 @user_blueprint.route("/admin/users")

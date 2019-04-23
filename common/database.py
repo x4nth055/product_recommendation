@@ -59,6 +59,11 @@ class Database:
     ### User Entity ###
 
     @classmethod
+    def get_number_of_users(cls):
+        cursor = cls.DATABASE.execute("SELECT COUNT(*) FROM USER")
+        return cursor.fetchone()[0]
+
+    @classmethod
     def save_user(cls, **kwargs):
         """Saves user to the database"""
         id = kwargs.get("id")
@@ -140,6 +145,11 @@ class Database:
     ### Product entity ###
 
     @classmethod
+    def get_number_of_products(cls):
+        cursor = cls.DATABASE.execute("SELECT COUNT(*) FROM PRODUCT")
+        return cursor.fetchone()[0]
+
+    @classmethod
     def get_all_products(cls, formalize=True):
         cursor = cls.DATABASE.execute("SELECT * FROM PRODUCT ORDER BY SCORE DESC")
         returned_data = cursor.fetchall()
@@ -210,7 +220,6 @@ class Database:
         Format is a list of dicts"""
         cursor = cls.DATABASE.execute("SELECT * FROM PRODUCT WHERE TAGS LIKE ? ORDER BY SCORE DESC", (f"%{tag}%",))
         returned_data = cursor.fetchall()
-        # [(1, 'test1', 'test1'), (2, 'test2', 'test2')]
         if not returned_data:
             return None
         data = []
@@ -229,10 +238,6 @@ class Database:
         if not returned_data:
             return None
         return returned_data.split(",")
-        # returned_data = {}
-        # for category, score in data.split("="):
-        #     returned_data[category] = score
-        # return returned_data
 
     @classmethod
     def product_increment_score(cls, user_id, product_id, rating):
@@ -246,12 +251,34 @@ class Database:
             return False
 
     @classmethod
+    def get_rated_products(cls):
+        cursor = cls.DATABASE.execute("""SELECT DISTINCT PRODUCT.ID, PRODUCT.NAME, PRODUCT.PRICE, PRODUCT.DESCRIPTION,
+                                        PRODUCT.IMAGE, PRODUCT.TAGS, PRODUCT.SCORE
+                                        FROM PRODUCT, RATING
+                                        WHERE PRODUCT.ID = RATING.PRODUCT_ID""")
+        returned_data = cursor.fetchall()
+        if not returned_data:
+            return None
+        data = []
+        for item in returned_data:
+            d = {}
+            for i, field in enumerate(cls.PRODUCT_FIELDS):
+                d[field.lower()] = item[i]
+            data.append(d)
+        return data 
+
+    @classmethod
     def get_product_tags(cls):
         data = cls.get_all_products()
         return sorted({ d['tags'] for d in data })
 
 
     ### Rating entity ###
+
+    @classmethod
+    def get_number_of_ratings(cls):
+        cursor = cls.DATABASE.execute("SELECT COUNT(*) FROM RATING")
+        return cursor.fetchone()[0]
 
     @classmethod
     def add_rating(cls, user_id, product_id, review):
