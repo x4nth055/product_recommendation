@@ -160,6 +160,16 @@ def ratings():
 @user_blueprint.route("/admin/new_product", methods=['GET', 'POST'])
 @login_required
 def add_product():
+    optgroups = {
+        "Fast food": ["pizza", "hamburger", "sandwich"],
+        "Drinks": ["shakes_smoothies", "cocktails", "soda", "coffee"],
+        "Pasteries & bakery food": ["pastry", "bakery"],
+        "Sea Food": ["sushi", "fish_dish"],
+        "Pasta": ["italian_pasta", "noodles"],
+        "Dessert & Salad": ["fruit_salad", "ice_cream", "veggie_salad", "fruits"],
+        "Dishes": ["middle_east_food", "asian_dishes"],
+        "Meals": ["barbeque", "roast_food"]
+    }
     if request.method == 'POST':
         name = request.form.get("name")
         description = request.form.get("description")
@@ -176,6 +186,6 @@ def add_product():
         message = f"Product: {name} Saved successfully"
     else:
         message = ""
-    return render_template("admin/new_product.html", message=message)
+    return render_template("admin/new_product.html", message=message, optgroups=optgroups)
 
 

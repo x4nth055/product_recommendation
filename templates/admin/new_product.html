@@ -23,44 +23,14 @@
             </div>
             <div class="form-group">
                 <select id="tags" name="tags" class="form-control">
-                	<option>Select a product category</option>
-                    <optgroup label="Fast food">
-                    	<option value="pizza">Pizza</option>
-                    	<option value="hamburger">Hamburger</option>
-                    	<option value="sandwich">Sandwich</option>
-                    </optgroup>
-                     <optgroup label="Drinks">
-                    	<option value="shakes_smoothies">Shakes & Smoothies</option>
-                    	<option value="cocktails">Cocktails</option>
-                        <option value="soda">soda</option>
-                        <option value="coffee">Coffee</option>
-                    </optgroup>
-                    <optgroup label="Pastries & bakery food">
-                    	<option value="pastry">Pastry</option>
-                    	<option value="bakery">Bakery</option>
-                    </optgroup>
-                    <optgroup label="Sea Food">
-                    	<option value="sushi">Sushi</option>
-                    	<option value="fish">Fish Dish</option>
-                    </optgroup>
-                     <optgroup label="Pasta">
-                    	<option value="italian_pasta">Italian Pasta</option>
-                    	<option value="noodles">Noodles</option>
-                    </optgroup>
-                    <optgroup label="dessert&Salad">
-                    	<option value="fruit_salad">Fruit Salad</option>
-                    	<option value="ice_cream">Ice Cream</option>
-                        <option value="veggie_salad">Veggie salad</option>
-                        <option value="fruits">Fruits</option>
-                    </optgroup>
-                    <optgroup label="dishes">
-                        <option value="middle_east_food">Middle east Food</option>
-                        <option value="asian_dishes">Asian Food</option>
-                    </optgroup>
-                    <optgroup label="Meals">
-                        <option value="barbeque">Barbeque</option>
-                        <option value="roast_food">Roasted Meat</option>
-                    </optgroup>
+                    <option>Select a product category</option>
+                    {% for optgroup, items in optgroups.items() %}
+                        <optgroup label="{{optgroup}}">
+                            {% for item in items %}
+                                <option value="{{item}}" class="text-capitalize">{{item.replace('_', ' ')}}</option>
+                            {% endfor %}
+                        </optgroup>
+                    {% endfor %}
                 </select>
             </div>
             <div class="form-group">

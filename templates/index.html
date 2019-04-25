@@ -6,6 +6,10 @@
             width: 900px;
             height: 450px;
         }
+        /* .badge-pill {
+            margin-left: 20%;
+            margin-right: 20%;
+        } */
 
     </style>
     
@@ -25,13 +29,16 @@
                 {% endif %}
             </h1>
             <div class="list-group" id="list-tab" role="tablist">
-                {% for tag in tags %}
+                
+                {% for tag, count in tags.items() %}
                 {% if category == tag %}
                 <a class="list-group-item list-group-item-action active" href="{{url_for('categories', category=tag)}}"
-                    aria-controls="home">{{tag.replace("_", " ").capitalize()}}</a>
+                    aria-controls="home">{{tag.replace("_", " ").capitalize()}}<span class="badge badge-secondary badge-pill">  {{count}}</span></a>
+                    
                 {% else %}
                 <a class="list-group-item list-group-item-action" href="{{url_for('categories', category=tag)}}"
-                    aria-controls="home">{{tag.replace("_", " ").capitalize()}}</a>
+                    aria-controls="home">{{tag.replace("_", " ").capitalize()}}<span class="badge badge-primary badge-pill">  {{count}}</span></a>
+                    
                 {% endif %}
                 {% endfor %}
             </div>

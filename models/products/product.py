@@ -70,7 +70,14 @@ def get_all_products(formalize=True):
     return [ Product(**product) for product in products ]
 
 def get_product_tags():
-    return Database.get_product_tags()
+    """Returns all product tags dict mapping each tag
+        to the number of products it has"""
+    data = {}
+    tags = Database.get_product_tags()
+    for tag in tags:
+        count = len(Database.get_products_by_tag(tag))
+        data[tag] = count
+    return data
 
 def get_products_by_tag(tag):
     products = Database.get_products_by_tag(tag)
