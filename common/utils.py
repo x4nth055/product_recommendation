@@ -5,6 +5,7 @@ import base64
 import time
 
 from flask import request, url_for, redirect
+from string import digits
 
 
 def get_sent_audio_file(attr_name):
@@ -81,3 +82,10 @@ def email_valid(email):
 
 def redirect_previous_url(default='home'):
     return redirect(request.args.get('next') or request.referrer or url_for(default))
+
+
+def remove_starting_digits(string):
+    """This function is useful for html id attribute"""
+    return string.lstrip(digits)
+            
+            

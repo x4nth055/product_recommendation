@@ -6,10 +6,34 @@
             width: 900px;
             height: 450px;
         }
-        /* .badge-pill {
-            margin-left: 20%;
-            margin-right: 20%;
-        } */
+        
+        .text-align {
+            background: url("{{url_for('static', filename='img/star-rating-sprite.png')}}") repeat-x;
+            font-size: 0;
+            height: 21px;
+            line-height: 0;
+            overflow: hidden;
+            text-indent: -999em;
+            width: 110px;
+        }
+
+        .product_star_rating {
+            background: url("{{url_for('static', filename='img/star-rating-sprite.png')}}") repeat-x;
+            background-position: 0 100%;
+            float: left;
+            height: 21px;
+            display:block;        
+        }
+
+        {% for product, rating in zip(products, ratings) %}
+        #{{remove_starting_digits(product.id)}} {
+            {% if rating %}
+            width: {{(rating.review / 5)*100}}%;
+            {% else %}
+            width: 0%;
+            {% endif %}
+        }
+        {% endfor %}
 
     </style>
     
@@ -91,7 +115,7 @@
                                 <p class="card-text">{{product.description}}</p>
                             </div>
                             <div class="card-footer">
-                                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+                                <div class="text-align"><span class="product_star_rating" id="{{remove_starting_digits(product.id)}}"></span></div>
                             </div>
                         </div>
                     </div>

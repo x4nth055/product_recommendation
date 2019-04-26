@@ -3,12 +3,13 @@ import random
 from flask import Flask, session, render_template, request, redirect, url_for, send_from_directory
 from threading import Thread
 
-from common.utils import get_unique_id, convert_audio, redirect_previous_url, get_sent_audio_file
+from common.utils import get_unique_id, convert_audio, redirect_previous_url, get_sent_audio_file, remove_starting_digits
 from common.database import Database
 from models.users.views import user_blueprint
 from models.users.user import get_user_by_id
 from models.products.views import product_blueprint
 from models.ratings.views import rating_blueprint
+from models.ratings.rating import get_rating_by_both
 from models.products.product import get_all_products, get_product_tags, get_products_by_tag
 
 # Recommender System
@@ -36,47 +37,67 @@ def init_db():
 
 @app.route("/")
 def home():
-    # return f"<h2>hi {session['email']}</h2>"
     products = get_all_products()
     sorted_products = products.copy()
     random.shuffle(products)
+    if session.get("user_id"):
+        user_id = session.get("user_id")
+        ratings = [ get_rating_by_both(user_id, p.id) for p in products ]
+    else:
+        ratings = [None] * len(products)
     tags = get_product_tags()
     return render_template("index.html",
                             products=products,
+                            ratings=ratings,
                             tags=tags,
                             chosen_products=sorted_products[:5],
                             os=os,
                             len=len,
                             range=range,
-                            enumerate=enumerate)
+                            enumerate=enumerate,
+                            zip=zip,
+                            remove_starting_digits=remove_starting_digits)
     
 @app.route("/recommended")
 def recommended():
-    user = get_user_by_id(session['user_id'])
+    user_id = session.get("user_id")
+    user = get_user_by_id(user_id)
     products = user.get_recommended_products()
+    ratings = [ get_rating_by_both(user_id, p.id) for p in products ]
     tags = get_product_tags()
     return render_template("index.html",
                             products=products,
+                            ratings=ratings,
                             tags=tags,
                             chosen_products=products[:5],
                             os=os,
+                            zip=zip,
                             len=len,
                             range=range,
-                            enumerate=enumerate)
+                            enumerate=enumerate,
+                            remove_starting_digits=remove_starting_digits)
 
 @app.route("/categories/<category>")
 def categories(category):
     products = get_products_by_tag(category)
     tags = get_product_tags()
+    if session.get("user_id"):
+        user_id = session.get("user_id")
+        ratings = [ get_rating_by_both(user_id, p.id) for p in products ]
+    else:
+        ratings = [None] * len(products)
     return render_template("index.html",
                             products=products,
+                            ratings=ratings,
                             tags=tags,
                             category=category,
                             chosen_products=products[:5],
                             os=os,
+                            zip=zip,
                             len=len,
                             range=range,
-                            enumerate=enumerate)
+                            enumerate=enumerate,
+                            remove_starting_digits=remove_starting_digits)
 
 
 @app.route("/upload", methods=["GET", "POST"])

@@ -1,7 +1,43 @@
 {% extends "base.html" %}
 {% block headcontent %}
-    <link ref="stylesheet" href="{{url_for('static', filename='css/jstarbox.css')}}">
-    <link ref="stylesheet" href="{{url_for('static', filename='css/ie7.css')}}">
+<style>
+.text-align {
+  background: url("{{url_for('static', filename='img/star-rating-sprite.png')}}") repeat-x;
+  font-size: 0;
+  height: 21px;
+  line-height: 0;
+  overflow: hidden;
+  text-indent: -999em;
+  width: 110px;
+}
+.product_star_rating {
+    background: url("{{url_for('static', filename='img/star-rating-sprite.png')}}") repeat-x;
+    background-position: 0 100%;
+    float: left;
+    height: 21px;
+    display:block;
+    
+}
+
+#product_review {
+    {% if review %}
+    width: {{(review / 5)*100}}%;
+    {% else %}
+    width: 0%;
+    {% endif %}
+}
+
+{% for product, rating in zip(similar_products, similar_ratings) %}
+#{{remove_starting_digits(product.id)}} {
+    {% if rating %}
+    width: {{((rating.review / 5)*100)}}%;
+    {% else %}
+    width: 0%;
+    {% endif %}
+}
+{% endfor %}
+</style>
+
 {% endblock headcontent %}
 {% block content %}
 <div class="container">
@@ -15,41 +51,14 @@
             <span id="rating-text" class="text-info">
                 Not rated
             </span>
-            <div id="rating-stars"></div>
-            
-            <br><br>
+            <div class="text-align"><span class="product_star_rating" id="product_review"></span></div>
+            <br>
             <span class="text-muted">Category: </span>
-            <b class="text-primary">{{product.tags.replace("_", " ").capitalize()}}</b>
+            <b class="text-primary text-capitalize">{{product.tags}}</b>
         </div>
     </div>
-    <!-- /.card -->
-
-    <div class="card card-outline-secondary my-4">
-        <div class="card-header">
-            Product Reviews
-        </div>
-        <div class="card-body">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique
-                necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia,
-                necessitatibus quae sint natus.</p>
-            <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-            <hr>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique
-                necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia,
-                necessitatibus quae sint natus.</p>
-            <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-            <hr>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique
-                necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia,
-                necessitatibus quae sint natus.</p>
-            <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-            <hr>
-            <a href="#" class="btn btn-success">Leave a Review</a>
-        </div>
-    </div>
-    <!-- /.card -->
-
-    <h5 class="text-muted">Similar Products</h5>
+    <br>
+    <h4 class="text-muted">Similar Products</h4>
     <br>
     <div class="row">
 
@@ -67,58 +76,17 @@
                     <p class="card-text">{{product.description}}</p>
                 </div>
                 <div class="card-footer">
-                    <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+                    <div class="text-align"><span class="product_star_rating" id="{{remove_starting_digits(product.id)}}"></span></div>
                 </div>
             </div>
         </div>
         {% endfor %}
-
-        <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-100">
-                <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-                <div class="card-body">
-                    <h4 class="card-title">
-                        <a href="#">Item One</a>
-                    </h4>
-                    <h5>$24.99</h5>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam
-                        aspernatur!</p>
-                </div>
-                <div class="card-footer">
-                    <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-100">
-                <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-                <div class="card-body">
-                    <h4 class="card-title">
-                        <a href="#">Item Two</a>
-                    </h4>
-                    <h5>$24.99</h5>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam
-                        aspernatur! Lorem ipsum dolor sit amet.</p>
-                </div>
-                <div class="card-footer">
-                    <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                </div>
-            </div>
-        </div>
     </div>
     <script src="{{url_for('static', filename='js/jquery-3.3.1.min.js')}}"></script>
-    <script src="{{url_for('static', filename='js/jstarbox.js')}}"></script>
     <script>
         {% if review %}
-        $("#rating-text").text({{review}}.toFixed(2) + " Stars");
+        $("#rating-text").text({{ review }}.toFixed(2) + " Stars");
         {% endif %}
-        $("#rating-stars").starbox({
-            changeable: 'once',
-            ghosting: true,
-            autoUpdateAverage: true,
-            average: {{review}} / 5
-        });
         window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
         const recognition = new SpeechRecognition();
@@ -143,15 +111,15 @@
                 contentType: false
             }).done(function (review_score) {
                 console.log(review_score);
-                $("#rating-stars").starbox("setValue", review_score / 5);
-                
+                $("#product_review").css("width", (review_score/5)*100 + "%");
+
                 $("#rating-text").text(parseFloat(review_score).toFixed(2) + " Stars");
             });
         });
 
         recognition.start();
 
-        </script>
+    </script>
 </div>
 <!-- /.col-lg-9 -->
 {% endblock content %}
