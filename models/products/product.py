@@ -103,3 +103,14 @@ def get_rated_products():
 
 def get_number_of_rated_products():
     return len(get_rated_products())
+
+def get_products_by_search_query(query, formalize=True):
+    products = Database.get_products_by_name_description(query, formalize)
+    if not products:
+        return []
+    if formalize:
+        return [ Product(**p) for p in products ]
+    else:
+        return products
+
+

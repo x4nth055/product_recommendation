@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{url_for('static', filename='css/shop-homepage.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
     <!-- <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap-theme.min.css')}}"> -->
-    
+
     {% block headcontent %}
 
     {% endblock headcontent %}
@@ -22,8 +22,8 @@
                 aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            
-                <a class="nav-item" href="{{url_for('user.admin')}}">Admin Page</a>
+
+            <a class="nav-item" href="{{url_for('user.admin')}}">Admin Page</a>
             <div class="dropdown">
                 <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
@@ -58,24 +58,29 @@
                     <li class="nav-item">
                         <a class="nav-link btn" href="{{url_for('user.logout')}}">Logout</a>
                     </li>
-                    
+
                     {% endif %}
                     <li class="nav-item">
                         <a class="nav-link btn" href="#">About</a>
                     </li>
-                   
+
                     <li class="nav-item">
                         <a class="nav-link btn" href="#">Contact</a>
                     </li>
                 </ul>
             </div>
         </div>
+        <!-- Search form -->
+        <form class="form-inline" method="GET" action="{{url_for('search')}}">
+            <input class="form-control mr-sm-2" type="search" name="q" id="q" placeholder="Search" aria-label="Search">
+            <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
+        </form>
     </nav>
     {% block content %}
 
     {% endblock content %}
     <script>
-        if (typeof jQuery == 'undefined') {  
+        if (typeof jQuery == 'undefined') {
             document.write('<script src="{{url_for("static", filename="js/jquery-3.3.1.min.js")}}">' + '<' + '/script>');
         }
     </script>

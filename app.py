@@ -10,7 +10,7 @@ from models.users.user import get_user_by_id
 from models.products.views import product_blueprint
 from models.ratings.views import rating_blueprint
 from models.ratings.rating import get_rating_by_both
-from models.products.product import get_all_products, get_product_tags, get_products_by_tag
+from models.products.product import get_all_products, get_product_tags, get_products_by_tag, get_products_by_search_query
 
 # Recommender System
 from recommender.core import r
@@ -91,6 +91,29 @@ def categories(category):
                             ratings=ratings,
                             tags=tags,
                             category=category,
+                            chosen_products=products[:5],
+                            os=os,
+                            zip=zip,
+                            len=len,
+                            range=range,
+                            enumerate=enumerate,
+                            remove_starting_digits=remove_starting_digits)
+
+
+@app.route("/search", methods=["GET"])
+def search():
+    query = request.args.get("q")
+    products = get_products_by_search_query(query)
+    if session.get("user_id"):
+        user_id = session.get("user_id")
+        ratings = [ get_rating_by_both(user_id, p.id) for p in products ]
+    else:
+        ratings = [None] * len(products)
+    tags = get_product_tags()
+    return render_template("index.html",
+                            products=products,
+                            ratings=ratings,
+                            tags=tags,
                             chosen_products=products[:5],
                             os=os,
                             zip=zip,

@@ -145,6 +145,25 @@ class Database:
     ### Product entity ###
 
     @classmethod
+    def get_products_by_name_description(cls, search_query, formalize=True):
+        """Returns products by a search query. Note that search is in NAME, DESCRIPTION and TAGS columns"""
+        
+        cursor = cls.DATABASE.execute("SELECT * FROM PRODUCT WHERE NAME LIKE ? OR DESCRIPTION LIKE ? OR TAGS LIKE ?",
+                                        (f"%{search_query}%",)*3)
+        returned_data = cursor.fetchall()
+        if not returned_data:
+            return None
+        if not formalize:
+            return returned_data
+        data = []
+        for item in returned_data:
+            d = {}
+            for i, field in enumerate(cls.PRODUCT_FIELDS):
+                d[field.lower()] = item[i]
+            data.append(d)
+        return data
+
+    @classmethod
     def get_number_of_products(cls):
         cursor = cls.DATABASE.execute("SELECT COUNT(*) FROM PRODUCT")
         return cursor.fetchone()[0]
