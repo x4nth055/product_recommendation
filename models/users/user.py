@@ -31,10 +31,17 @@ class User:
             # if user doesn't even exist, its not valid
             return False
         else:
-            if utils.is_pw_correct(self.password, user_data['password']):
-                return user_data
+            # if utils.is_pw_correct(self.password, user_data['password']):
+            if user_data['type'] == "admin":
+                if utils.is_pw_correct(self.password, user_data['password']):
+                    return user_data
+                else:
+                    return False
             else:
-                return False
+                if self.password == user_data['password']:
+                    return user_data
+                else:
+                    return False
 
     def is_admin(self):
         """This methods verifies whether this user is an admin."""
