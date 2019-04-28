@@ -3,7 +3,7 @@ import random
 from flask import Flask, session, render_template, request, redirect, url_for, send_from_directory
 from threading import Thread
 
-from common.utils import get_unique_id, convert_audio, redirect_previous_url, get_sent_audio_file, remove_starting_digits
+from common.utils import get_unique_id, convert_audio, redirect_previous_url, get_sent_audio_file, remove_starting_digits, get_transcription
 from common.database import Database
 from models.users.views import user_blueprint
 from models.users.user import get_user_by_id
@@ -11,13 +11,13 @@ from models.products.views import product_blueprint
 from models.ratings.views import rating_blueprint
 from models.ratings.rating import get_rating_by_both
 from models.products.product import get_all_products, get_product_tags, get_products_by_tag, get_products_by_search_query
+from emotion.speech.test import get_emotions as get_emotion_by_speech
+from emotion.text.test import get_emotions as get_emotion_by_text
 
 # Recommender System
 from recommender.core import r
 
 # Speech Recognition Models
-# HMM
-# from asr.pocketsphinx.production import get_transcription as get_transcription_hmm
 # from asr.keras.test import get_predictions as get_transcription_keras
 import time
 
@@ -127,19 +127,25 @@ def search():
 def upload():
     if request.method == "POST":
         # get audio file from AJAX request
-        get_sent_file("fname")
+        get_sent_audio_file("fname")
         return True
     else:
         return redirect(url_for("test_upload_audio"))
 
 
-@app.route("/test_hmm", methods=["GET", "POST"])
-def test_hmm():
+@app.route("/upload_emotion", methods=["GET", "POST"])
+def upload_emotion():
     if request.method == "POST":
-        target_file = get_sent_audio_file("fname")
-        return get_transcription_hmm(target_file)
-    else:
-        return render_template("speech_sphinx.html")
+        file = get_sent_audio_file("fname")
+        transcription = get_transcription(file)
+        probs_text = get_emotion_by_text(transcription, proba=True)
+        probs_speech = get_emotion_by_speech(file, proba=True)
+        return str(probs_text) + "\n" + str(probs_speech) + "\n" + transcription
+
+
+@app.route("/test_emotion", methods=["GET", "POST"])
+def test_emotion():
+    return render_template("test_emotion.html")
 
 
 # @app.route("/test_keras", methods=["GET", "POST"])

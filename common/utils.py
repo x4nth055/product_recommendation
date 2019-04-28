@@ -7,6 +7,19 @@ import time
 from flask import request, url_for, redirect
 from string import digits
 
+import speech_recognition as sr
+r = sr.Recognizer()
+
+import urllib.request as urllib
+
+
+def internet_on():
+    try:
+        urllib.urlopen('http://www.google.com', timeout=1)
+        return True
+    except urllib.URLError: 
+        return False
+
 
 def get_sent_audio_file(attr_name):
     """This function does:
@@ -87,5 +100,18 @@ def redirect_previous_url(default='home'):
 def remove_starting_digits(string):
     """This function is useful for html id attribute"""
     return string.lstrip(digits)
+
+
+### Speech recognition ###
+
+
+def get_transcription(audio_file):
+    audio_file = sr.AudioFile(audio_file)
+    with audio_file as source:
+        audio = r.record(source)
+    if internet_on():
+        return r.recognize_google(audio)
+    else:
+        return r.recognize_sphinx(audio)
             
             
