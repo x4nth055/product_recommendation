@@ -19,10 +19,10 @@ import librosa
 
 categories = {
     0: "neutral",
-    1: "angry",
-    2: "happy",
-    3: "ps", # pleasant surprised
-    4: "sad"
+    1: "anger",
+    2: "happiness",
+    3: "surprise",
+    4: "sadness"
 }
 
 categories_reversed = {v:k for k,v in categories.items() }
