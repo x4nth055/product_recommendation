@@ -2,16 +2,18 @@ from common.database import Database
 
 
 class Rating:
-    def __init__(self, user_id, product_id, review):
+    def __init__(self, user_id, product_id, review, emotion=None):
         self.user_id = user_id
         self.product_id = product_id
         self.review = review
+        self.emotion = emotion
 
     def json(self):
         return {
             "user_id": self.user_id,
             "product_id": self.product_id,
-            "review": self.review
+            "review": self.review,
+            "emotion": self.emotion
         }
 
     def save(self):

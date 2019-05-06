@@ -19,6 +19,12 @@
     
 }
 
+.img-thumbnail {
+    width: 50px;
+    height: 50px;
+    border: 0 none;
+}
+
 #product_review {
     {% if review %}
     width: {{(review / 5)*100}}%;
@@ -53,6 +59,10 @@
             </span>
             <div class="text-align"><span class="product_star_rating" id="product_review"></span></div>
             <br>
+            <div id="emotion-image">
+                <span>Emotion:</span>
+                <span id="emotion-text" class="text-muted">None</span>
+            </div>
             <span class="text-muted">Category: </span>
             <b class="text-primary text-capitalize">{{product.tags}}</b>
         </div>
@@ -84,9 +94,41 @@
     </div>
     <script src="{{url_for('static', filename='js/jquery-3.3.1.min.js')}}"></script>
     <script>
+        // some functions 
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        function setEmotion(emotion) {
+            if(emotion == "neutral") {
+                classname = "text-secondary";
+                imageElement = "<img class='img-thumbnail' src='" + "{{url_for('static', filename='img/emojis/neutral.png')}}" + "'></img>";
+            } else if(emotion == "anger") {
+                classname = "text-danger";
+                imageElement = "<img class='img-thumbnail' src='" + "{{url_for('static', filename='img/emojis/anger.png')}}" + "'></img>";
+            } else if(emotion == "sadness") {
+                classname = "text-warning";
+                imageElement = "<img class='img-thumbnail' src='" + "{{url_for('static', filename='img/emojis/sadness.png')}}" + "'></img>";
+            } else if(emotion == "happiness") {
+                classname = "text-success";
+                imageElement = "<img class='img-thumbnail' src='" + "{{url_for('static', filename='img/emojis/happiness.png')}}" + "'></img>";
+            } else if(emotion == "surprise") {
+                classname = "text-primary";
+                imageElement = "<img class='img-thumbnail' src='" + "{{url_for('static', filename='img/emojis/surprise.png')}}" + "'></img>";
+            }
+            $("#emotion-text").text(capitalizeFirstLetter(emotion));
+            $("#emotion-text").attr("class", classname);
+            $("#emotion-image").append(imageElement);
+        }
+
         {% if review %}
         $("#rating-text").text({{ review }}.toFixed(2) + " Stars");
         {% endif %}
+
+        {% if emotion %}
+        setEmotion("{{emotion}}");
+        {% endif %}
+
         window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
         const recognition = new SpeechRecognition();
@@ -109,11 +151,17 @@
                 cache: false,
                 processData: false,
                 contentType: false
-            }).done(function (review_score) {
-                console.log(review_score);
+            }).done(function (data) {
+                data = data.split("|");
+                review_score = data[0];
+                emotion = data[1];
+                console.log("Review score: " + review_score);
+                console.log("Emotion: " + emotion)
+                // for review stars
                 $("#product_review").css("width", (review_score/5)*100 + "%");
-
                 $("#rating-text").text(parseFloat(review_score).toFixed(2) + " Stars");
+                // for emotion
+                setEmotion(emotion);
             });
         });
 

@@ -9,6 +9,7 @@ from models.ratings.rating import Rating, get_rating_by_both
 from common.utils import redirect_previous_url, remove_starting_digits
 from recommender.core import r
 from sentiment.production import get_review_stars
+from emotion.text.test import get_emotions
 
 product_blueprint = Blueprint("product", __name__)
 
@@ -20,6 +21,7 @@ def product(product_id):
     user_id = session['user_id']
     rating = get_rating_by_both(user_id, product_id)
     review = rating.review if rating else 0
+    emotion = rating.emotion if rating else None
     similar_products = p.get_similar_products(9)
     similar_ratings = [ get_rating_by_both(user_id, p.id) for p in similar_products ]
     print(similar_products)
@@ -30,6 +32,7 @@ def product(product_id):
                         similar_products=similar_products,
                         similar_ratings=similar_ratings,
                         review=review,
+                        emotion=emotion,
                         os=os,
                         zip=zip,
                         remove_starting_digits=remove_starting_digits)
@@ -38,14 +41,23 @@ def product(product_id):
 @product_blueprint.route("/upload_review", methods=['GET', 'POST'])
 def upload_review():
     if request.method == "POST":
+        # get transcription from the SpeechRecognition MDN API
         transcription = request.form['transcription']
+        # retrieve review stars from text
         review_stars = float(get_review_stars(transcription))
+        # retrieve emotion from text
+        emotion = get_emotions(transcription, proba=False)
+        # get the user id from the session ( logged in )
         user_id = session['user_id']
+        # get the product id from the form
         product_id = request.form['product_id']
+        # add score to the corresponding product
         add_score_to_product(user_id, product_id, review_stars)
-        Rating(user_id=user_id, product_id=product_id, review=review_stars).save()
+        # save the new review
+        Rating(user_id=user_id, product_id=product_id, review=review_stars, emotion=emotion).save()
+        # update recommender system matrices
         r.update_matrices()
-        return str(review_stars)
+        return str(review_stars) + "|" + emotion
 
 
 @product_blueprint.route("/delete/<id>")

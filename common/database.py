@@ -38,7 +38,8 @@ class Database:
     RATING_FIELDS = {
         "USER_ID": "VARCHAR",
         "PRODUCT_ID": "VARCHAR",
-        "REVIEW": "REAL" # Between 1 and 5
+        "REVIEW": "REAL", # Between 1 and 5
+        "EMOTION": "VARCHAR", # anger, happiness, sadness, surprise and neutral
     }
 
     # all table queries need to be added here
@@ -300,8 +301,8 @@ class Database:
         return cursor.fetchone()[0]
 
     @classmethod
-    def add_rating(cls, user_id, product_id, review):
-        cls.DATABASE.execute("INSERT INTO RATING VALUES ( ?, ?, ? )", (user_id, product_id, review))
+    def add_rating(cls, user_id, product_id, review, emotion):
+        cls.DATABASE.execute("INSERT INTO RATING VALUES ( ?, ?, ?, ? )", (user_id, product_id, review, emotion))
         cls.DATABASE.commit()
         return True
 
