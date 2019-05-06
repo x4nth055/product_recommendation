@@ -11,7 +11,6 @@ from models.products.views import product_blueprint
 from models.ratings.views import rating_blueprint
 from models.ratings.rating import get_rating_by_both
 from models.products.product import get_all_products, get_product_tags, get_products_by_tag, get_products_by_search_query
-from emotion.speech.test import get_emotions as get_emotion_by_speech
 from emotion.text.test import get_emotions as get_emotion_by_text
 
 # Recommender System
@@ -131,16 +130,6 @@ def upload():
         return True
     else:
         return redirect(url_for("test_upload_audio"))
-
-
-@app.route("/upload_emotion", methods=["GET", "POST"])
-def upload_emotion():
-    if request.method == "POST":
-        file = get_sent_audio_file("fname")
-        transcription = get_transcription(file)
-        probs_text = get_emotion_by_text(transcription, proba=True)
-        probs_speech = get_emotion_by_speech(file, proba=True)
-        return str(probs_text) + "\n" + str(probs_speech) + "\n" + transcription
 
 
 @app.route("/test_emotion", methods=["GET", "POST"])
