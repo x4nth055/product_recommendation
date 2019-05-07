@@ -3,7 +3,7 @@ import random
 from flask import Flask, session, render_template, request, redirect, url_for, send_from_directory
 from threading import Thread
 
-from common.utils import get_unique_id, convert_audio, redirect_previous_url, get_sent_audio_file, remove_starting_digits, get_transcription
+from common.utils import get_unique_id, convert_audio, redirect_previous_url, get_sent_audio_file, remove_starting_digits
 from common.database import Database
 from models.users.views import user_blueprint
 from models.users.user import get_user_by_id
@@ -132,29 +132,9 @@ def upload():
         return redirect(url_for("test_upload_audio"))
 
 
-@app.route("/test_emotion", methods=["GET", "POST"])
-def test_emotion():
-    return render_template("test_emotion.html")
-
-
-# @app.route("/test_keras", methods=["GET", "POST"])
-# def test_keras():
-#     if request.method == "POST":
-#         target_file = get_sent_file_audio_file("fname")
-#         return get_transcription_keras(target_file)
-#     else:
-#         return render_template("speech_keras.html")
-
-
-@app.route("/test_upload_audio")
-def test_upload_audio():
-    return render_template("test_audio.html")
-
-
 @app.route("/test_speech")
 def test_speech():
     return render_template("speech.html")
-
 
 
 # register blueprints here

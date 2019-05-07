@@ -33,6 +33,10 @@
     {% endif %}
 }
 
+#emotion-image {
+    display: none;
+}
+
 {% for product, rating in zip(similar_products, similar_ratings) %}
 #{{remove_starting_digits(product.id)}} {
     {% if rating %}
@@ -59,9 +63,10 @@
             </span>
             <div class="text-align"><span class="product_star_rating" id="product_review"></span></div>
             <br>
-            <div id="emotion-image">
+            <div>
                 <span>Emotion:</span>
                 <span id="emotion-text" class="text-muted">None</span>
+                <img id='emotion-image' class='img-thumbnail'></img>
             </div>
             <span class="text-muted">Category: </span>
             <b class="text-primary text-capitalize">{{product.tags}}</b>
@@ -94,6 +99,20 @@
     </div>
     <script src="{{url_for('static', filename='js/jquery-3.3.1.min.js')}}"></script>
     <script>
+        function isOnline(callback) {
+            $.ajax({
+                url: "https://httpbin.org/get",
+                type: "GET",
+            }).done(callback).fail(callback);
+        }
+        isOnline(function(data){
+            if(data.statusText == "error") {
+                console.log("offline");
+            } else {
+                console.log("online");
+            }
+        })
+
         // some functions 
         function capitalizeFirstLetter(string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
@@ -102,23 +121,24 @@
         function setEmotion(emotion) {
             if(emotion == "neutral") {
                 classname = "text-secondary";
-                imageElement = "<img class='img-thumbnail' src='" + "{{url_for('static', filename='img/emojis/neutral.png')}}" + "'></img>";
+                imageElement = "{{url_for('static', filename='img/emojis/neutral.png')}}";
             } else if(emotion == "anger") {
                 classname = "text-danger";
-                imageElement = "<img class='img-thumbnail' src='" + "{{url_for('static', filename='img/emojis/anger.png')}}" + "'></img>";
+                imageElement = "{{url_for('static', filename='img/emojis/anger.png')}}";
             } else if(emotion == "sadness") {
                 classname = "text-warning";
-                imageElement = "<img class='img-thumbnail' src='" + "{{url_for('static', filename='img/emojis/sadness.png')}}" + "'></img>";
+                imageElement = "{{url_for('static', filename='img/emojis/sadness.png')}}";
             } else if(emotion == "happiness") {
                 classname = "text-success";
-                imageElement = "<img class='img-thumbnail' src='" + "{{url_for('static', filename='img/emojis/happiness.png')}}" + "'></img>";
+                imageElement = "{{url_for('static', filename='img/emojis/happiness.png')}}";
             } else if(emotion == "surprise") {
                 classname = "text-primary";
-                imageElement = "<img class='img-thumbnail' src='" + "{{url_for('static', filename='img/emojis/surprise.png')}}" + "'></img>";
+                imageElement = "{{url_for('static', filename='img/emojis/surprise.png')}}";
             }
             $("#emotion-text").text(capitalizeFirstLetter(emotion));
             $("#emotion-text").attr("class", classname);
-            $("#emotion-image").append(imageElement);
+            $("#emotion-image").attr("src", imageElement);
+            $("#emotion-image").css("display", "inline");
         }
 
         {% if review %}
@@ -129,43 +149,99 @@
         setEmotion("{{emotion}}");
         {% endif %}
 
-        window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        isOnline(function(data) {
+            if(data.statusText != "error") {
+                // online
+                window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
-        const recognition = new SpeechRecognition();
-        recognition.interimResults = false;
-        recognition.lang = "en-US";
+                const recognition = new SpeechRecognition();
+                recognition.interimResults = false;
+                recognition.lang = "en-US";
 
-        recognition.addEventListener("result", function (e) {
+                recognition.addEventListener("result", function (e) {
 
-            const transcript = e.results[0][0].transcript;
-            const confidence = e.results[0][0].confidence;
-            var fd = new FormData();
-            fd.append("transcription", transcript);
-            fd.append("confidence", confidence);
-            fd.append("product_id", "{{product.id}}")
-            console.log(transcript + ": " + confidence);
-            $.ajax({
-                type: "POST",
-                url: "{{url_for('product.upload_review')}}",
-                data: fd,
-                cache: false,
-                processData: false,
-                contentType: false
-            }).done(function (data) {
-                data = data.split("|");
-                review_score = data[0];
-                emotion = data[1];
-                console.log("Review score: " + review_score);
-                console.log("Emotion: " + emotion)
-                // for review stars
-                $("#product_review").css("width", (review_score/5)*100 + "%");
-                $("#rating-text").text(parseFloat(review_score).toFixed(2) + " Stars");
-                // for emotion
-                setEmotion(emotion);
-            });
-        });
+                    const transcript = e.results[0][0].transcript;
+                    const confidence = e.results[0][0].confidence;
+                    var fd = new FormData();
+                    fd.append("transcription", transcript);
+                    fd.append("confidence", confidence);
+                    fd.append("product_id", "{{product.id}}")
+                    console.log(transcript + ": " + confidence);
+                    $.ajax({
+                        type: "POST",
+                        url: "{{url_for('product.upload_review')}}",
+                        data: fd,
+                        cache: false,
+                        processData: false,
+                        contentType: false
+                    }).done(function (data) {
+                        data = data.split("|");
+                        review_score = data[0];
+                        emotion = data[1];
+                        console.log("Review score: " + review_score);
+                        console.log("Emotion: " + emotion)
+                        // for review stars
+                        $("#product_review").css("width", (review_score/5)*100 + "%");
+                        $("#rating-text").text(parseFloat(review_score).toFixed(2) + " Stars");
+                        // for emotion
+                        setEmotion(emotion);
+                    });
+                });
+                recognition.start();
 
-        recognition.start();
+            } else {
+                // offline , use pocketsphinx
+                navigator.mediaDevices.getUserMedia = navigator.mediaDevices.getUserMedia || navigator.mediaDevices.webkitGetUserMedia || navigator.mediaDevices.mozGetUserMedia || navigator.mediaDevices.msGetUserMedia;
+                navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+                    // store streaming data chunks in array
+                    const chunks = [];
+                    // create media recorder instance to initialize recording
+                    const recorder = new MediaRecorder(stream);
+                    // function to be called when data is received
+                    recorder.ondataavailable = e => {
+                        // add stream data to chunks
+                        chunks.push(e.data);
+                        // if recorder is 'inactive' then recording has finished
+                        if (recorder.state == 'inactive') {
+                            // convert stream data chunks to a 'webm' audio format as a blob
+                            const blob = new Blob(chunks, { type: 'audio/wav' });
+                            // send to server
+                            var fd = new FormData();
+                            fd.append("fname", "audio.wav");
+                            fd.append("data", blob);
+                            fd.append("product_id", "{{product.id}}")
+                            $.ajax({
+                                type: "POST",
+                                url: "{{url_for('product.upload_review')}}",
+                                data: fd,
+                                cache: false,
+                                processData: false,
+                                contentType: false
+                            }).done(function (data) {
+                                data = data.split("|");
+                                review_score = data[0];
+                                emotion = data[1];
+                                console.log("Review score: " + review_score);
+                                console.log("Emotion: " + emotion)
+                                // for review stars
+                                $("#product_review").css("width", (review_score/5)*100 + "%");
+                                $("#rating-text").text(parseFloat(review_score).toFixed(2) + " Stars");
+                                // for emotion
+                                setEmotion(emotion);
+                            });
+                        }
+                    };
+                    // start recording with 0.1 second time between receiving 'ondataavailable' events
+                    recorder.start(100);
+
+                    setTimeout(function(){
+                        recorder.stop();
+                    }, 10000);
+
+                }).catch(console.error);
+            }
+        })
+            
 
     </script>
 </div>

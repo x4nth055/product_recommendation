@@ -1,6 +1,6 @@
 Flask==1.0.2
 passlib==1.7.1
-SpeechRecognition==3.8.1
+pocketsphinx
 keras==2.2.4
 numpy
 scipy

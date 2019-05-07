@@ -36,9 +36,12 @@ def get_rating_by_both(user_id, product_id, fn=lambda x: sum(x) / len(x)):
             return Rating(**ratings[0])
         else:
             reviews = []
+            emotions = []
             for rating in ratings:
                 reviews.append(rating['review'])
-            return Rating(user_id=user_id, product_id=product_id, review=fn(reviews))
+                emotions.append(rating['emotion'])
+            # picking the last emotion
+            return Rating(user_id=user_id, product_id=product_id, review=fn(reviews), emotion=emotions[-1])
 
 def get_all_ratings(formalize=True):
     ratings = Database.get_all_ratings(formalize=formalize)

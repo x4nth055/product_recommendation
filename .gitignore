@@ -2,3 +2,13 @@
 db/first_db.sqlite3
 recommender/__pycache__/core.cpython-36.pyc
 recommender/__pycache__/core.cpython-36.pyc
+asr/pocketsphinx/en-70k-0.1.lm
+asr/pocketsphinx/cmusphinx-en-us-8khz-5.2/variances
+asr/pocketsphinx/cmusphinx-en-us-8khz-5.2/transition_matrices
+asr/pocketsphinx/cmusphinx-en-us-8khz-5.2/README
+asr/pocketsphinx/cmusphinx-en-us-8khz-5.2/noisedict
+asr/pocketsphinx/cmusphinx-en-us-8khz-5.2/mixture_weights
+asr/pocketsphinx/cmusphinx-en-us-8khz-5.2/means
+asr/pocketsphinx/cmusphinx-en-us-8khz-5.2/mdef
+asr/pocketsphinx/cmusphinx-en-us-8khz-5.2/feature_transform
+asr/pocketsphinx/cmusphinx-en-us-8khz-5.2/feat.params
