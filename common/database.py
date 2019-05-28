@@ -86,13 +86,14 @@ class Database:
 
     @classmethod
     def edit_user(cls, id, **kwargs):
-        query = "UPDATE USER SET "
+        query = "UPDATE USER SET"
         parameters = []
         for field, value in kwargs.items():
-            if field not in cls.USER_FIELDS:
+            if field not in [ f.lower() for f in cls.USER_FIELDS ]:
                 raise TypeError("Table Column not found:" + field)
-            query += f"{field} = ?"
+            query += f" {field} = ?,"
             parameters.append(value)
+        query = query.rstrip(",")
         query += " WHERE ID=?"
         parameters.append(id)
         cls.DATABASE.execute(query, parameters)
