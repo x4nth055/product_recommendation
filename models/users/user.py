@@ -90,7 +90,10 @@ class User:
         }
 
     def get_recommended_products(self):
-        recommended_products = r.get_recommended_products(self.id).index
+        try:
+            recommended_products = r.get_recommended_products(self.id).index
+        except KeyError:
+            return []
         return [ get_product_by_id(id) for id in recommended_products ]
 
     def __str__(self):
