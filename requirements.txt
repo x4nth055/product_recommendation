@@ -1,7 +1,8 @@
 Flask==1.0.2
 passlib==1.7.1
-pocketsphinx
-keras==2.2.4
+sklearn
+librosa
+soundfile
 numpy
 scipy
 pandas
