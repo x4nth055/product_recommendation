@@ -11,7 +11,6 @@ from models.products.views import product_blueprint
 from models.ratings.views import rating_blueprint
 from models.ratings.rating import get_rating_by_both
 from models.products.product import get_all_products, get_product_tags, get_products_by_tag, get_products_by_search_query
-from emotion.text.test import get_emotions as get_emotion_by_text
 
 # Recommender System
 from recommender.core import r

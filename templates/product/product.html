@@ -99,19 +99,6 @@
     </div>
     <script src="{{url_for('static', filename='js/jquery-3.3.1.min.js')}}"></script>
     <script>
-        function isOnline(callback) {
-            $.ajax({
-                url: "https://httpbin.org/get",
-                type: "GET",
-            }).done(callback).fail(callback);
-        }
-        isOnline(function(data){
-            if(data.statusText == "error") {
-                console.log("offline");
-            } else {
-                console.log("online");
-            }
-        })
 
         // some functions 
         function capitalizeFirstLetter(string) {
@@ -122,16 +109,16 @@
             if(emotion == "neutral") {
                 classname = "text-secondary";
                 imageElement = "{{url_for('static', filename='img/emojis/neutral.png')}}";
-            } else if(emotion == "anger") {
+            } else if(emotion == "angry") {
                 classname = "text-danger";
                 imageElement = "{{url_for('static', filename='img/emojis/anger.png')}}";
-            } else if(emotion == "sadness") {
+            } else if(emotion == "sad") {
                 classname = "text-warning";
                 imageElement = "{{url_for('static', filename='img/emojis/sadness.png')}}";
-            } else if(emotion == "happiness") {
+            } else if(emotion == "happy") {
                 classname = "text-success";
                 imageElement = "{{url_for('static', filename='img/emojis/happiness.png')}}";
-            } else if(emotion == "surprise") {
+            } else if(emotion == "ps") {
                 classname = "text-primary";
                 imageElement = "{{url_for('static', filename='img/emojis/surprise.png')}}";
             }
@@ -149,24 +136,25 @@
         setEmotion("{{emotion}}");
         {% endif %}
 
-        isOnline(function(data) {
-            if(data.statusText != "error") {
-                // online
-                window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-
-                const recognition = new SpeechRecognition();
-                recognition.interimResults = false;
-                recognition.lang = "en-US";
-
-                recognition.addEventListener("result", function (e) {
-
-                    const transcript = e.results[0][0].transcript;
-                    const confidence = e.results[0][0].confidence;
+        navigator.mediaDevices.getUserMedia = navigator.mediaDevices.getUserMedia || navigator.mediaDevices.webkitGetUserMedia || navigator.mediaDevices.mozGetUserMedia || navigator.mediaDevices.msGetUserMedia;
+        navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+            // store streaming data chunks in array
+            const chunks = [];
+            // create media recorder instance to initialize recording
+            const recorder = new MediaRecorder(stream);
+            // function to be called when data is received
+            recorder.ondataavailable = e => {
+                // add stream data to chunks
+                chunks.push(e.data);
+                // if recorder is 'inactive' then recording has finished
+                if (recorder.state == 'inactive') {
+                    // convert stream data chunks to a 'webm' audio format as a blob
+                    const blob = new Blob(chunks, { type: 'audio/wav' });
+                    // send to server
                     var fd = new FormData();
-                    fd.append("transcription", transcript);
-                    fd.append("confidence", confidence);
+                    fd.append("fname", "audio.wav");
+                    fd.append("data", blob);
                     fd.append("product_id", "{{product.id}}")
-                    console.log(transcript + ": " + confidence);
                     $.ajax({
                         type: "POST",
                         url: "{{url_for('product.upload_review')}}",
@@ -186,60 +174,17 @@
                         // for emotion
                         setEmotion(emotion);
                     });
-                });
-                recognition.start();
+                }
+            };
+            // start recording with 0.1 second time between receiving 'ondataavailable' events
+            recorder.start(100);
 
-            } else {
-                // offline , use pocketsphinx
-                navigator.mediaDevices.getUserMedia = navigator.mediaDevices.getUserMedia || navigator.mediaDevices.webkitGetUserMedia || navigator.mediaDevices.mozGetUserMedia || navigator.mediaDevices.msGetUserMedia;
-                navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
-                    // store streaming data chunks in array
-                    const chunks = [];
-                    // create media recorder instance to initialize recording
-                    const recorder = new MediaRecorder(stream);
-                    // function to be called when data is received
-                    recorder.ondataavailable = e => {
-                        // add stream data to chunks
-                        chunks.push(e.data);
-                        // if recorder is 'inactive' then recording has finished
-                        if (recorder.state == 'inactive') {
-                            // convert stream data chunks to a 'webm' audio format as a blob
-                            const blob = new Blob(chunks, { type: 'audio/wav' });
-                            // send to server
-                            var fd = new FormData();
-                            fd.append("fname", "audio.wav");
-                            fd.append("data", blob);
-                            fd.append("product_id", "{{product.id}}")
-                            $.ajax({
-                                type: "POST",
-                                url: "{{url_for('product.upload_review')}}",
-                                data: fd,
-                                cache: false,
-                                processData: false,
-                                contentType: false
-                            }).done(function (data) {
-                                data = data.split("|");
-                                review_score = data[0];
-                                emotion = data[1];
-                                console.log("Review score: " + review_score);
-                                console.log("Emotion: " + emotion)
-                                // for review stars
-                                $("#product_review").css("width", (review_score/5)*100 + "%");
-                                $("#rating-text").text(parseFloat(review_score).toFixed(2) + " Stars");
-                                // for emotion
-                                setEmotion(emotion);
-                            });
-                        }
-                    };
-                    // start recording with 0.1 second time between receiving 'ondataavailable' events
-                    recorder.start(100);
+            // stop the recording after 6 seconds
+            setTimeout(function(){
+                recorder.stop();
+            }, 6000);
 
-                    setTimeout(function(){
-                        recorder.stop();
-                    }, 10000);
-
-                }).catch(console.error);
-            }
+        
         })
             
 
