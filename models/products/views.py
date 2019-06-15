@@ -53,7 +53,7 @@ def upload_review():
         # retrieve review stars from text
         review_stars = float(get_review_stars(audio_file))
         # retrieve emotion from text
-        emotion = get_emotion(audio_file)
+        emotion = get_emotion(audio_file, emotions=['neutral', 'happy'])
         # get the user id from the session ( logged in )
         user_id = session['user_id']
         # get the product id from the form

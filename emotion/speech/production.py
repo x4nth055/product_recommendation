@@ -5,6 +5,7 @@ from common.utils import extract_feature, audio_config
 regressor = pickle.load(open("emotion/speech/best_regressor.pickle", "rb"))
 hns_model = pickle.load(open("emotion/speech/best_model_HNS.pickle", "rb"))
 ahnps_model = pickle.load(open("emotion/speech/best_model_AHNPS.pickle", "rb"))
+hn_model = pickle.load(open("emotion/speech/best_model_HN.pickle", "rb"))
 
 def get_review_stars(audio_path):
     feature = extract_feature(audio_path, **audio_config).reshape(1, -1)
@@ -13,7 +14,9 @@ def get_review_stars(audio_path):
     return stars * 5 / 3
 
 def get_emotion(audio_path, emotions=['sad', 'neutral', 'happy']):
-    if len(emotions) == 3:
+    if len(emotions) == 2:
+        model = hn_model
+    elif len(emotions) == 3:
         model = hns_model
     elif len(emotions) == 5:
         model = ahnps_model
