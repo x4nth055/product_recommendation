@@ -5,3 +5,5 @@ DEBUG = True
 ADMINS = frozenset([
     "admin@mydomain.com"
 ])
+
+EMOTIONS = ["sad", "happy"]

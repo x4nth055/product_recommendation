@@ -9,7 +9,7 @@ from models.ratings.rating import Rating, get_rating_by_both
 from common.utils import redirect_previous_url, remove_starting_digits, get_sent_audio_file
 from recommender.core import r
 from emotion.speech.production import get_review_stars, get_emotion
-
+from config import EMOTIONS
 
 product_blueprint = Blueprint("product", __name__)
 
@@ -53,7 +53,7 @@ def upload_review():
         # retrieve review stars from text
         review_stars = float(get_review_stars(audio_file))
         # retrieve emotion from text
-        emotion = get_emotion(audio_file, emotions=['sad', 'neutral', 'happy'])
+        emotion = get_emotion(audio_file, emotions=EMOTIONS)
         # get the user id from the session ( logged in )
         user_id = session['user_id']
         # get the product id from the form

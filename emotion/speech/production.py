@@ -75,6 +75,7 @@ regressor = load_model("emotion/speech/HNS-r-LSTM-layers-2-2-units-128-128-dropo
 hns_model = pickle.load(open("emotion/speech/best_model_HNS.pickle", "rb"))
 ahnps_model = pickle.load(open("emotion/speech/best_model_AHNPS.pickle", "rb"))
 hn_model = pickle.load(open("emotion/speech/best_model_HN.pickle", "rb"))
+hs_model = pickle.load(open("emotion/speech/best_model_HS.pickle", "rb"))
 
 def get_review_stars(audio_path):
     feature = extract_feature(audio_path, **audio_config)
@@ -91,7 +92,10 @@ def get_review_stars(audio_path):
 
 def get_emotion(audio_path, emotions=['sad', 'neutral', 'happy']):
     if len(emotions) == 2:
-        model = hn_model
+        if 'sad' in emotions and 'happy' in emotions:
+            model = hs_model
+        else:
+            model = hn_model
     elif len(emotions) == 3:
         model = hns_model
     elif len(emotions) == 5:
