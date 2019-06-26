@@ -1,7 +1,6 @@
 import os
 import random
 from flask import Flask, session, render_template, request, redirect, url_for, send_from_directory
-from threading import Thread
 
 from common.utils import get_unique_id, convert_audio, redirect_previous_url, get_sent_audio_file, remove_starting_digits
 from common.database import Database
