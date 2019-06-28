@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, session
 from flask import redirect, url_for
 
-from models.users.user import User, get_user_by_email, new_user, is_user_admin, get_user_fields, get_all_users, delete_user, edit_user
+from models.users.user import User, get_user_by_email, new_user, is_user_admin, get_user_fields, get_all_users, delete_user, edit_user, get_user_by_id
 from models.users.user import get_user_ratings_joined_with_products, get_number_of_users
 from models.products.product import Product, get_all_products, get_product_fields, get_number_of_products
 from models.products.product import get_number_of_rated_products
@@ -64,9 +64,10 @@ def register():
 
 @user_blueprint.route("/profile")
 def profile():
-    user_id = session['user_id']
-    email = session['email']
-    user = get_user_by_email(email)
+    user_id = session.get("user_id")
+    if user_id is None:
+        return utils.redirect_previous_url()
+    user = get_user_by_id(user_id)
     fields, elements = get_user_ratings_joined_with_products(user_id)
     return render_template("user/profile.html",
                             user=user,
@@ -79,10 +80,12 @@ def profile():
 
 @user_blueprint.route("/logout")
 def logout():
-    del session['email']
-    del session['user_id']
-    del session['name']
-    return utils.redirect_previous_url()
+    if session.get("user_id"):
+        # logged in
+        del session['email']
+        del session['user_id']
+        del session['name']
+    return redirect(url_for('home'))
 
 @user_blueprint.route("/delete/<id>")
 @login_required

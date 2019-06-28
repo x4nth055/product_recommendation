@@ -1,7 +1,6 @@
 from flask import Blueprint
 from models.ratings.rating import delete_rating
 from common.utils import redirect_previous_url
-
 rating_blueprint = Blueprint("rating", __name__)
 
 

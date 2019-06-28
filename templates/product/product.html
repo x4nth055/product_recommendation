@@ -37,6 +37,10 @@
     display: none;
 }
 
+.img-responsive {
+    height: 500px;
+}
+
 {% for product, rating in zip(similar_products, similar_ratings) %}
 #{{remove_starting_digits(product.id)}} {
     {% if rating %}
@@ -53,7 +57,7 @@
 <div class="container">
 
     <div class="card mt-4">
-        <img class="card-img-top img-fluid" src="{{url_for('static', filename='img/products/{}'.format(img))}}" alt="">
+        <img class="card-img-top img-fluid img-responsive" src="{{url_for('static', filename='img/products/{}'.format(img))}}" alt="">
         <div class="card-body">
             <h3 class="card-title">{{product.name}}</h3>
             <h4>${{product.price}}</h4>

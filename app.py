@@ -58,6 +58,8 @@ def home():
 @app.route("/recommended")
 def recommended():
     user_id = session.get("user_id")
+    if user_id is None:
+        return redirect_previous_url()
     user = get_user_by_id(user_id)
     products = user.get_recommended_products()
     ratings = [ get_rating_by_both(user_id, p.id) for p in products ]

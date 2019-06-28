@@ -90,11 +90,12 @@ class User:
         }
 
     def get_recommended_products(self):
+        """Returns a list of products that are recommended for this user -- `self` --"""
         try:
-            recommended_products = r.get_recommended_products(self.id).index
+            recommended_products_id = r.get_recommended_products(self.id).index
         except KeyError:
             return []
-        return [ get_product_by_id(id) for id in recommended_products ]
+        return [ get_product_by_id(id) for id in recommended_products_id ]
 
     def __str__(self):
         return f"<User email={self.email} name={self.name} type={self.type}>"
