@@ -50,13 +50,13 @@
 
     <div class="row">
         <div class="col-lg-3">
-            <h1 class="my-4">
+            <h2 class="my-4">
                 {% if category %}
                 {{category.replace("_", " ").capitalize()}}
                 {% else %}
                 Categories
                 {% endif %}
-            </h1>
+            </h2>
             <div class="list-group" id="list-tab" role="tablist">
                 
                 {% for tag, count in tags.items() %}
@@ -128,7 +128,7 @@
                     {% else %}
                     <br>
                     <br>
-                    <h4>Not products available.</h4>
+                    <h4>No products available.</h4>
                     {% endfor %}
 
                 </div>
