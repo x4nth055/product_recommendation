@@ -34,7 +34,27 @@
             {% endif %}
         }
         {% endfor %}
+ <!--this code is by anis : modify , the size of the img_home container  -->
+.home_page1{
+width :100px;
+height :200px;
+background: red;
+}
+.home_page2{
+background : #;
+height: 90%;
+width: 270px;
 
+
+}
+.size_img{
+display : block ;
+width : 100%;
+height: 210px;
+}
+.card_size{
+height : 90%;
+}
     </style>
     <script>
         $(function(){
@@ -107,15 +127,16 @@
                 </div>
 
                 <div class="row">
+                    <!--lcool : gonna modify this code -->
                     {% for product in products %}
                     <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="card h-100">
-                            <a href="{{url_for('product.product', product_id=product.id)}}"><img class="card-img-top"
+                        <div class="card h-100 home_page2">
+                            <a href="{{url_for('product.product', product_id=product.id)}}"><img class="card-img-top size_img"
                                     src="{{url_for('static', filename='img/products/{}'.format(os.path.basename(product.image)))}}"
                                     alt=""></a>
-                            <div class="card-body">
+                            <div class="card-body card_size">
                                 <h4 class="card-title">
-                                    <a href="{{url_for('product.product', product_id=product.id)}}">{{product.name}}</a>
+                                    <a href="{{url_for('product.product', product_id=product.id)}}" style="color:#004caf">{{product.name}}</a>
                                 </h4>
                                 <h5>${{product.price}}</h5>
                                 <p class="card-text">{{product.description}}</p>
@@ -151,3 +172,4 @@
     </footer>
 
     {% endblock content %}
+    </div>
