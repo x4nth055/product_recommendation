@@ -9,6 +9,7 @@ from models.ratings.rating import Rating, get_rating_by_both
 from common.utils import redirect_previous_url, remove_starting_digits, get_sent_audio_file
 from recommender.core import r
 from emotion.speech.production import get_review_stars, get_emotion
+from emotion.sphinx.production import get_emotion as get_sphinx_emotion
 
 
 product_blueprint = Blueprint("product", __name__)
@@ -53,17 +54,20 @@ def upload_review():
         # retrieve review stars from text
         review_stars = float(get_review_stars(audio_file))
         # retrieve emotion from text
-        emotion = get_emotion(audio_file, emotions=['sad', 'neutral', 'happy'])
+        # emotion = get_emotion(audio_file, emotions=['sad', 'neutral', 'happy'])
+        emotion = get_sphinx_emotion(audio_file)
+        print("emotion:", len(emotion))
         # get the user id from the session ( logged in )
         user_id = session['user_id']
         # get the product id from the form
         product_id = request.form['product_id']
-        # add score to the corresponding product
-        add_score_to_product(user_id, product_id, review_stars)
-        # save the new review
-        Rating(user_id=user_id, product_id=product_id, review=review_stars, emotion=emotion).save()
-        # update recommender system matrices
-        r.update_matrices()
+        if emotion == "happy":
+                # add score to the corresponding product
+                add_score_to_product(user_id, product_id, review_stars)
+                # save the new review
+                Rating(user_id=user_id, product_id=product_id, review=review_stars, emotion=emotion).save()
+                # update recommender system matrices
+                r.update_matrices()
         return str(review_stars) + "|" + emotion
 
 

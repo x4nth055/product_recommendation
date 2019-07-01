@@ -1,0 +1,1756 @@
+#############################################################################
+## Copyright (c) 1996, Carnegie Mellon University, Cambridge University,
+## Ronald Rosenfeld and Philip Clarkson
+## Version 3, Copyright (c) 2006, Carnegie Mellon University 
+## Contributors includes Wen Xu, Ananlada Chotimongkol, 
+## David Huggins-Daines, Arthur Chan and Alan Black 
+#############################################################################
+=============================================================================
+===============  This file was produced by the CMU-Cambridge  ===============
+===============     Statistical Language Modeling Toolkit     ===============
+=============================================================================
+This is a 3-gram language model, based on a vocabulary of 241 words,
+  which begins "(Aya1)", "(Aya2)", "(Aya3)"...
+This is an OPEN-vocabulary model (type 1)
+  (OOVs were mapped to UNK, which is treated as any other vocabulary word)
+Good-Turing discounting was applied.
+1-gram frequency of frequency : 103 
+2-gram frequency of frequency : 206 266 0 0 0 0 0 
+3-gram frequency of frequency : 842 133 0 0 0 0 0 
+1-gram discounting ratios : 0.98 
+2-gram discounting ratios : 
+3-gram discounting ratios : 0.00 
+This file is in the ARPA-standard format introduced by Doug Paul.
+
+p(wd3|wd1,wd2)= if(trigram exists)           p_3(wd1,wd2,wd3)
+                else if(bigram w1,w2 exists) bo_wt_2(w1,w2)*p(wd3|wd2)
+                else                         p(wd3|w2)
+
+p(wd2|wd1)= if(bigram exists) p_2(wd1,wd2)
+            else              bo_wt_1(wd1)*p_1(wd2)
+
+All probs and back-off weights (bo_wt) are given in log10 form.
+
+Data formats:
+
+Beginning of data mark: \data\
+ngram 1=nr            # number of 1-grams
+ngram 2=nr            # number of 2-grams
+ngram 3=nr            # number of 3-grams
+
+\1-grams:
+p_1     wd_1 bo_wt_1
+\2-grams:
+p_2     wd_1 wd_2 bo_wt_2
+\3-grams:
+p_3     wd_1 wd_2 wd_3 
+
+end of data mark: \end\
+
+\data\
+ngram 1=242
+ngram 2=476
+ngram 3=977
+
+\1-grams:
+-3.1780 <UNK>	0.0000
+-2.8686 (Aya1)	-0.3520
+-2.8686 (Aya2)	-0.3520
+-3.1780 (Aya3)	-0.1759
+-2.8686 (Aya4)	-0.3520
+-2.8686 (Aya5)	-0.3520
+-2.8686 (Aya6)	-0.3520
+-2.8686 (Aya7)	-0.3520
+-2.8686 (Aya8)	-0.3520
+-3.1780 (Aya9)	-0.1759
+-3.1780 (AyaA)	-0.1759
+-2.8686 (AyaB)	-0.3520
+-2.8686 (AyaC)	-0.3520
+-2.8686 (adel1)	-0.3520
+-2.8686 (adel2)	-0.3520
+-2.8686 (adel3)	-0.3520
+-3.1780 (adel4)	-0.1759
+-2.8686 (adel5)	-0.3520
+-2.8686 (adel6)	-0.3520
+-2.8686 (adel7)	-0.3520
+-2.8686 (adel8)	-0.3520
+-2.8686 (adel9)	-0.3520
+-2.8686 (adelA)	-0.3520
+-2.8686 (adelB)	-0.3520
+-3.1780 (ahmed1)	-0.1759
+-3.1780 (ahmed2)	-0.1759
+-2.8686 (ahmed3)	-0.3520
+-3.1780 (ahmed4)	-0.1759
+-2.8686 (ahmed5)	-0.3520
+-2.8686 (ahmed6)	-0.3520
+-2.8686 (ahmed7)	-0.3520
+-2.8686 (ahmed8)	-0.3520
+-3.1780 (ahmed9)	-0.1759
+-2.8686 (ahmedA)	-0.3520
+-2.8686 (ahmedB)	-0.3520
+-2.8686 (ahmedC)	-0.3520
+-3.1780 (akram1)	-0.1759
+-3.1780 (akram2)	-0.1759
+-3.1780 (akram4)	-0.1759
+-3.1780 (akram5)	-0.1759
+-3.1780 (akram8)	-0.1759
+-3.1780 (akram9)	-0.1759
+-3.1780 (akramA)	-0.1759
+-3.1780 (akramB)	-0.1759
+-3.1780 (chamsou1)	-0.1759
+-3.1780 (chamsou2)	-0.1759
+-3.1780 (chamsou3)	-0.1759
+-3.1780 (chamsou5)	-0.1759
+-3.1780 (chamsou6)	-0.1759
+-3.1780 (chamsou7)	-0.1759
+-3.1780 (chamsou8)	-0.1759
+-3.1780 (chamsou9)	-0.1759
+-3.1780 (chamsouA)	-0.1759
+-3.1780 (chamsouB)	-0.1759
+-3.1780 (chamsouC)	-0.1759
+-3.1780 (chamsoulite1)	-0.1759
+-3.1780 (chamsoulite2)	-0.1759
+-3.1780 (chamsoulite3)	-0.1759
+-3.1780 (chamsoulite4)	-0.1759
+-3.1780 (chamsoulite5)	-0.1759
+-3.1780 (chamsoulite6)	-0.1759
+-3.1780 (chamsoulite7)	-0.1759
+-3.1780 (chamsoulite8)	-0.1759
+-3.1780 (chamsoulite9)	-0.1759
+-3.1780 (chamsouliteA)	-0.1759
+-3.1780 (chamsouliteB)	-0.1759
+-3.1780 (chamsouliteC)	-0.1759
+-3.1780 (hamed1)	-0.1759
+-2.8686 (hamed2)	-0.3520
+-2.8686 (hamed3)	-0.3520
+-2.8686 (hamed4)	-0.3520
+-2.8686 (hamed5)	-0.3520
+-2.8686 (hamed6)	-0.3520
+-2.8686 (hamed7)	-0.3520
+-3.1780 (hamed9)	-0.1759
+-3.1780 (hamedA)	-0.1759
+-3.1780 (hamedB)	-0.1759
+-3.1780 (hamedC)	-0.1759
+-2.8686 (khaoula1)	-0.3520
+-2.8686 (khaoula2)	-0.3520
+-2.8686 (khaoula3)	-0.3520
+-2.8686 (khaoula4)	-0.3520
+-3.1780 (khaoula5)	-0.1759
+-2.8686 (khaoula6)	-0.3520
+-3.1780 (khaoula7)	-0.1759
+-2.8686 (khaoula8)	-0.3520
+-3.1780 (khaoula9)	-0.1759
+-2.8686 (khaoulaA)	-0.3520
+-3.1780 (khaoulaB)	-0.1759
+-2.8686 (khaoulaC)	-0.3520
+-3.1780 (lcool1)	-0.1759
+-2.8686 (lcool2)	-0.3520
+-2.8686 (lcool3)	-0.3520
+-3.1780 (lcool5)	-0.1759
+-2.8686 (lcool6)	-0.3520
+-2.8686 (lcool7)	-0.3520
+-3.1780 (lcool8)	-0.1759
+-3.1780 (lcool9)	-0.1759
+-2.8686 (lcoolA)	-0.3520
+-2.8686 (lcoolB)	-0.3520
+-2.8686 (lcoolC)	-0.3520
+-3.1780 (mahedi1)	-0.1759
+-2.8686 (mahedi2)	-0.3520
+-2.8686 (mahedi3)	-0.3520
+-2.8686 (mahedi4)	-0.3520
+-3.1780 (mahedi5)	-0.1759
+-2.8686 (mahedi6)	-0.3520
+-2.8686 (mahedi7)	-0.3520
+-2.8686 (mahedi8)	-0.3520
+-2.8686 (mahedi9)	-0.3520
+-3.1780 (mahediA)	-0.1759
+-2.8686 (mahediB)	-0.3520
+-3.1780 (mahediC)	-0.1759
+-3.1780 (maroua1)	-0.1759
+-3.1780 (maroua2)	-0.1759
+-3.1780 (maroua4)	-0.1759
+-3.1780 (maroua6)	-0.1759
+-3.1780 (maroua7)	-0.1759
+-3.1780 (maroua9)	0.0000
+-3.1780 (marouaA)	-0.1759
+-3.1780 (marouaC)	-0.1759
+-3.1780 (nadjib1)	-0.1759
+-3.1780 (nadjib2)	-0.1759
+-3.1780 (nadjib3)	-0.1759
+-2.8686 (nadjib4)	-0.3520
+-2.8686 (nadjib5)	-0.3520
+-3.1780 (nadjib6)	-0.1759
+-2.8686 (nadjib7)	-0.3520
+-2.8686 (nadjib8)	-0.3520
+-3.1780 (nadjib9)	-0.1759
+-2.8686 (nadjibA)	-0.3520
+-2.8686 (nadjibB)	-0.3520
+-2.8686 (nadjibC)	-0.3520
+-2.8686 (nawel1)	-0.3520
+-2.8686 (nawel2)	-0.3520
+-2.8686 (nawel3)	-0.3520
+-2.8686 (nawel4)	-0.3520
+-2.8686 (nawel5)	-0.3520
+-2.8686 (nawel6)	-0.3520
+-2.8686 (nawel7)	-0.3520
+-3.1780 (nawel8)	-0.1759
+-2.8686 (nawel9)	-0.3520
+-2.8686 (nawelB)	-0.3520
+-2.8686 (nawelC)	-0.3520
+-2.8686 (oumaima1)	-0.3520
+-2.8686 (oumaima2)	-0.3520
+-2.8686 (oumaima3)	-0.3520
+-2.8686 (oumaima4)	-0.3520
+-2.8686 (oumaima5)	-0.3520
+-3.1780 (oumaima6)	-0.1759
+-3.1780 (oumaima7)	-0.1759
+-3.1780 (oumaima8)	-0.1759
+-2.8686 (oumaima9)	-0.3520
+-3.1780 (oumaimaA)	-0.1759
+-2.8686 (oumaimaB)	-0.3520
+-2.8686 (oumaimaC)	-0.3520
+-2.8686 (raouf1)	-0.3520
+-2.8686 (raouf2)	-0.3520
+-3.1780 (raouf3)	-0.1759
+-3.1780 (raouf4)	-0.1759
+-2.8686 (raouf5)	-0.3520
+-2.8686 (raouf6)	-0.3520
+-2.8686 (raouf7)	-0.3520
+-2.8686 (raouf8)	-0.3520
+-2.8686 (raouf9)	-0.3520
+-2.8686 (raoufA)	-0.3520
+-2.8686 (raoufB)	-0.3520
+-3.1780 (raoufC)	-0.1759
+-3.1780 (rockikz1)	-0.1759
+-2.8686 (rockikz2)	-0.3520
+-2.8686 (rockikz3)	-0.3520
+-2.8686 (rockikz4)	-0.3520
+-2.8686 (rockikz5)	-0.3520
+-2.8686 (rockikz6)	-0.3520
+-2.8686 (rockikz7)	-0.3520
+-3.1780 (rockikz8)	-0.1759
+-2.8686 (rockikz9)	-0.3520
+-3.1780 (rockikzA)	-0.1759
+-2.8686 (rockikzB)	-0.3520
+-3.1780 (rockikzC)	-0.1759
+-3.1780 (samir1)	-0.1759
+-2.8686 (samir2)	-0.3520
+-2.8686 (samir3)	-0.3520
+-3.1780 (samir4)	-0.1759
+-2.8686 (samir5)	-0.3520
+-2.8686 (samir6)	-0.3520
+-3.1780 (samir7)	-0.1759
+-2.8686 (samir8)	-0.3520
+-3.1780 (samir9)	-0.1759
+-2.8686 (samirA)	-0.3520
+-2.8686 (samirB)	-0.3520
+-2.8686 (samirC)	-0.3520
+-2.8686 (soumaya1)	-0.3520
+-2.8686 (soumaya2)	-0.3520
+-2.8686 (soumaya3)	-0.3520
+-2.8686 (soumaya4)	-0.3520
+-2.8686 (soumaya5)	-0.3520
+-3.1780 (soumaya6)	-0.1759
+-2.8686 (soumaya7)	-0.3520
+-2.8686 (soumaya8)	-0.3520
+-3.1780 (soumaya9)	-0.1759
+-3.1780 (soumayaA)	-0.1759
+-2.8686 (soumayaB)	-0.3520
+-3.1780 (soumayaC)	-0.1759
+-3.1780 (walidlite2)	-0.1759
+-3.1780 (walidlite3)	-0.1759
+-3.1780 (walidlite4)	-0.1759
+-3.1780 (walidlite5)	-0.1759
+-3.1780 (walidlite7)	-0.1759
+-3.1780 (walidlite8)	-0.1759
+-3.1780 (walidlite9)	-0.1759
+-3.1780 (walidliteA)	-0.1759
+-3.1780 (walidliteB)	-0.1759
+-3.1780 (walidliteC)	-0.1759
+-3.1780 (yousra1)	-0.1759
+-2.8686 (yousra2)	-0.3520
+-2.8686 (yousra3)	-0.3520
+-2.8686 (yousra4)	-0.3520
+-2.8686 (yousra5)	-0.3520
+-3.1780 (yousra6)	-0.1759
+-2.8686 (yousra7)	-0.3520
+-2.8686 (yousra8)	-0.3520
+-2.8686 (yousra9)	-0.3520
+-2.8686 (yousraA)	-0.3520
+-2.8686 (yousraB)	-0.3520
+-2.8686 (yousraC)	-0.3520
+-2.8686 (zaki1)	-0.3520
+-2.8686 (zaki2)	-0.3520
+-2.8686 (zaki3)	-0.3520
+-2.8686 (zaki4)	-0.3520
+-2.8686 (zaki5)	-0.3520
+-3.1780 (zaki6)	-0.1759
+-2.8686 (zaki7)	-0.3520
+-2.8686 (zaki8)	-0.3520
+-2.8686 (zaki9)	-0.3520
+-3.1780 (zakiA)	-0.1759
+-2.8686 (zakiB)	-0.3520
+-3.1780 (zakiC)	-0.1759
+-0.6026 </s>	-2.5776
+-0.6015 <s>	-2.4466
+-0.9193 happy	-2.1281
+-0.8864 neutral	-2.1608
+
+\2-grams:
+-0.1761 (Aya1) <s> 2.5717
+-0.1761 (Aya2) <s> 2.5717
+-0.3010 (Aya3) <s> 0.3164
+-0.1761 (Aya4) <s> 2.5717
+-0.1761 (Aya5) <s> 2.5717
+-0.1761 (Aya6) <s> 2.5717
+-0.1761 (Aya7) <s> 2.5717
+-0.1761 (Aya8) <s> 2.5717
+-0.3010 (Aya9) <s> 0.3164
+-0.3010 (AyaA) <s> 0.3164
+-0.1761 (AyaB) <s> 2.5717
+-0.1761 (AyaC) <s> 2.5717
+-0.1761 (adel1) <s> 2.5717
+-0.1761 (adel2) <s> 2.5717
+-0.1761 (adel3) <s> 2.5717
+-0.3010 (adel4) <s> 0.2839
+-0.1761 (adel5) <s> 2.5717
+-0.1761 (adel6) <s> 2.5717
+-0.1761 (adel7) <s> 2.5717
+-0.1761 (adel8) <s> 2.5717
+-0.1761 (adel9) <s> 2.5717
+-0.1761 (adelA) <s> 2.5717
+-0.1761 (adelB) <s> 2.5717
+-0.3010 (ahmed1) <s> 0.2839
+-0.3010 (ahmed2) <s> 0.2839
+-0.1761 (ahmed3) <s> 2.5717
+-0.3010 (ahmed4) <s> 0.2839
+-0.1761 (ahmed5) <s> 2.5717
+-0.1761 (ahmed6) <s> 2.5717
+-0.1761 (ahmed7) <s> 2.5717
+-0.1761 (ahmed8) <s> 2.5717
+-0.3010 (ahmed9) <s> 0.3164
+-0.1761 (ahmedA) <s> 2.5717
+-0.1761 (ahmedB) <s> 2.5717
+-0.1761 (ahmedC) <s> 2.5717
+-0.3010 (akram1) <s> 0.3164
+-0.3010 (akram2) <s> 0.3164
+-0.3010 (akram4) <s> 0.3164
+-0.3010 (akram5) <s> 0.3164
+-0.3010 (akram8) <s> 0.3164
+-0.3010 (akram9) <s> 0.3164
+-0.3010 (akramA) <s> 0.3164
+-0.3010 (akramB) <s> 0.3164
+-0.3010 (chamsou1) <s> 0.2839
+-0.3010 (chamsou2) <s> 0.2839
+-0.3010 (chamsou3) <s> 0.2839
+-0.3010 (chamsou5) <s> 0.2839
+-0.3010 (chamsou6) <s> 0.2839
+-0.3010 (chamsou7) <s> 0.2839
+-0.3010 (chamsou8) <s> 0.2839
+-0.3010 (chamsou9) <s> 0.2839
+-0.3010 (chamsouA) <s> 0.2839
+-0.3010 (chamsouB) <s> 0.2839
+-0.3010 (chamsouC) <s> 0.2839
+-0.3010 (chamsoulite1) <s> 0.3164
+-0.3010 (chamsoulite2) <s> 0.3164
+-0.3010 (chamsoulite3) <s> 0.3164
+-0.3010 (chamsoulite4) <s> 0.3164
+-0.3010 (chamsoulite5) <s> 0.3164
+-0.3010 (chamsoulite6) <s> 0.3164
+-0.3010 (chamsoulite7) <s> 0.3164
+-0.3010 (chamsoulite8) <s> 0.3164
+-0.3010 (chamsoulite9) <s> 0.3164
+-0.3010 (chamsouliteA) <s> 0.3164
+-0.3010 (chamsouliteB) <s> 0.3164
+-0.3010 (chamsouliteC) <s> 0.3164
+-0.3010 (hamed1) <s> 0.2839
+-0.1761 (hamed2) <s> 2.5717
+-0.1761 (hamed3) <s> 2.5717
+-0.1761 (hamed4) <s> 2.5717
+-0.1761 (hamed5) <s> 2.5717
+-0.1761 (hamed6) <s> 2.5717
+-0.1761 (hamed7) <s> 2.5717
+-0.3010 (hamed9) <s> 0.3164
+-0.3010 (hamedA) <s> 0.2839
+-0.3010 (hamedB) <s> 0.3164
+-0.3010 (hamedC) <s> 0.3164
+-0.1761 (khaoula1) <s> 2.5717
+-0.1761 (khaoula2) <s> 2.5717
+-0.1761 (khaoula3) <s> 2.5717
+-0.1761 (khaoula4) <s> 2.5717
+-0.3010 (khaoula5) <s> 0.3164
+-0.1761 (khaoula6) <s> 2.5717
+-0.3010 (khaoula7) <s> 0.3164
+-0.1761 (khaoula8) <s> 2.5717
+-0.3010 (khaoula9) <s> 0.3164
+-0.1761 (khaoulaA) <s> 2.5717
+-0.3010 (khaoulaB) <s> 0.2839
+-0.1761 (khaoulaC) <s> 2.5717
+-0.3010 (lcool1) <s> 0.2839
+-0.1761 (lcool2) <s> 2.5717
+-0.1761 (lcool3) <s> 2.5717
+-0.3010 (lcool5) <s> 0.2839
+-0.1761 (lcool6) <s> 2.5717
+-0.1761 (lcool7) <s> 2.5717
+-0.3010 (lcool8) <s> 0.2839
+-0.3010 (lcool9) <s> 0.2839
+-0.1761 (lcoolA) <s> 2.5717
+-0.1761 (lcoolB) <s> 2.5717
+-0.1761 (lcoolC) <s> 2.5717
+-0.3010 (mahedi1) <s> 0.3164
+-0.1761 (mahedi2) <s> 2.5717
+-0.1761 (mahedi3) <s> 2.5717
+-0.1761 (mahedi4) <s> 2.5717
+-0.3010 (mahedi5) <s> 0.3164
+-0.1761 (mahedi6) <s> 2.5717
+-0.1761 (mahedi7) <s> 2.5717
+-0.1761 (mahedi8) <s> 2.5717
+-0.1761 (mahedi9) <s> 2.5717
+-0.3010 (mahediA) <s> 0.3164
+-0.1761 (mahediB) <s> 2.5717
+-0.3010 (mahediC) <s> 0.3164
+-0.3010 (maroua1) <s> 0.2839
+-0.3010 (maroua2) <s> 0.2839
+-0.3010 (maroua4) <s> 0.2839
+-0.3010 (maroua6) <s> 0.2839
+-0.3010 (maroua7) <s> 0.2839
+-0.3010 (marouaA) <s> 0.2839
+-0.3010 (marouaC) <s> 0.2839
+-0.3010 (nadjib1) <s> 0.3164
+-0.3010 (nadjib2) <s> 0.2839
+-0.3010 (nadjib3) <s> 0.3164
+-0.1761 (nadjib4) <s> 2.5717
+-0.1761 (nadjib5) <s> 2.5717
+-0.3010 (nadjib6) <s> 0.2839
+-0.1761 (nadjib7) <s> 2.5717
+-0.1761 (nadjib8) <s> 2.5717
+-0.3010 (nadjib9) <s> 0.2839
+-0.1761 (nadjibA) <s> 2.5717
+-0.1761 (nadjibB) <s> 2.5717
+-0.1761 (nadjibC) <s> 2.5717
+-0.1761 (nawel1) <s> 2.5717
+-0.1761 (nawel2) <s> 2.5717
+-0.1761 (nawel3) <s> 2.5717
+-0.1761 (nawel4) <s> 2.5717
+-0.1761 (nawel5) <s> 2.5717
+-0.1761 (nawel6) <s> 2.5717
+-0.1761 (nawel7) <s> 2.5717
+-0.3010 (nawel8) <s> 0.3164
+-0.1761 (nawel9) <s> 2.5717
+-0.1761 (nawelB) <s> 2.5717
+-0.1761 (nawelC) <s> 2.5717
+-0.1761 (oumaima1) <s> 2.5717
+-0.1761 (oumaima2) <s> 2.5717
+-0.1761 (oumaima3) <s> 2.5717
+-0.1761 (oumaima4) <s> 2.5717
+-0.1761 (oumaima5) <s> 2.5717
+-0.3010 (oumaima6) <s> 0.2839
+-0.3010 (oumaima7) <s> 0.3164
+-0.3010 (oumaima8) <s> 0.3164
+-0.1761 (oumaima9) <s> 2.5717
+-0.3010 (oumaimaA) <s> 0.2839
+-0.1761 (oumaimaB) <s> 2.5717
+-0.1761 (oumaimaC) <s> 2.5717
+-0.1761 (raouf1) <s> 2.5717
+-0.1761 (raouf2) <s> 2.5717
+-0.3010 (raouf3) <s> 0.3164
+-0.3010 (raouf4) <s> 0.3164
+-0.1761 (raouf5) <s> 2.5717
+-0.1761 (raouf6) <s> 2.5717
+-0.1761 (raouf7) <s> 2.5717
+-0.1761 (raouf8) <s> 2.5717
+-0.1761 (raouf9) <s> 2.5717
+-0.1761 (raoufA) <s> 2.5717
+-0.1761 (raoufB) <s> 2.5717
+-0.3010 (raoufC) <s> 0.2839
+-0.3010 (rockikz1) <s> 0.3164
+-0.1761 (rockikz2) <s> 2.5717
+-0.1761 (rockikz3) <s> 2.5717
+-0.1761 (rockikz4) <s> 2.5717
+-0.1761 (rockikz5) <s> 2.5717
+-0.1761 (rockikz6) <s> 2.5717
+-0.1761 (rockikz7) <s> 2.5717
+-0.3010 (rockikz8) <s> 0.2839
+-0.1761 (rockikz9) <s> 2.5717
+-0.3010 (rockikzA) <s> 0.3164
+-0.1761 (rockikzB) <s> 2.5717
+-0.3010 (rockikzC) <s> 0.2839
+-0.3010 (samir1) <s> 0.2839
+-0.1761 (samir2) <s> 2.5717
+-0.1761 (samir3) <s> 2.5717
+-0.3010 (samir4) <s> 0.3164
+-0.1761 (samir5) <s> 2.5717
+-0.1761 (samir6) <s> 2.5717
+-0.3010 (samir7) <s> 0.3164
+-0.1761 (samir8) <s> 2.5717
+-0.3010 (samir9) <s> 0.2839
+-0.1761 (samirA) <s> 2.5717
+-0.1761 (samirB) <s> 2.5717
+-0.1761 (samirC) <s> 2.5717
+-0.1761 (soumaya1) <s> 2.5717
+-0.1761 (soumaya2) <s> 2.5717
+-0.1761 (soumaya3) <s> 2.5717
+-0.1761 (soumaya4) <s> 2.5717
+-0.1761 (soumaya5) <s> 2.5717
+-0.3010 (soumaya6) <s> 0.3164
+-0.1761 (soumaya7) <s> 2.5717
+-0.1761 (soumaya8) <s> 2.5717
+-0.3010 (soumaya9) <s> 0.2839
+-0.3010 (soumayaA) <s> 0.2839
+-0.1761 (soumayaB) <s> 2.5717
+-0.3010 (soumayaC) <s> 0.2839
+-0.3010 (walidlite2) <s> 0.3164
+-0.3010 (walidlite3) <s> 0.3164
+-0.3010 (walidlite4) <s> 0.3164
+-0.3010 (walidlite5) <s> 0.3164
+-0.3010 (walidlite7) <s> 0.3164
+-0.3010 (walidlite8) <s> 0.3164
+-0.3010 (walidlite9) <s> 0.3164
+-0.3010 (walidliteA) <s> 0.3164
+-0.3010 (walidliteB) <s> 0.3164
+-0.3010 (walidliteC) <s> 0.3164
+-0.3010 (yousra1) <s> 0.2839
+-0.1761 (yousra2) <s> 2.5717
+-0.1761 (yousra3) <s> 2.5717
+-0.1761 (yousra4) <s> 2.5717
+-0.1761 (yousra5) <s> 2.5717
+-0.3010 (yousra6) <s> 0.2839
+-0.1761 (yousra7) <s> 2.5717
+-0.1761 (yousra8) <s> 2.5717
+-0.1761 (yousra9) <s> 2.5717
+-0.1761 (yousraA) <s> 2.5717
+-0.1761 (yousraB) <s> 2.5717
+-0.1761 (yousraC) <s> 2.5717
+-0.1761 (zaki1) <s> 2.5717
+-0.1761 (zaki2) <s> 2.5717
+-0.1761 (zaki3) <s> 2.5717
+-0.1761 (zaki4) <s> 2.5717
+-0.1761 (zaki5) <s> 2.5717
+-0.3010 (zaki6) <s> 0.3164
+-0.1761 (zaki7) <s> 2.5717
+-0.1761 (zaki8) <s> 2.5717
+-0.1761 (zaki9) <s> 2.5717
+-0.3010 (zakiA) <s> 0.3164
+-0.1761 (zakiB) <s> 2.5717
+-0.3010 (zakiC) <s> 0.2839
+-2.2244 </s> (Aya1) 0.0000
+-2.2244 </s> (Aya2) 0.0000
+-2.7016 </s> (Aya3) 0.3010
+-2.2244 </s> (Aya4) 0.0000
+-2.2244 </s> (Aya5) 0.0000
+-2.2244 </s> (Aya6) 0.0000
+-2.2244 </s> (Aya7) 0.0000
+-2.2244 </s> (Aya8) 0.0000
+-2.7016 </s> (Aya9) 0.3010
+-2.7016 </s> (AyaA) 0.3010
+-2.2244 </s> (AyaB) 0.0000
+-2.2244 </s> (AyaC) 0.0000
+-2.2244 </s> (adel1) 0.0000
+-2.2244 </s> (adel2) 0.0000
+-2.2244 </s> (adel3) 0.0000
+-2.7016 </s> (adel4) 0.3010
+-2.2244 </s> (adel5) 0.0000
+-2.2244 </s> (adel6) 0.0000
+-2.2244 </s> (adel7) 0.0000
+-2.2244 </s> (adel8) 0.0000
+-2.2244 </s> (adel9) 0.0000
+-2.2244 </s> (adelA) 0.0000
+-2.2244 </s> (adelB) 0.0000
+-2.7016 </s> (ahmed1) 0.3010
+-2.7016 </s> (ahmed2) 0.3010
+-2.2244 </s> (ahmed3) 0.0000
+-2.7016 </s> (ahmed4) 0.3010
+-2.2244 </s> (ahmed5) 0.0000
+-2.2244 </s> (ahmed6) 0.0000
+-2.2244 </s> (ahmed7) 0.0000
+-2.2244 </s> (ahmed8) 0.0000
+-2.7016 </s> (ahmed9) 0.3010
+-2.2244 </s> (ahmedA) 0.0000
+-2.2244 </s> (ahmedB) 0.0000
+-2.2244 </s> (ahmedC) 0.0000
+-2.7016 </s> (akram1) 0.3010
+-2.7016 </s> (akram2) 0.3010
+-2.7016 </s> (akram4) 0.3010
+-2.7016 </s> (akram5) 0.3010
+-2.7016 </s> (akram8) 0.3010
+-2.7016 </s> (akram9) 0.3010
+-2.7016 </s> (akramA) 0.3010
+-2.7016 </s> (akramB) 0.3010
+-2.7016 </s> (chamsou1) 0.3010
+-2.7016 </s> (chamsou2) 0.3010
+-2.7016 </s> (chamsou3) 0.3010
+-2.7016 </s> (chamsou5) 0.3010
+-2.7016 </s> (chamsou6) 0.3010
+-2.7016 </s> (chamsou7) 0.3010
+-2.7016 </s> (chamsou8) 0.3010
+-2.7016 </s> (chamsou9) 0.3010
+-2.7016 </s> (chamsouA) 0.3010
+-2.7016 </s> (chamsouB) 0.3010
+-2.7016 </s> (chamsouC) 0.3010
+-2.7016 </s> (chamsoulite1) 0.3010
+-2.7016 </s> (chamsoulite2) 0.3010
+-2.7016 </s> (chamsoulite3) 0.3010
+-2.7016 </s> (chamsoulite4) 0.3010
+-2.7016 </s> (chamsoulite5) 0.3010
+-2.7016 </s> (chamsoulite6) 0.3010
+-2.7016 </s> (chamsoulite7) 0.3010
+-2.7016 </s> (chamsoulite8) 0.3010
+-2.7016 </s> (chamsoulite9) 0.3010
+-2.7016 </s> (chamsouliteA) 0.3010
+-2.7016 </s> (chamsouliteB) 0.3010
+-2.7016 </s> (chamsouliteC) 0.3010
+-2.7016 </s> (hamed1) 0.3010
+-2.2244 </s> (hamed2) 0.0000
+-2.2244 </s> (hamed3) 0.0000
+-2.2244 </s> (hamed4) 0.0000
+-2.2244 </s> (hamed5) 0.0000
+-2.2244 </s> (hamed6) 0.0000
+-2.2244 </s> (hamed7) 0.0000
+-2.7016 </s> (hamed9) 0.3010
+-2.7016 </s> (hamedA) 0.3010
+-2.7016 </s> (hamedB) 0.3010
+-2.7016 </s> (hamedC) 0.3010
+-2.2244 </s> (khaoula1) 0.0000
+-2.2244 </s> (khaoula2) 0.0000
+-2.2244 </s> (khaoula3) 0.0000
+-2.2244 </s> (khaoula4) 0.0000
+-2.7016 </s> (khaoula5) 0.3010
+-2.2244 </s> (khaoula6) 0.0000
+-2.7016 </s> (khaoula7) 0.3010
+-2.2244 </s> (khaoula8) 0.0000
+-2.7016 </s> (khaoula9) 0.3010
+-2.2244 </s> (khaoulaA) 0.0000
+-2.7016 </s> (khaoulaB) 0.3010
+-2.2244 </s> (khaoulaC) 0.0000
+-2.7016 </s> (lcool1) 0.3010
+-2.2244 </s> (lcool2) 0.0000
+-2.2244 </s> (lcool3) 0.0000
+-2.7016 </s> (lcool5) 0.3010
+-2.2244 </s> (lcool6) 0.0000
+-2.2244 </s> (lcool7) 0.0000
+-2.7016 </s> (lcool8) 0.3010
+-2.7016 </s> (lcool9) 0.3010
+-2.2244 </s> (lcoolA) 0.0000
+-2.2244 </s> (lcoolB) 0.0000
+-2.2244 </s> (lcoolC) 0.0000
+-2.7016 </s> (mahedi1) 0.3010
+-2.2244 </s> (mahedi2) 0.0000
+-2.2244 </s> (mahedi3) 0.0000
+-2.2244 </s> (mahedi4) 0.0000
+-2.7016 </s> (mahedi5) 0.3010
+-2.2244 </s> (mahedi6) 0.0000
+-2.2244 </s> (mahedi7) 0.0000
+-2.2244 </s> (mahedi8) 0.0000
+-2.2244 </s> (mahedi9) 0.0000
+-2.7016 </s> (mahediA) 0.3010
+-2.2244 </s> (mahediB) 0.0000
+-2.7016 </s> (mahediC) 0.3010
+-2.7016 </s> (maroua1) 0.3010
+-2.7016 </s> (maroua2) 0.3010
+-2.7016 </s> (maroua4) 0.3010
+-2.7016 </s> (maroua6) 0.3010
+-2.7016 </s> (maroua7) 0.3010
+-2.7016 </s> (marouaA) 0.3010
+-2.7016 </s> (marouaC) 0.3010
+-2.7016 </s> (nadjib1) 0.3010
+-2.7016 </s> (nadjib2) 0.3010
+-2.7016 </s> (nadjib3) 0.3010
+-2.2244 </s> (nadjib4) 0.0000
+-2.2244 </s> (nadjib5) 0.0000
+-2.7016 </s> (nadjib6) 0.3010
+-2.2244 </s> (nadjib7) 0.0000
+-2.2244 </s> (nadjib8) 0.0000
+-2.7016 </s> (nadjib9) 0.3010
+-2.2244 </s> (nadjibA) 0.0000
+-2.2244 </s> (nadjibB) 0.0000
+-2.2244 </s> (nadjibC) 0.0000
+-2.2244 </s> (nawel1) 0.0000
+-2.2244 </s> (nawel2) 0.0000
+-2.2244 </s> (nawel3) 0.0000
+-2.2244 </s> (nawel4) 0.0000
+-2.2244 </s> (nawel5) 0.0000
+-2.2244 </s> (nawel6) 0.0000
+-2.2244 </s> (nawel7) 0.0000
+-2.7016 </s> (nawel8) 0.3010
+-2.2244 </s> (nawel9) 0.0000
+-2.2244 </s> (nawelB) 0.0000
+-2.2244 </s> (nawelC) 0.0000
+-2.2244 </s> (oumaima1) 0.0000
+-2.2244 </s> (oumaima2) 0.0000
+-2.2244 </s> (oumaima3) 0.0000
+-2.2244 </s> (oumaima4) 0.0000
+-2.2244 </s> (oumaima5) 0.0000
+-2.7016 </s> (oumaima6) 0.3010
+-2.7016 </s> (oumaima7) 0.3010
+-2.7016 </s> (oumaima8) 0.3010
+-2.2244 </s> (oumaima9) 0.0000
+-2.7016 </s> (oumaimaA) 0.3010
+-2.2244 </s> (oumaimaB) 0.0000
+-2.2244 </s> (oumaimaC) 0.0000
+-2.2244 </s> (raouf1) 0.0000
+-2.2244 </s> (raouf2) 0.0000
+-2.7016 </s> (raouf3) 0.3010
+-2.7016 </s> (raouf4) 0.3010
+-2.2244 </s> (raouf5) 0.0000
+-2.2244 </s> (raouf6) 0.0000
+-2.2244 </s> (raouf7) 0.0000
+-2.2244 </s> (raouf8) 0.0000
+-2.2244 </s> (raouf9) 0.0000
+-2.2244 </s> (raoufA) 0.0000
+-2.2244 </s> (raoufB) 0.0000
+-2.7016 </s> (raoufC) 0.3010
+-2.7016 </s> (rockikz1) 0.3010
+-2.2244 </s> (rockikz2) 0.0000
+-2.2244 </s> (rockikz3) 0.0000
+-2.2244 </s> (rockikz4) 0.0000
+-2.2244 </s> (rockikz5) 0.0000
+-2.2244 </s> (rockikz6) 0.0000
+-2.2244 </s> (rockikz7) 0.0000
+-2.7016 </s> (rockikz8) 0.3010
+-2.2244 </s> (rockikz9) 0.0000
+-2.7016 </s> (rockikzA) 0.3010
+-2.2244 </s> (rockikzB) 0.0000
+-2.7016 </s> (rockikzC) 0.3010
+-2.7016 </s> (samir1) 0.3010
+-2.2244 </s> (samir2) 0.0000
+-2.2244 </s> (samir3) 0.0000
+-2.7016 </s> (samir4) 0.3010
+-2.2244 </s> (samir5) 0.0000
+-2.2244 </s> (samir6) 0.0000
+-2.7016 </s> (samir7) 0.3010
+-2.2244 </s> (samir8) 0.0000
+-2.7016 </s> (samir9) 0.3010
+-2.2244 </s> (samirA) 0.0000
+-2.2244 </s> (samirB) 0.0000
+-2.2244 </s> (samirC) 0.0000
+-2.2244 </s> (soumaya1) 0.0000
+-2.2244 </s> (soumaya2) 0.0000
+-2.2244 </s> (soumaya3) 0.0000
+-2.2244 </s> (soumaya4) 0.0000
+-2.2244 </s> (soumaya5) 0.0000
+-2.7016 </s> (soumaya6) 0.3010
+-2.2244 </s> (soumaya7) 0.0000
+-2.2244 </s> (soumaya8) 0.0000
+-2.7016 </s> (soumaya9) 0.3010
+-2.7016 </s> (soumayaA) 0.3010
+-2.2244 </s> (soumayaB) 0.0000
+-2.7016 </s> (soumayaC) 0.3010
+-2.7016 </s> (walidlite2) 0.3010
+-2.7016 </s> (walidlite3) 0.3010
+-2.7016 </s> (walidlite4) 0.3010
+-2.7016 </s> (walidlite5) 0.3010
+-2.7016 </s> (walidlite7) 0.3010
+-2.7016 </s> (walidlite8) 0.3010
+-2.7016 </s> (walidlite9) 0.3010
+-2.7016 </s> (walidliteA) 0.3010
+-2.7016 </s> (walidliteB) 0.3010
+-2.7016 </s> (walidliteC) 0.3010
+-2.7016 </s> (yousra1) 0.3010
+-2.2244 </s> (yousra2) 0.0000
+-2.2244 </s> (yousra3) 0.0000
+-2.2244 </s> (yousra4) 0.0000
+-2.2244 </s> (yousra5) 0.0000
+-2.7016 </s> (yousra6) 0.3010
+-2.2244 </s> (yousra7) 0.0000
+-2.2244 </s> (yousra8) 0.0000
+-2.2244 </s> (yousra9) 0.0000
+-2.2244 </s> (yousraA) 0.0000
+-2.2244 </s> (yousraB) 0.0000
+-2.2244 </s> (yousraC) 0.0000
+-2.2244 </s> (zaki1) 0.0000
+-2.2244 </s> (zaki2) 0.0000
+-2.2244 </s> (zaki3) 0.0000
+-2.2244 </s> (zaki4) 0.0000
+-2.2244 </s> (zaki5) 0.0000
+-2.7016 </s> (zaki6) 0.3010
+-2.2244 </s> (zaki7) 0.0000
+-2.2244 </s> (zaki8) 0.0000
+-2.2244 </s> (zaki9) 0.0000
+-2.7016 </s> (zakiA) 0.3010
+-2.2244 </s> (zakiB) 0.0000
+-2.7016 </s> (zakiC) 0.3010
+-0.3189 <s> happy 0.0000
+-0.2862 <s> neutral 0.0000
+-0.0024 happy </s> 0.9234
+-0.0023 neutral </s> 1.0484
+
+\3-grams:
+-99.9990 (Aya1) <s> happy 
+-99.9990 (Aya1) <s> neutral 
+-99.9990 (Aya2) <s> happy 
+-99.9990 (Aya2) <s> neutral 
+-99.9990 (Aya3) <s> neutral 
+-99.9990 (Aya4) <s> happy 
+-99.9990 (Aya4) <s> neutral 
+-99.9990 (Aya5) <s> happy 
+-99.9990 (Aya5) <s> neutral 
+-99.9990 (Aya6) <s> happy 
+-99.9990 (Aya6) <s> neutral 
+-99.9990 (Aya7) <s> happy 
+-99.9990 (Aya7) <s> neutral 
+-99.9990 (Aya8) <s> happy 
+-99.9990 (Aya8) <s> neutral 
+-99.9990 (Aya9) <s> neutral 
+-99.9990 (AyaA) <s> neutral 
+-99.9990 (AyaB) <s> happy 
+-99.9990 (AyaB) <s> neutral 
+-99.9990 (AyaC) <s> happy 
+-99.9990 (AyaC) <s> neutral 
+-99.9990 (adel1) <s> happy 
+-99.9990 (adel1) <s> neutral 
+-99.9990 (adel2) <s> happy 
+-99.9990 (adel2) <s> neutral 
+-99.9990 (adel3) <s> happy 
+-99.9990 (adel3) <s> neutral 
+-99.9990 (adel4) <s> happy 
+-99.9990 (adel5) <s> happy 
+-99.9990 (adel5) <s> neutral 
+-99.9990 (adel6) <s> happy 
+-99.9990 (adel6) <s> neutral 
+-99.9990 (adel7) <s> happy 
+-99.9990 (adel7) <s> neutral 
+-99.9990 (adel8) <s> happy 
+-99.9990 (adel8) <s> neutral 
+-99.9990 (adel9) <s> happy 
+-99.9990 (adel9) <s> neutral 
+-99.9990 (adelA) <s> happy 
+-99.9990 (adelA) <s> neutral 
+-99.9990 (adelB) <s> happy 
+-99.9990 (adelB) <s> neutral 
+-99.9990 (ahmed1) <s> happy 
+-99.9990 (ahmed2) <s> happy 
+-99.9990 (ahmed3) <s> happy 
+-99.9990 (ahmed3) <s> neutral 
+-99.9990 (ahmed4) <s> happy 
+-99.9990 (ahmed5) <s> happy 
+-99.9990 (ahmed5) <s> neutral 
+-99.9990 (ahmed6) <s> happy 
+-99.9990 (ahmed6) <s> neutral 
+-99.9990 (ahmed7) <s> happy 
+-99.9990 (ahmed7) <s> neutral 
+-99.9990 (ahmed8) <s> happy 
+-99.9990 (ahmed8) <s> neutral 
+-99.9990 (ahmed9) <s> neutral 
+-99.9990 (ahmedA) <s> happy 
+-99.9990 (ahmedA) <s> neutral 
+-99.9990 (ahmedB) <s> happy 
+-99.9990 (ahmedB) <s> neutral 
+-99.9990 (ahmedC) <s> happy 
+-99.9990 (ahmedC) <s> neutral 
+-99.9990 (akram1) <s> neutral 
+-99.9990 (akram2) <s> neutral 
+-99.9990 (akram4) <s> neutral 
+-99.9990 (akram5) <s> neutral 
+-99.9990 (akram8) <s> neutral 
+-99.9990 (akram9) <s> neutral 
+-99.9990 (akramA) <s> neutral 
+-99.9990 (akramB) <s> neutral 
+-99.9990 (chamsou1) <s> happy 
+-99.9990 (chamsou2) <s> happy 
+-99.9990 (chamsou3) <s> happy 
+-99.9990 (chamsou5) <s> happy 
+-99.9990 (chamsou6) <s> happy 
+-99.9990 (chamsou7) <s> happy 
+-99.9990 (chamsou8) <s> happy 
+-99.9990 (chamsou9) <s> happy 
+-99.9990 (chamsouA) <s> happy 
+-99.9990 (chamsouB) <s> happy 
+-99.9990 (chamsouC) <s> happy 
+-99.9990 (chamsoulite1) <s> neutral 
+-99.9990 (chamsoulite2) <s> neutral 
+-99.9990 (chamsoulite3) <s> neutral 
+-99.9990 (chamsoulite4) <s> neutral 
+-99.9990 (chamsoulite5) <s> neutral 
+-99.9990 (chamsoulite6) <s> neutral 
+-99.9990 (chamsoulite7) <s> neutral 
+-99.9990 (chamsoulite8) <s> neutral 
+-99.9990 (chamsoulite9) <s> neutral 
+-99.9990 (chamsouliteA) <s> neutral 
+-99.9990 (chamsouliteB) <s> neutral 
+-99.9990 (chamsouliteC) <s> neutral 
+-99.9990 (hamed1) <s> happy 
+-99.9990 (hamed2) <s> happy 
+-99.9990 (hamed2) <s> neutral 
+-99.9990 (hamed3) <s> happy 
+-99.9990 (hamed3) <s> neutral 
+-99.9990 (hamed4) <s> happy 
+-99.9990 (hamed4) <s> neutral 
+-99.9990 (hamed5) <s> happy 
+-99.9990 (hamed5) <s> neutral 
+-99.9990 (hamed6) <s> happy 
+-99.9990 (hamed6) <s> neutral 
+-99.9990 (hamed7) <s> happy 
+-99.9990 (hamed7) <s> neutral 
+-99.9990 (hamed9) <s> neutral 
+-99.9990 (hamedA) <s> happy 
+-99.9990 (hamedB) <s> neutral 
+-99.9990 (hamedC) <s> neutral 
+-99.9990 (khaoula1) <s> happy 
+-99.9990 (khaoula1) <s> neutral 
+-99.9990 (khaoula2) <s> happy 
+-99.9990 (khaoula2) <s> neutral 
+-99.9990 (khaoula3) <s> happy 
+-99.9990 (khaoula3) <s> neutral 
+-99.9990 (khaoula4) <s> happy 
+-99.9990 (khaoula4) <s> neutral 
+-99.9990 (khaoula5) <s> neutral 
+-99.9990 (khaoula6) <s> happy 
+-99.9990 (khaoula6) <s> neutral 
+-99.9990 (khaoula7) <s> neutral 
+-99.9990 (khaoula8) <s> happy 
+-99.9990 (khaoula8) <s> neutral 
+-99.9990 (khaoula9) <s> neutral 
+-99.9990 (khaoulaA) <s> happy 
+-99.9990 (khaoulaA) <s> neutral 
+-99.9990 (khaoulaB) <s> happy 
+-99.9990 (khaoulaC) <s> happy 
+-99.9990 (khaoulaC) <s> neutral 
+-99.9990 (lcool1) <s> happy 
+-99.9990 (lcool2) <s> happy 
+-99.9990 (lcool2) <s> neutral 
+-99.9990 (lcool3) <s> happy 
+-99.9990 (lcool3) <s> neutral 
+-99.9990 (lcool5) <s> happy 
+-99.9990 (lcool6) <s> happy 
+-99.9990 (lcool6) <s> neutral 
+-99.9990 (lcool7) <s> happy 
+-99.9990 (lcool7) <s> neutral 
+-99.9990 (lcool8) <s> happy 
+-99.9990 (lcool9) <s> happy 
+-99.9990 (lcoolA) <s> happy 
+-99.9990 (lcoolA) <s> neutral 
+-99.9990 (lcoolB) <s> happy 
+-99.9990 (lcoolB) <s> neutral 
+-99.9990 (lcoolC) <s> happy 
+-99.9990 (lcoolC) <s> neutral 
+-99.9990 (mahedi1) <s> neutral 
+-99.9990 (mahedi2) <s> happy 
+-99.9990 (mahedi2) <s> neutral 
+-99.9990 (mahedi3) <s> happy 
+-99.9990 (mahedi3) <s> neutral 
+-99.9990 (mahedi4) <s> happy 
+-99.9990 (mahedi4) <s> neutral 
+-99.9990 (mahedi5) <s> neutral 
+-99.9990 (mahedi6) <s> happy 
+-99.9990 (mahedi6) <s> neutral 
+-99.9990 (mahedi7) <s> happy 
+-99.9990 (mahedi7) <s> neutral 
+-99.9990 (mahedi8) <s> happy 
+-99.9990 (mahedi8) <s> neutral 
+-99.9990 (mahedi9) <s> happy 
+-99.9990 (mahedi9) <s> neutral 
+-99.9990 (mahediA) <s> neutral 
+-99.9990 (mahediB) <s> happy 
+-99.9990 (mahediB) <s> neutral 
+-99.9990 (mahediC) <s> neutral 
+-99.9990 (maroua1) <s> happy 
+-99.9990 (maroua2) <s> happy 
+-99.9990 (maroua4) <s> happy 
+-99.9990 (maroua6) <s> happy 
+-99.9990 (maroua7) <s> happy 
+-99.9990 (marouaA) <s> happy 
+-99.9990 (marouaC) <s> happy 
+-99.9990 (nadjib1) <s> neutral 
+-99.9990 (nadjib2) <s> happy 
+-99.9990 (nadjib3) <s> neutral 
+-99.9990 (nadjib4) <s> happy 
+-99.9990 (nadjib4) <s> neutral 
+-99.9990 (nadjib5) <s> happy 
+-99.9990 (nadjib5) <s> neutral 
+-99.9990 (nadjib6) <s> happy 
+-99.9990 (nadjib7) <s> happy 
+-99.9990 (nadjib7) <s> neutral 
+-99.9990 (nadjib8) <s> happy 
+-99.9990 (nadjib8) <s> neutral 
+-99.9990 (nadjib9) <s> happy 
+-99.9990 (nadjibA) <s> happy 
+-99.9990 (nadjibA) <s> neutral 
+-99.9990 (nadjibB) <s> happy 
+-99.9990 (nadjibB) <s> neutral 
+-99.9990 (nadjibC) <s> happy 
+-99.9990 (nadjibC) <s> neutral 
+-99.9990 (nawel1) <s> happy 
+-99.9990 (nawel1) <s> neutral 
+-99.9990 (nawel2) <s> happy 
+-99.9990 (nawel2) <s> neutral 
+-99.9990 (nawel3) <s> happy 
+-99.9990 (nawel3) <s> neutral 
+-99.9990 (nawel4) <s> happy 
+-99.9990 (nawel4) <s> neutral 
+-99.9990 (nawel5) <s> happy 
+-99.9990 (nawel5) <s> neutral 
+-99.9990 (nawel6) <s> happy 
+-99.9990 (nawel6) <s> neutral 
+-99.9990 (nawel7) <s> happy 
+-99.9990 (nawel7) <s> neutral 
+-99.9990 (nawel8) <s> neutral 
+-99.9990 (nawel9) <s> happy 
+-99.9990 (nawel9) <s> neutral 
+-99.9990 (nawelB) <s> happy 
+-99.9990 (nawelB) <s> neutral 
+-99.9990 (nawelC) <s> happy 
+-99.9990 (nawelC) <s> neutral 
+-99.9990 (oumaima1) <s> happy 
+-99.9990 (oumaima1) <s> neutral 
+-99.9990 (oumaima2) <s> happy 
+-99.9990 (oumaima2) <s> neutral 
+-99.9990 (oumaima3) <s> happy 
+-99.9990 (oumaima3) <s> neutral 
+-99.9990 (oumaima4) <s> happy 
+-99.9990 (oumaima4) <s> neutral 
+-99.9990 (oumaima5) <s> happy 
+-99.9990 (oumaima5) <s> neutral 
+-99.9990 (oumaima6) <s> happy 
+-99.9990 (oumaima7) <s> neutral 
+-99.9990 (oumaima8) <s> neutral 
+-99.9990 (oumaima9) <s> happy 
+-99.9990 (oumaima9) <s> neutral 
+-99.9990 (oumaimaA) <s> happy 
+-99.9990 (oumaimaB) <s> happy 
+-99.9990 (oumaimaB) <s> neutral 
+-99.9990 (oumaimaC) <s> happy 
+-99.9990 (oumaimaC) <s> neutral 
+-99.9990 (raouf1) <s> happy 
+-99.9990 (raouf1) <s> neutral 
+-99.9990 (raouf2) <s> happy 
+-99.9990 (raouf2) <s> neutral 
+-99.9990 (raouf3) <s> neutral 
+-99.9990 (raouf4) <s> neutral 
+-99.9990 (raouf5) <s> happy 
+-99.9990 (raouf5) <s> neutral 
+-99.9990 (raouf6) <s> happy 
+-99.9990 (raouf6) <s> neutral 
+-99.9990 (raouf7) <s> happy 
+-99.9990 (raouf7) <s> neutral 
+-99.9990 (raouf8) <s> happy 
+-99.9990 (raouf8) <s> neutral 
+-99.9990 (raouf9) <s> happy 
+-99.9990 (raouf9) <s> neutral 
+-99.9990 (raoufA) <s> happy 
+-99.9990 (raoufA) <s> neutral 
+-99.9990 (raoufB) <s> happy 
+-99.9990 (raoufB) <s> neutral 
+-99.9990 (raoufC) <s> happy 
+-99.9990 (rockikz1) <s> neutral 
+-99.9990 (rockikz2) <s> happy 
+-99.9990 (rockikz2) <s> neutral 
+-99.9990 (rockikz3) <s> happy 
+-99.9990 (rockikz3) <s> neutral 
+-99.9990 (rockikz4) <s> happy 
+-99.9990 (rockikz4) <s> neutral 
+-99.9990 (rockikz5) <s> happy 
+-99.9990 (rockikz5) <s> neutral 
+-99.9990 (rockikz6) <s> happy 
+-99.9990 (rockikz6) <s> neutral 
+-99.9990 (rockikz7) <s> happy 
+-99.9990 (rockikz7) <s> neutral 
+-99.9990 (rockikz8) <s> happy 
+-99.9990 (rockikz9) <s> happy 
+-99.9990 (rockikz9) <s> neutral 
+-99.9990 (rockikzA) <s> neutral 
+-99.9990 (rockikzB) <s> happy 
+-99.9990 (rockikzB) <s> neutral 
+-99.9990 (rockikzC) <s> happy 
+-99.9990 (samir1) <s> happy 
+-99.9990 (samir2) <s> happy 
+-99.9990 (samir2) <s> neutral 
+-99.9990 (samir3) <s> happy 
+-99.9990 (samir3) <s> neutral 
+-99.9990 (samir4) <s> neutral 
+-99.9990 (samir5) <s> happy 
+-99.9990 (samir5) <s> neutral 
+-99.9990 (samir6) <s> happy 
+-99.9990 (samir6) <s> neutral 
+-99.9990 (samir7) <s> neutral 
+-99.9990 (samir8) <s> happy 
+-99.9990 (samir8) <s> neutral 
+-99.9990 (samir9) <s> happy 
+-99.9990 (samirA) <s> happy 
+-99.9990 (samirA) <s> neutral 
+-99.9990 (samirB) <s> happy 
+-99.9990 (samirB) <s> neutral 
+-99.9990 (samirC) <s> happy 
+-99.9990 (samirC) <s> neutral 
+-99.9990 (soumaya1) <s> happy 
+-99.9990 (soumaya1) <s> neutral 
+-99.9990 (soumaya2) <s> happy 
+-99.9990 (soumaya2) <s> neutral 
+-99.9990 (soumaya3) <s> happy 
+-99.9990 (soumaya3) <s> neutral 
+-99.9990 (soumaya4) <s> happy 
+-99.9990 (soumaya4) <s> neutral 
+-99.9990 (soumaya5) <s> happy 
+-99.9990 (soumaya5) <s> neutral 
+-99.9990 (soumaya6) <s> neutral 
+-99.9990 (soumaya7) <s> happy 
+-99.9990 (soumaya7) <s> neutral 
+-99.9990 (soumaya8) <s> happy 
+-99.9990 (soumaya8) <s> neutral 
+-99.9990 (soumaya9) <s> happy 
+-99.9990 (soumayaA) <s> happy 
+-99.9990 (soumayaB) <s> happy 
+-99.9990 (soumayaB) <s> neutral 
+-99.9990 (soumayaC) <s> happy 
+-99.9990 (walidlite2) <s> neutral 
+-99.9990 (walidlite3) <s> neutral 
+-99.9990 (walidlite4) <s> neutral 
+-99.9990 (walidlite5) <s> neutral 
+-99.9990 (walidlite7) <s> neutral 
+-99.9990 (walidlite8) <s> neutral 
+-99.9990 (walidlite9) <s> neutral 
+-99.9990 (walidliteA) <s> neutral 
+-99.9990 (walidliteB) <s> neutral 
+-99.9990 (walidliteC) <s> neutral 
+-99.9990 (yousra1) <s> happy 
+-99.9990 (yousra2) <s> happy 
+-99.9990 (yousra2) <s> neutral 
+-99.9990 (yousra3) <s> happy 
+-99.9990 (yousra3) <s> neutral 
+-99.9990 (yousra4) <s> happy 
+-99.9990 (yousra4) <s> neutral 
+-99.9990 (yousra5) <s> happy 
+-99.9990 (yousra5) <s> neutral 
+-99.9990 (yousra6) <s> happy 
+-99.9990 (yousra7) <s> happy 
+-99.9990 (yousra7) <s> neutral 
+-99.9990 (yousra8) <s> happy 
+-99.9990 (yousra8) <s> neutral 
+-99.9990 (yousra9) <s> happy 
+-99.9990 (yousra9) <s> neutral 
+-99.9990 (yousraA) <s> happy 
+-99.9990 (yousraA) <s> neutral 
+-99.9990 (yousraB) <s> happy 
+-99.9990 (yousraB) <s> neutral 
+-99.9990 (yousraC) <s> happy 
+-99.9990 (yousraC) <s> neutral 
+-99.9990 (zaki1) <s> happy 
+-99.9990 (zaki1) <s> neutral 
+-99.9990 (zaki2) <s> happy 
+-99.9990 (zaki2) <s> neutral 
+-99.9990 (zaki3) <s> happy 
+-99.9990 (zaki3) <s> neutral 
+-99.9990 (zaki4) <s> happy 
+-99.9990 (zaki4) <s> neutral 
+-99.9990 (zaki5) <s> happy 
+-99.9990 (zaki5) <s> neutral 
+-99.9990 (zaki6) <s> neutral 
+-99.9990 (zaki7) <s> happy 
+-99.9990 (zaki7) <s> neutral 
+-99.9990 (zaki8) <s> happy 
+-99.9990 (zaki8) <s> neutral 
+-99.9990 (zaki9) <s> happy 
+-99.9990 (zaki9) <s> neutral 
+-99.9990 (zakiA) <s> neutral 
+-99.9990 (zakiB) <s> happy 
+-99.9990 (zakiB) <s> neutral 
+-99.9990 (zakiC) <s> happy 
+-0.1761 </s> (Aya1) <s> 
+-0.1761 </s> (Aya2) <s> 
+-99.9990 </s> (Aya3) <s> 
+-0.1761 </s> (Aya4) <s> 
+-0.1761 </s> (Aya5) <s> 
+-0.1761 </s> (Aya6) <s> 
+-0.1761 </s> (Aya7) <s> 
+-0.1761 </s> (Aya8) <s> 
+-99.9990 </s> (Aya9) <s> 
+-99.9990 </s> (AyaA) <s> 
+-0.1761 </s> (AyaB) <s> 
+-0.1761 </s> (AyaC) <s> 
+-0.1761 </s> (adel1) <s> 
+-0.1761 </s> (adel2) <s> 
+-0.1761 </s> (adel3) <s> 
+-99.9990 </s> (adel4) <s> 
+-0.1761 </s> (adel5) <s> 
+-0.1761 </s> (adel6) <s> 
+-0.1761 </s> (adel7) <s> 
+-0.1761 </s> (adel8) <s> 
+-0.1761 </s> (adel9) <s> 
+-0.1761 </s> (adelA) <s> 
+-0.1761 </s> (adelB) <s> 
+-99.9990 </s> (ahmed1) <s> 
+-99.9990 </s> (ahmed2) <s> 
+-0.1761 </s> (ahmed3) <s> 
+-99.9990 </s> (ahmed4) <s> 
+-0.1761 </s> (ahmed5) <s> 
+-0.1761 </s> (ahmed6) <s> 
+-0.1761 </s> (ahmed7) <s> 
+-0.1761 </s> (ahmed8) <s> 
+-99.9990 </s> (ahmed9) <s> 
+-0.1761 </s> (ahmedA) <s> 
+-0.1761 </s> (ahmedB) <s> 
+-0.1761 </s> (ahmedC) <s> 
+-99.9990 </s> (akram1) <s> 
+-99.9990 </s> (akram2) <s> 
+-99.9990 </s> (akram4) <s> 
+-99.9990 </s> (akram5) <s> 
+-99.9990 </s> (akram8) <s> 
+-99.9990 </s> (akram9) <s> 
+-99.9990 </s> (akramA) <s> 
+-99.9990 </s> (akramB) <s> 
+-99.9990 </s> (chamsou1) <s> 
+-99.9990 </s> (chamsou2) <s> 
+-99.9990 </s> (chamsou3) <s> 
+-99.9990 </s> (chamsou5) <s> 
+-99.9990 </s> (chamsou6) <s> 
+-99.9990 </s> (chamsou7) <s> 
+-99.9990 </s> (chamsou8) <s> 
+-99.9990 </s> (chamsou9) <s> 
+-99.9990 </s> (chamsouA) <s> 
+-99.9990 </s> (chamsouB) <s> 
+-99.9990 </s> (chamsouC) <s> 
+-99.9990 </s> (chamsoulite1) <s> 
+-99.9990 </s> (chamsoulite2) <s> 
+-99.9990 </s> (chamsoulite3) <s> 
+-99.9990 </s> (chamsoulite4) <s> 
+-99.9990 </s> (chamsoulite5) <s> 
+-99.9990 </s> (chamsoulite6) <s> 
+-99.9990 </s> (chamsoulite7) <s> 
+-99.9990 </s> (chamsoulite8) <s> 
+-99.9990 </s> (chamsoulite9) <s> 
+-99.9990 </s> (chamsouliteA) <s> 
+-99.9990 </s> (chamsouliteB) <s> 
+-99.9990 </s> (chamsouliteC) <s> 
+-99.9990 </s> (hamed1) <s> 
+-0.1761 </s> (hamed2) <s> 
+-0.1761 </s> (hamed3) <s> 
+-0.1761 </s> (hamed4) <s> 
+-0.1761 </s> (hamed5) <s> 
+-0.1761 </s> (hamed6) <s> 
+-0.1761 </s> (hamed7) <s> 
+-99.9990 </s> (hamed9) <s> 
+-99.9990 </s> (hamedA) <s> 
+-99.9990 </s> (hamedB) <s> 
+-99.9990 </s> (hamedC) <s> 
+-0.1761 </s> (khaoula1) <s> 
+-0.1761 </s> (khaoula2) <s> 
+-0.1761 </s> (khaoula3) <s> 
+-0.1761 </s> (khaoula4) <s> 
+-99.9990 </s> (khaoula5) <s> 
+-0.1761 </s> (khaoula6) <s> 
+-99.9990 </s> (khaoula7) <s> 
+-0.1761 </s> (khaoula8) <s> 
+-99.9990 </s> (khaoula9) <s> 
+-0.1761 </s> (khaoulaA) <s> 
+-99.9990 </s> (khaoulaB) <s> 
+-0.1761 </s> (khaoulaC) <s> 
+-99.9990 </s> (lcool1) <s> 
+-0.1761 </s> (lcool2) <s> 
+-0.1761 </s> (lcool3) <s> 
+-99.9990 </s> (lcool5) <s> 
+-0.1761 </s> (lcool6) <s> 
+-0.1761 </s> (lcool7) <s> 
+-99.9990 </s> (lcool8) <s> 
+-99.9990 </s> (lcool9) <s> 
+-0.1761 </s> (lcoolA) <s> 
+-0.1761 </s> (lcoolB) <s> 
+-0.1761 </s> (lcoolC) <s> 
+-99.9990 </s> (mahedi1) <s> 
+-0.1761 </s> (mahedi2) <s> 
+-0.1761 </s> (mahedi3) <s> 
+-0.1761 </s> (mahedi4) <s> 
+-99.9990 </s> (mahedi5) <s> 
+-0.1761 </s> (mahedi6) <s> 
+-0.1761 </s> (mahedi7) <s> 
+-0.1761 </s> (mahedi8) <s> 
+-0.1761 </s> (mahedi9) <s> 
+-99.9990 </s> (mahediA) <s> 
+-0.1761 </s> (mahediB) <s> 
+-99.9990 </s> (mahediC) <s> 
+-99.9990 </s> (maroua1) <s> 
+-99.9990 </s> (maroua2) <s> 
+-99.9990 </s> (maroua4) <s> 
+-99.9990 </s> (maroua6) <s> 
+-99.9990 </s> (maroua7) <s> 
+-99.9990 </s> (marouaA) <s> 
+-99.9990 </s> (marouaC) <s> 
+-99.9990 </s> (nadjib1) <s> 
+-99.9990 </s> (nadjib2) <s> 
+-99.9990 </s> (nadjib3) <s> 
+-0.1761 </s> (nadjib4) <s> 
+-0.1761 </s> (nadjib5) <s> 
+-99.9990 </s> (nadjib6) <s> 
+-0.1761 </s> (nadjib7) <s> 
+-0.1761 </s> (nadjib8) <s> 
+-99.9990 </s> (nadjib9) <s> 
+-0.1761 </s> (nadjibA) <s> 
+-0.1761 </s> (nadjibB) <s> 
+-0.1761 </s> (nadjibC) <s> 
+-0.1761 </s> (nawel1) <s> 
+-0.1761 </s> (nawel2) <s> 
+-0.1761 </s> (nawel3) <s> 
+-0.1761 </s> (nawel4) <s> 
+-0.1761 </s> (nawel5) <s> 
+-0.1761 </s> (nawel6) <s> 
+-0.1761 </s> (nawel7) <s> 
+-99.9990 </s> (nawel8) <s> 
+-0.1761 </s> (nawel9) <s> 
+-0.1761 </s> (nawelB) <s> 
+-0.1761 </s> (nawelC) <s> 
+-0.1761 </s> (oumaima1) <s> 
+-0.1761 </s> (oumaima2) <s> 
+-0.1761 </s> (oumaima3) <s> 
+-0.1761 </s> (oumaima4) <s> 
+-0.1761 </s> (oumaima5) <s> 
+-99.9990 </s> (oumaima6) <s> 
+-99.9990 </s> (oumaima7) <s> 
+-99.9990 </s> (oumaima8) <s> 
+-0.1761 </s> (oumaima9) <s> 
+-99.9990 </s> (oumaimaA) <s> 
+-0.1761 </s> (oumaimaB) <s> 
+-0.1761 </s> (oumaimaC) <s> 
+-0.1761 </s> (raouf1) <s> 
+-0.1761 </s> (raouf2) <s> 
+-99.9990 </s> (raouf3) <s> 
+-99.9990 </s> (raouf4) <s> 
+-0.1761 </s> (raouf5) <s> 
+-0.1761 </s> (raouf6) <s> 
+-0.1761 </s> (raouf7) <s> 
+-0.1761 </s> (raouf8) <s> 
+-0.1761 </s> (raouf9) <s> 
+-0.1761 </s> (raoufA) <s> 
+-0.1761 </s> (raoufB) <s> 
+-99.9990 </s> (raoufC) <s> 
+-99.9990 </s> (rockikz1) <s> 
+-0.1761 </s> (rockikz2) <s> 
+-0.1761 </s> (rockikz3) <s> 
+-0.1761 </s> (rockikz4) <s> 
+-0.1761 </s> (rockikz5) <s> 
+-0.1761 </s> (rockikz6) <s> 
+-0.1761 </s> (rockikz7) <s> 
+-99.9990 </s> (rockikz8) <s> 
+-0.1761 </s> (rockikz9) <s> 
+-99.9990 </s> (rockikzA) <s> 
+-0.1761 </s> (rockikzB) <s> 
+-99.9990 </s> (rockikzC) <s> 
+-99.9990 </s> (samir1) <s> 
+-0.1761 </s> (samir2) <s> 
+-0.1761 </s> (samir3) <s> 
+-99.9990 </s> (samir4) <s> 
+-0.1761 </s> (samir5) <s> 
+-0.1761 </s> (samir6) <s> 
+-99.9990 </s> (samir7) <s> 
+-0.1761 </s> (samir8) <s> 
+-99.9990 </s> (samir9) <s> 
+-0.1761 </s> (samirA) <s> 
+-0.1761 </s> (samirB) <s> 
+-0.1761 </s> (samirC) <s> 
+-0.1761 </s> (soumaya1) <s> 
+-0.1761 </s> (soumaya2) <s> 
+-0.1761 </s> (soumaya3) <s> 
+-0.1761 </s> (soumaya4) <s> 
+-0.1761 </s> (soumaya5) <s> 
+-99.9990 </s> (soumaya6) <s> 
+-0.1761 </s> (soumaya7) <s> 
+-0.1761 </s> (soumaya8) <s> 
+-99.9990 </s> (soumaya9) <s> 
+-99.9990 </s> (soumayaA) <s> 
+-0.1761 </s> (soumayaB) <s> 
+-99.9990 </s> (soumayaC) <s> 
+-99.9990 </s> (walidlite2) <s> 
+-99.9990 </s> (walidlite3) <s> 
+-99.9990 </s> (walidlite4) <s> 
+-99.9990 </s> (walidlite5) <s> 
+-99.9990 </s> (walidlite7) <s> 
+-99.9990 </s> (walidlite8) <s> 
+-99.9990 </s> (walidlite9) <s> 
+-99.9990 </s> (walidliteA) <s> 
+-99.9990 </s> (walidliteB) <s> 
+-99.9990 </s> (walidliteC) <s> 
+-99.9990 </s> (yousra1) <s> 
+-0.1761 </s> (yousra2) <s> 
+-0.1761 </s> (yousra3) <s> 
+-0.1761 </s> (yousra4) <s> 
+-0.1761 </s> (yousra5) <s> 
+-99.9990 </s> (yousra6) <s> 
+-0.1761 </s> (yousra7) <s> 
+-0.1761 </s> (yousra8) <s> 
+-0.1761 </s> (yousra9) <s> 
+-0.1761 </s> (yousraA) <s> 
+-0.1761 </s> (yousraB) <s> 
+-0.1761 </s> (yousraC) <s> 
+-0.1761 </s> (zaki1) <s> 
+-0.1761 </s> (zaki2) <s> 
+-0.1761 </s> (zaki3) <s> 
+-0.1761 </s> (zaki4) <s> 
+-0.1761 </s> (zaki5) <s> 
+-99.9990 </s> (zaki6) <s> 
+-0.1761 </s> (zaki7) <s> 
+-0.1761 </s> (zaki8) <s> 
+-0.1761 </s> (zaki9) <s> 
+-99.9990 </s> (zakiA) <s> 
+-0.1761 </s> (zakiB) <s> 
+-99.9990 </s> (zakiC) <s> 
+-0.0024 <s> happy </s> 
+-0.0023 <s> neutral </s> 
+-99.9990 happy </s> (Aya1) 
+-99.9990 happy </s> (Aya2) 
+-99.9990 happy </s> (Aya4) 
+-99.9990 happy </s> (Aya5) 
+-99.9990 happy </s> (Aya6) 
+-99.9990 happy </s> (Aya7) 
+-99.9990 happy </s> (Aya8) 
+-99.9990 happy </s> (AyaB) 
+-99.9990 happy </s> (AyaC) 
+-99.9990 happy </s> (adel1) 
+-99.9990 happy </s> (adel2) 
+-99.9990 happy </s> (adel3) 
+-99.9990 happy </s> (adel4) 
+-99.9990 happy </s> (adel5) 
+-99.9990 happy </s> (adel6) 
+-99.9990 happy </s> (adel7) 
+-99.9990 happy </s> (adel8) 
+-99.9990 happy </s> (adel9) 
+-99.9990 happy </s> (adelA) 
+-99.9990 happy </s> (adelB) 
+-99.9990 happy </s> (ahmed1) 
+-99.9990 happy </s> (ahmed2) 
+-99.9990 happy </s> (ahmed3) 
+-99.9990 happy </s> (ahmed4) 
+-99.9990 happy </s> (ahmed5) 
+-99.9990 happy </s> (ahmed6) 
+-99.9990 happy </s> (ahmed7) 
+-99.9990 happy </s> (ahmed8) 
+-99.9990 happy </s> (ahmedA) 
+-99.9990 happy </s> (ahmedB) 
+-99.9990 happy </s> (ahmedC) 
+-99.9990 happy </s> (chamsou1) 
+-99.9990 happy </s> (chamsou2) 
+-99.9990 happy </s> (chamsou3) 
+-99.9990 happy </s> (chamsou5) 
+-99.9990 happy </s> (chamsou6) 
+-99.9990 happy </s> (chamsou7) 
+-99.9990 happy </s> (chamsou8) 
+-99.9990 happy </s> (chamsou9) 
+-99.9990 happy </s> (chamsouA) 
+-99.9990 happy </s> (chamsouB) 
+-99.9990 happy </s> (chamsouC) 
+-99.9990 happy </s> (hamed1) 
+-99.9990 happy </s> (hamed2) 
+-99.9990 happy </s> (hamed3) 
+-99.9990 happy </s> (hamed4) 
+-99.9990 happy </s> (hamed5) 
+-99.9990 happy </s> (hamed6) 
+-99.9990 happy </s> (hamed7) 
+-99.9990 happy </s> (hamedA) 
+-99.9990 happy </s> (khaoula1) 
+-99.9990 happy </s> (khaoula2) 
+-99.9990 happy </s> (khaoula3) 
+-99.9990 happy </s> (khaoula4) 
+-99.9990 happy </s> (khaoula6) 
+-99.9990 happy </s> (khaoula8) 
+-99.9990 happy </s> (khaoulaA) 
+-99.9990 happy </s> (khaoulaB) 
+-99.9990 happy </s> (khaoulaC) 
+-99.9990 happy </s> (lcool1) 
+-99.9990 happy </s> (lcool2) 
+-99.9990 happy </s> (lcool3) 
+-99.9990 happy </s> (lcool5) 
+-99.9990 happy </s> (lcool6) 
+-99.9990 happy </s> (lcool7) 
+-99.9990 happy </s> (lcool8) 
+-99.9990 happy </s> (lcool9) 
+-99.9990 happy </s> (lcoolA) 
+-99.9990 happy </s> (lcoolB) 
+-99.9990 happy </s> (lcoolC) 
+-99.9990 happy </s> (mahedi2) 
+-99.9990 happy </s> (mahedi3) 
+-99.9990 happy </s> (mahedi4) 
+-99.9990 happy </s> (mahedi6) 
+-99.9990 happy </s> (mahedi7) 
+-99.9990 happy </s> (mahedi8) 
+-99.9990 happy </s> (mahedi9) 
+-99.9990 happy </s> (mahediB) 
+-99.9990 happy </s> (maroua1) 
+-99.9990 happy </s> (maroua2) 
+-99.9990 happy </s> (maroua4) 
+-99.9990 happy </s> (maroua6) 
+-99.9990 happy </s> (maroua7) 
+-99.9990 happy </s> (maroua9) 
+-99.9990 happy </s> (marouaA) 
+-99.9990 happy </s> (marouaC) 
+-99.9990 happy </s> (nadjib2) 
+-99.9990 happy </s> (nadjib4) 
+-99.9990 happy </s> (nadjib5) 
+-99.9990 happy </s> (nadjib6) 
+-99.9990 happy </s> (nadjib7) 
+-99.9990 happy </s> (nadjib8) 
+-99.9990 happy </s> (nadjib9) 
+-99.9990 happy </s> (nadjibA) 
+-99.9990 happy </s> (nadjibB) 
+-99.9990 happy </s> (nadjibC) 
+-99.9990 happy </s> (nawel1) 
+-99.9990 happy </s> (nawel2) 
+-99.9990 happy </s> (nawel3) 
+-99.9990 happy </s> (nawel4) 
+-99.9990 happy </s> (nawel5) 
+-99.9990 happy </s> (nawel6) 
+-99.9990 happy </s> (nawel7) 
+-99.9990 happy </s> (nawel9) 
+-99.9990 happy </s> (nawelB) 
+-99.9990 happy </s> (nawelC) 
+-99.9990 happy </s> (oumaima1) 
+-99.9990 happy </s> (oumaima2) 
+-99.9990 happy </s> (oumaima3) 
+-99.9990 happy </s> (oumaima4) 
+-99.9990 happy </s> (oumaima5) 
+-99.9990 happy </s> (oumaima6) 
+-99.9990 happy </s> (oumaima9) 
+-99.9990 happy </s> (oumaimaA) 
+-99.9990 happy </s> (oumaimaB) 
+-99.9990 happy </s> (oumaimaC) 
+-99.9990 happy </s> (raouf1) 
+-99.9990 happy </s> (raouf2) 
+-99.9990 happy </s> (raouf5) 
+-99.9990 happy </s> (raouf6) 
+-99.9990 happy </s> (raouf7) 
+-99.9990 happy </s> (raouf8) 
+-99.9990 happy </s> (raouf9) 
+-99.9990 happy </s> (raoufA) 
+-99.9990 happy </s> (raoufB) 
+-99.9990 happy </s> (raoufC) 
+-99.9990 happy </s> (rockikz2) 
+-99.9990 happy </s> (rockikz3) 
+-99.9990 happy </s> (rockikz4) 
+-99.9990 happy </s> (rockikz5) 
+-99.9990 happy </s> (rockikz6) 
+-99.9990 happy </s> (rockikz7) 
+-99.9990 happy </s> (rockikz8) 
+-99.9990 happy </s> (rockikz9) 
+-99.9990 happy </s> (rockikzB) 
+-99.9990 happy </s> (rockikzC) 
+-99.9990 happy </s> (samir1) 
+-99.9990 happy </s> (samir2) 
+-99.9990 happy </s> (samir3) 
+-99.9990 happy </s> (samir5) 
+-99.9990 happy </s> (samir6) 
+-99.9990 happy </s> (samir8) 
+-99.9990 happy </s> (samir9) 
+-99.9990 happy </s> (samirA) 
+-99.9990 happy </s> (samirB) 
+-99.9990 happy </s> (samirC) 
+-99.9990 happy </s> (soumaya1) 
+-99.9990 happy </s> (soumaya2) 
+-99.9990 happy </s> (soumaya3) 
+-99.9990 happy </s> (soumaya4) 
+-99.9990 happy </s> (soumaya5) 
+-99.9990 happy </s> (soumaya7) 
+-99.9990 happy </s> (soumaya8) 
+-99.9990 happy </s> (soumayaA) 
+-99.9990 happy </s> (soumayaB) 
+-99.9990 happy </s> (soumayaC) 
+-99.9990 happy </s> (yousra1) 
+-99.9990 happy </s> (yousra2) 
+-99.9990 happy </s> (yousra3) 
+-99.9990 happy </s> (yousra4) 
+-99.9990 happy </s> (yousra5) 
+-99.9990 happy </s> (yousra6) 
+-99.9990 happy </s> (yousra7) 
+-99.9990 happy </s> (yousra8) 
+-99.9990 happy </s> (yousra9) 
+-99.9990 happy </s> (yousraA) 
+-99.9990 happy </s> (yousraB) 
+-99.9990 happy </s> (yousraC) 
+-99.9990 happy </s> (zaki1) 
+-99.9990 happy </s> (zaki2) 
+-99.9990 happy </s> (zaki3) 
+-99.9990 happy </s> (zaki4) 
+-99.9990 happy </s> (zaki5) 
+-99.9990 happy </s> (zaki7) 
+-99.9990 happy </s> (zaki8) 
+-99.9990 happy </s> (zaki9) 
+-99.9990 happy </s> (zakiB) 
+-99.9990 happy </s> (zakiC) 
+-99.9990 neutral </s> (Aya1) 
+-99.9990 neutral </s> (Aya2) 
+-99.9990 neutral </s> (Aya3) 
+-99.9990 neutral </s> (Aya4) 
+-99.9990 neutral </s> (Aya5) 
+-99.9990 neutral </s> (Aya6) 
+-99.9990 neutral </s> (Aya7) 
+-99.9990 neutral </s> (Aya8) 
+-99.9990 neutral </s> (Aya9) 
+-99.9990 neutral </s> (AyaA) 
+-99.9990 neutral </s> (AyaB) 
+-99.9990 neutral </s> (AyaC) 
+-99.9990 neutral </s> (adel1) 
+-99.9990 neutral </s> (adel2) 
+-99.9990 neutral </s> (adel3) 
+-99.9990 neutral </s> (adel5) 
+-99.9990 neutral </s> (adel6) 
+-99.9990 neutral </s> (adel7) 
+-99.9990 neutral </s> (adel8) 
+-99.9990 neutral </s> (adel9) 
+-99.9990 neutral </s> (adelA) 
+-99.9990 neutral </s> (adelB) 
+-99.9990 neutral </s> (ahmed3) 
+-99.9990 neutral </s> (ahmed5) 
+-99.9990 neutral </s> (ahmed6) 
+-99.9990 neutral </s> (ahmed7) 
+-99.9990 neutral </s> (ahmed8) 
+-99.9990 neutral </s> (ahmed9) 
+-99.9990 neutral </s> (ahmedA) 
+-99.9990 neutral </s> (ahmedB) 
+-99.9990 neutral </s> (ahmedC) 
+-99.9990 neutral </s> (akram1) 
+-99.9990 neutral </s> (akram2) 
+-99.9990 neutral </s> (akram4) 
+-99.9990 neutral </s> (akram5) 
+-99.9990 neutral </s> (akram8) 
+-99.9990 neutral </s> (akram9) 
+-99.9990 neutral </s> (akramA) 
+-99.9990 neutral </s> (akramB) 
+-99.9990 neutral </s> (chamsoulite1) 
+-99.9990 neutral </s> (chamsoulite2) 
+-99.9990 neutral </s> (chamsoulite3) 
+-99.9990 neutral </s> (chamsoulite4) 
+-99.9990 neutral </s> (chamsoulite5) 
+-99.9990 neutral </s> (chamsoulite6) 
+-99.9990 neutral </s> (chamsoulite7) 
+-99.9990 neutral </s> (chamsoulite8) 
+-99.9990 neutral </s> (chamsoulite9) 
+-99.9990 neutral </s> (chamsouliteA) 
+-99.9990 neutral </s> (chamsouliteB) 
+-99.9990 neutral </s> (chamsouliteC) 
+-99.9990 neutral </s> (hamed2) 
+-99.9990 neutral </s> (hamed3) 
+-99.9990 neutral </s> (hamed4) 
+-99.9990 neutral </s> (hamed5) 
+-99.9990 neutral </s> (hamed6) 
+-99.9990 neutral </s> (hamed7) 
+-99.9990 neutral </s> (hamed9) 
+-99.9990 neutral </s> (hamedB) 
+-99.9990 neutral </s> (hamedC) 
+-99.9990 neutral </s> (khaoula1) 
+-99.9990 neutral </s> (khaoula2) 
+-99.9990 neutral </s> (khaoula3) 
+-99.9990 neutral </s> (khaoula4) 
+-99.9990 neutral </s> (khaoula5) 
+-99.9990 neutral </s> (khaoula6) 
+-99.9990 neutral </s> (khaoula7) 
+-99.9990 neutral </s> (khaoula8) 
+-99.9990 neutral </s> (khaoula9) 
+-99.9990 neutral </s> (khaoulaA) 
+-99.9990 neutral </s> (khaoulaC) 
+-99.9990 neutral </s> (lcool2) 
+-99.9990 neutral </s> (lcool3) 
+-99.9990 neutral </s> (lcool6) 
+-99.9990 neutral </s> (lcool7) 
+-99.9990 neutral </s> (lcoolA) 
+-99.9990 neutral </s> (lcoolB) 
+-99.9990 neutral </s> (lcoolC) 
+-99.9990 neutral </s> (mahedi1) 
+-99.9990 neutral </s> (mahedi2) 
+-99.9990 neutral </s> (mahedi3) 
+-99.9990 neutral </s> (mahedi4) 
+-99.9990 neutral </s> (mahedi5) 
+-99.9990 neutral </s> (mahedi6) 
+-99.9990 neutral </s> (mahedi7) 
+-99.9990 neutral </s> (mahedi8) 
+-99.9990 neutral </s> (mahedi9) 
+-99.9990 neutral </s> (mahediA) 
+-99.9990 neutral </s> (mahediB) 
+-99.9990 neutral </s> (mahediC) 
+-99.9990 neutral </s> (nadjib1) 
+-99.9990 neutral </s> (nadjib3) 
+-99.9990 neutral </s> (nadjib4) 
+-99.9990 neutral </s> (nadjib5) 
+-99.9990 neutral </s> (nadjib7) 
+-99.9990 neutral </s> (nadjib8) 
+-99.9990 neutral </s> (nadjibA) 
+-99.9990 neutral </s> (nadjibB) 
+-99.9990 neutral </s> (nadjibC) 
+-99.9990 neutral </s> (nawel1) 
+-99.9990 neutral </s> (nawel2) 
+-99.9990 neutral </s> (nawel3) 
+-99.9990 neutral </s> (nawel4) 
+-99.9990 neutral </s> (nawel5) 
+-99.9990 neutral </s> (nawel6) 
+-99.9990 neutral </s> (nawel7) 
+-99.9990 neutral </s> (nawel8) 
+-99.9990 neutral </s> (nawel9) 
+-99.9990 neutral </s> (nawelB) 
+-99.9990 neutral </s> (nawelC) 
+-99.9990 neutral </s> (oumaima1) 
+-99.9990 neutral </s> (oumaima2) 
+-99.9990 neutral </s> (oumaima3) 
+-99.9990 neutral </s> (oumaima4) 
+-99.9990 neutral </s> (oumaima5) 
+-99.9990 neutral </s> (oumaima7) 
+-99.9990 neutral </s> (oumaima8) 
+-99.9990 neutral </s> (oumaima9) 
+-99.9990 neutral </s> (oumaimaB) 
+-99.9990 neutral </s> (oumaimaC) 
+-99.9990 neutral </s> (raouf1) 
+-99.9990 neutral </s> (raouf2) 
+-99.9990 neutral </s> (raouf3) 
+-99.9990 neutral </s> (raouf4) 
+-99.9990 neutral </s> (raouf5) 
+-99.9990 neutral </s> (raouf6) 
+-99.9990 neutral </s> (raouf7) 
+-99.9990 neutral </s> (raouf8) 
+-99.9990 neutral </s> (raouf9) 
+-99.9990 neutral </s> (raoufA) 
+-99.9990 neutral </s> (raoufB) 
+-99.9990 neutral </s> (rockikz1) 
+-99.9990 neutral </s> (rockikz2) 
+-99.9990 neutral </s> (rockikz3) 
+-99.9990 neutral </s> (rockikz4) 
+-99.9990 neutral </s> (rockikz5) 
+-99.9990 neutral </s> (rockikz6) 
+-99.9990 neutral </s> (rockikz7) 
+-99.9990 neutral </s> (rockikz9) 
+-99.9990 neutral </s> (rockikzA) 
+-99.9990 neutral </s> (rockikzB) 
+-99.9990 neutral </s> (samir2) 
+-99.9990 neutral </s> (samir3) 
+-99.9990 neutral </s> (samir4) 
+-99.9990 neutral </s> (samir5) 
+-99.9990 neutral </s> (samir6) 
+-99.9990 neutral </s> (samir7) 
+-99.9990 neutral </s> (samir8) 
+-99.9990 neutral </s> (samirA) 
+-99.9990 neutral </s> (samirB) 
+-99.9990 neutral </s> (samirC) 
+-99.9990 neutral </s> (soumaya1) 
+-99.9990 neutral </s> (soumaya2) 
+-99.9990 neutral </s> (soumaya3) 
+-99.9990 neutral </s> (soumaya4) 
+-99.9990 neutral </s> (soumaya5) 
+-99.9990 neutral </s> (soumaya6) 
+-99.9990 neutral </s> (soumaya7) 
+-99.9990 neutral </s> (soumaya8) 
+-99.9990 neutral </s> (soumaya9) 
+-99.9990 neutral </s> (soumayaB) 
+-99.9990 neutral </s> (walidlite2) 
+-99.9990 neutral </s> (walidlite3) 
+-99.9990 neutral </s> (walidlite4) 
+-99.9990 neutral </s> (walidlite5) 
+-99.9990 neutral </s> (walidlite7) 
+-99.9990 neutral </s> (walidlite8) 
+-99.9990 neutral </s> (walidlite9) 
+-99.9990 neutral </s> (walidliteA) 
+-99.9990 neutral </s> (walidliteB) 
+-99.9990 neutral </s> (walidliteC) 
+-99.9990 neutral </s> (yousra2) 
+-99.9990 neutral </s> (yousra3) 
+-99.9990 neutral </s> (yousra4) 
+-99.9990 neutral </s> (yousra5) 
+-99.9990 neutral </s> (yousra7) 
+-99.9990 neutral </s> (yousra8) 
+-99.9990 neutral </s> (yousra9) 
+-99.9990 neutral </s> (yousraA) 
+-99.9990 neutral </s> (yousraB) 
+-99.9990 neutral </s> (yousraC) 
+-99.9990 neutral </s> (zaki1) 
+-99.9990 neutral </s> (zaki2) 
+-99.9990 neutral </s> (zaki3) 
+-99.9990 neutral </s> (zaki4) 
+-99.9990 neutral </s> (zaki5) 
+-99.9990 neutral </s> (zaki6) 
+-99.9990 neutral </s> (zaki7) 
+-99.9990 neutral </s> (zaki8) 
+-99.9990 neutral </s> (zaki9) 
+-99.9990 neutral </s> (zakiA) 
+-99.9990 neutral </s> (zakiB) 
+
+\end\
