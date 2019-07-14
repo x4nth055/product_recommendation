@@ -36,7 +36,7 @@ When the user likes a dish, for example let us say "Grilled Chicken", he/she nee
 At first no emotion will be visible as shown in **Figure 6**, but when the four seconds of recording is completed, the system will automatically capture the emotion & star rating and will show the results very clearly as shown in **Figure 7**
 
 
-<img src="images/before_click.png" align="center">
+<img src="images/before_click.PNG">
 <p style="text-align: center;">Figure 5: <b>The desired example food chosen by a customer</b></p>
 
 <img src="images/before_emotion.PNG" align="center">
