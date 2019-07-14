@@ -18,7 +18,7 @@ pip3 install -r requirements.txt
 ```
 
 # Home Page
-<img src="images/home_page.PNG" align="center">
+![ScreenShot]("images/home_page.png")
 <p style="text-align: center;">Figure 1: <b>Home page</b></p>
 
 The customer at first is going to register for a new user and fill the form shown in **Figure 2**, once finished, you can see when he/she clicks at "Recommended Products" in the navigation bar shown in  **Figure 3**, no products and content will be shown, that is because no rating ( or emotion ) has been successfully registered by the customer, the page will show as captured in **Figure 4**
