@@ -43,7 +43,7 @@ At first no emotion will be visible as shown in **Figure 6**, but when the four 
 <p style="text-align: center;">Figure 6: <b>The emotion status before expressing any emotion</b></p>
 
 <img src="images/after_emotion.PNG" align="center">
-<p style="text-align: center;">Figure 7: <b>Navigation Bar</b></p>
+<p style="text-align: center;">Figure 7: <b>The emotion status after expressing the emotion</b></p>
 
 
 When the customer now wants to view his recommended products in the navbar mentioned earlier, the top three dishes actually contains chicken and meat as shown in **Figure 8**
